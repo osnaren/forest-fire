@@ -8,11 +8,11 @@ Forest Fire Classifier v2 is a professional-grade overhaul of the original colle
 
 ## 1. Project Setup
 
-- [ ] **Safeguard v1 history**
+- [x] **Safeguard v1 history**
   - Tag current main branch (`git tag v1.0 && git push --tags`) and/or create `legacy-v1` branch.
   - Push legacy branch to remote; keep read-only after launch.
-- [ ] **Repository restructuring**
-  - Create `v2-nextjs` (or `main`) working branch.
+- [x] **Repository restructuring**
+  - Create `feature/new-nextjs-app` working branch.
   - Add `/v2` folder if opting for mono-repo; otherwise convert repo root to Next.js project.
 - [ ] **Bootstrap Next.js 14 project**
   - `npx create-next-app@latest forestfire-v2 --ts --tailwind --app`.
