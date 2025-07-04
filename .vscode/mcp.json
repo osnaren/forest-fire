@@ -1,0 +1,70 @@
+{
+  "servers": {
+    "notionApi": {
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "env": {
+        "OPENAPI_MCP_HEADERS": "{\"Authorization\": \"Bearer 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\", \"Notion-Version\": \"2022-06-28\" }"
+      }
+    },
+    "context7": {
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "git": {
+      "command": "uvx",
+      "args": ["mcp-server-git"]
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "supabase": {
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server-supabase@latest", "--read-only"],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "sbp_4b6d963aeed04bb9181e41845d6f7f69141f43db"
+      }
+    },
+    "Notion": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@smithery/notion",
+        "--key",
+        "dffa97ab-0f70-4784-9662-ce4efed405d7",
+        "--profile",
+        "magic-canidae-rZ1g16"
+      ],
+      "env": {}
+    },
+    "Sequential Thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@smithery-ai/server-sequential-thinking",
+        "--key",
+        "dffa97ab-0f70-4784-9662-ce4efed405d7"
+      ],
+      "env": {}
+    },
+    "Magic MCP": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@21st-dev/magic@latest",
+        "API_KEY=\"1aaf54072449a6d324ba0560935b85007066be56fb7d2f6e48b22f6ce99ed5ef\""
+      ],
+      "env": {}
+    }
+  }
+}
