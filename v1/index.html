@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="row h-90">
-            <div class="col justify-content-center" id="inputimg" style="text-align:center; margin-top: 200px;">
+            <div class="col justify-content-center" id="input-img" style="text-align:center; margin-top: 200px;">
                 <div class="row justify-content-center">
                     <h1>Input Image</h1>
                     <br><br>
@@ -121,7 +121,7 @@
             <div class="col align-items-center" style="text-align:center; margin-top: 200px;">
                 <div class="row justify-content-center">
                     <div class='button'>
-                        <input id='button' type='checkbox' onclick="checker()" aria-label="Toggle forest fire classification">
+                        <input id='button' type='checkbox' onclick="checker()" aria-label="Toggle forest fire classification" disabled aria-describedby="classify-button-help">
                         <label for='button' class="classify-button-label">
                             <div class='button_inner q'>
                                 <i class='l ion-log-in' aria-hidden="true"></i>
@@ -190,6 +190,9 @@
                                 Image</p><br>
                             <p class="font text-white text-center" style="font-size:20px">&#8620 Click again to Reset
                             </p>
+                            <p id="classify-button-help" class="font text-white text-center" style="font-size:16px;color:#ff9966;">
+                                (Button is disabled until an image is selected)
+                            </p>
                             <br>
                         </div>
                     </div>
@@ -223,7 +226,7 @@
                             <div class="progress-title1" id="smokeval" aria-live="polite">~</div>
                         </div>
                         <div class="progress yellow" role="progressbar" aria-label="Smoke and fire probability">
-                            <h6 class="progress-title" style="font-size: 13px;">SMOKE-FIRE</h6>
+                            <h6 class="progress-title" style="font-size: 11px;">SMOKE-FIRE</h6>
                             <div class="progress-bar" id="sfire" style="width:0">
                                 <div class="progress-value"></div>
                             </div>
@@ -299,6 +302,9 @@
         if (window.forestFireApp && window.forestFireApp.uiManager) {
             const checkbox = Utils.getElementById('button');
             if (!checkbox) return;
+            
+            // Don't proceed if the button is disabled
+            if (checkbox.disabled) return;
             
             const isChecked = checkbox.checked;
             

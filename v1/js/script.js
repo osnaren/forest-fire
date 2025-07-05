@@ -45,7 +45,7 @@ function showFileName(event) {
     
     const fileName = event.target.files[0].name;
     const infoArea = document.getElementById('upload-label');
-    const inputImg = document.getElementById('inputimg');
+    const inputImg = document.getElementById('input-img');
     
     if (infoArea) {
         infoArea.textContent = 'File name: ' + Utils.sanitizeHTML(fileName);

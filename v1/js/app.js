@@ -134,7 +134,7 @@ class ForestFireApp {
         Utils.showNotification(userMessage, 'error');
         
         // Reset UI state if necessary
-        if (this.uiManager && error.message.includes('model')) {
+        if (this.uiManager && error && typeof error.message === 'string' && error.message.includes('model')) {
             this.uiManager.uncheckClassifyButton();
         }
     }

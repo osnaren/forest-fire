@@ -481,6 +481,30 @@ input:checked + label .button_spots:nth-of-type(60) {
   animation: spew 1s 0.3s forwards, rotate 4.4s 0.75s linear infinite, final 0.2s 4s forwards, spot-60 0.7s 10.9s linear infinite !important;
 }
 
+/* Styles for disabled button */
+input[disabled] + label {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+input[disabled] + label .button_inner {
+  background: rgba(150, 150, 150, 0.3);
+  box-shadow: 0px 0px 0px 7px rgba(150, 150, 150, 0.1);
+}
+
+input[disabled] + label .button_inner:hover {
+  background: rgba(150, 150, 150, 0.3);
+  box-shadow: 0px 0px 0px 7px rgba(150, 150, 150, 0.1);
+}
+
+input[disabled] + label .button_inner span.t {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+input[disabled] + label .button_inner i.l {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .tick {
   position: absolute;
   left: -40;

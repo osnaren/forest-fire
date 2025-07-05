@@ -9,6 +9,9 @@ class UIManager {
         
         this.initializeElements();
         this.attachEventListeners();
+        
+        // Disable the classify button initially since there's no image
+        this.disableClassifyButton();
     }
 
     /**
@@ -24,7 +27,7 @@ class UIManager {
             uploadInput: Utils.getElementById('upload'),
             uploadLabel: Utils.getElementById('upload-label'),
             imageResult: Utils.getElementById('imageResult'),
-            inputImgContainer: Utils.getElementById('inputimg'),
+            inputImgContainer: Utils.getElementById('input-img'),
             
             // Classification elements
             classifyButton: Utils.getElementById('button'),
@@ -105,6 +108,9 @@ class UIManager {
             const dataURL = await Utils.readFileAsDataURL(file);
             this.displayUploadedImage(dataURL, file.name);
             this.currentImageFile = file;
+            
+            // Enable the classify button since we have a valid image
+            this.enableClassifyButton();
             
             Utils.showNotification(APP_CONFIG.MESSAGES.SUCCESS.IMAGE_UPLOADED, 'success');
             
@@ -292,6 +298,9 @@ class UIManager {
         // Clear current file immediately to prevent race conditions
         this.currentImageFile = null;
         
+        // Disable the classify button since there's no image
+        this.disableClassifyButton();
+        
         setTimeout(() => {
             // Reset file input
             this.resetFileInput();
@@ -325,6 +334,8 @@ class UIManager {
     resetFileInput() {
         if (this.elements.uploadInput) {
             this.elements.uploadInput.value = '';
+            // Disable the classify button when resetting the file input
+            this.disableClassifyButton();
         }
     }
 
@@ -334,6 +345,24 @@ class UIManager {
     uncheckClassifyButton() {
         if (this.elements.classifyButton) {
             this.elements.classifyButton.checked = false;
+        }
+    }
+
+    /**
+     * Disables the classify button
+     */
+    disableClassifyButton() {
+        if (this.elements.classifyButton) {
+            this.elements.classifyButton.disabled = true;
+        }
+    }
+
+    /**
+     * Enables the classify button
+     */
+    enableClassifyButton() {
+        if (this.elements.classifyButton) {
+            this.elements.classifyButton.disabled = false;
         }
     }
 
