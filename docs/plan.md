@@ -34,22 +34,22 @@ Forest Fire Classifier v2 is a professional-grade overhaul of the original colle
 
 ## 2. Backend Foundation
 
-- [ ] **Install core dependencies**
+- [x] **Install core dependencies**
   - `@tensorflow/tfjs`, `@tensorflow/tfjs-backend-webgl`, `@tensorflow/tfjs-node`, `sharp`, `@upstash/ratelimit`, `@vercel/kv`, `zod` for validation.
-- [ ] **API folder structure** (`src/app/api/...`)
-  - `predict/route.ts`
+- [x] **API folder structure** (`src/app/api/...`)
+  - `predict/route.ts` (placeholder)
   - `health/route.ts`
-- [ ] **Prediction service module**
+- [x] **Prediction service module**
   - `src/lib/server/predict.ts` to load & cache model with tfjs-node.
   - Shared TypeScript types for predictions.
-- [ ] **Rate-limiter utility**
+- [x] **Rate-limiter utility**
   - Wrap serverless handlers with Upstash-backed sliding-window limiter (10 req / 30 s).
 - [ ] **Global error-handling helpers**
   - Standardize JSON error shape; map common HTTP status codes.
 
 ## 3. Feature-specific Backend
 
-- [ ] **/api/predict endpoint**
+- [x] **/api/predict endpoint**
   - Accept image uploads via **`multipart/form-data` (preferred)** and support `{ image: base64 }` as a fallback; validate input (size ≤ 4 MB or return **413 Payload Too Large**).
   - Explicit preprocessing: resize → 224×224, normalize pixel values (-1 to 1) before `model.predict()`.
   - Decode/convert image → tensor → predict → return probabilities array.
@@ -57,7 +57,7 @@ Forest Fire Classifier v2 is a professional-grade overhaul of the original colle
   - Optional serverless route to fetch & cache NASA FIRMS GeoJSON for the Live Map page.
 - [ ] **Metrics & logging**
   - Add simple logging to Vercel functions; consider Log Drains or Sentry.
-- [ ] **Health endpoint**
+- [x] **Health endpoint**
   - Cheap model warm-up ping for uptime monitors.
 
 ## 4. Frontend Foundation

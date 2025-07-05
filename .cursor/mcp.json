@@ -1,0 +1,124 @@
+{
+  "mcpServers": {
+    "context7": {
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "@21st-dev/magic": {
+      "command": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin/npx",
+      "args": [
+        "--cafile=/Users/oobuli/Zscaler Root CA.pem",
+        "--registry=https://registry.npmjs.org/",
+        "-y",
+        "@21st-dev/magic@latest",
+        "API_KEY=\"1aaf54072449a6d324ba0560935b85007066be56fb7d2f6e48b22f6ce99ed5ef\""
+      ]
+    },
+    "notionApi": {
+      "command": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin/npx",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "env": {
+        "PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin:/usr/local/bin:/usr/bin:/bin",
+        "NODE_PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/lib/node_modules",
+        "NPM_CONFIG_REGISTRY": "https://registry.npmjs.org/",
+        "NODE_EXTRA_CA_CERTS": "/Users/oobuli/Zscaler Root CA.pem"
+      }
+    },
+    "memory": {
+      "command": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin/npx",
+      "args": [
+        "--cafile=/Users/oobuli/Zscaler Root CA.pem",
+        "--registry=https://registry.npmjs.org/",
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "env": {
+        "PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin:/usr/local/bin:/usr/bin:/bin",
+        "NODE_PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/lib/node_modules",
+        "NPM_CONFIG_REGISTRY": "https://registry.npmjs.org/",
+        "NODE_EXTRA_CA_CERTS": "/Users/oobuli/Zscaler Root CA.pem"
+      }
+    },
+    "sequential-thinking": {
+      "command": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin/npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "env": {
+        "PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin:/usr/local/bin:/usr/bin:/bin",
+        "NODE_PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/lib/node_modules",
+        "NPM_CONFIG_REGISTRY": "https://registry.npmjs.org/",
+        "NODE_EXTRA_CA_CERTS": "/Users/oobuli/Zscaler Root CA.pem",
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      }
+    },
+    "supabase": {
+      "command": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin/npx",
+      "args": ["-y", "@supabase/mcp-server-supabase@latest", "--read-only"],
+      "env": {
+        "PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin:/usr/local/bin:/usr/bin:/bin",
+        "NODE_PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/lib/node_modules",
+        "SUPABASE_ACCESS_TOKEN": "sbp_4b6d963aeed04bb9181e41845d6f7f69141f43db",
+        "NPM_CONFIG_REGISTRY": "https://registry.npmjs.org/",
+        "NODE_EXTRA_CA_CERTS": "/Users/oobuli/Zscaler Root CA.pem",
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      }
+    },
+    "upstash": {
+      "command": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin/npx",
+      "args": [
+        "-y",
+        "@upstash/mcp-server",
+        "run",
+        "66naren@gmail.com",
+        "541466b9-a240-43e9-ae45-d1808ceb3cfc"
+      ],
+      "env": {
+        "PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin:/usr/local/bin:/usr/bin:/bin",
+        "NODE_PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/lib/node_modules",
+        "NPM_CONFIG_REGISTRY": "https://registry.npmjs.org/",
+        "NODE_EXTRA_CA_CERTS": "/Users/oobuli/Zscaler Root CA.pem",
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      }
+    },
+    "Notion": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "--cafile=/Users/oobuli/Zscaler Root CA.pem",
+        "--registry=https://registry.npmjs.org/",
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@smithery/notion",
+        "--key",
+        "dffa97ab-0f70-4784-9662-ce4efed405d7",
+        "--profile",
+        "magic-canidae-rZ1g16"
+      ],
+      "env": {
+        "PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin:/usr/local/bin:/usr/bin:/bin",
+        "NODE_PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/lib/node_modules",
+        "NPM_CONFIG_REGISTRY": "https://registry.npmjs.org/",
+        "NODE_EXTRA_CA_CERTS": "/Users/oobuli/Zscaler Root CA.pem"
+      }
+    },
+    "Sequential Thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "--cafile=/Users/oobuli/Zscaler Root CA.pem",
+        "--registry=https://registry.npmjs.org/",
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@smithery-ai/server-sequential-thinking",
+        "--key",
+        "dffa97ab-0f70-4784-9662-ce4efed405d7"
+      ],
+      "env": {
+        "PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/bin:/usr/local/bin:/usr/bin:/bin",
+        "NODE_PATH": "/Users/oobuli/.nvm/versions/node/v20.17.0/lib/node_modules",
+        "NPM_CONFIG_REGISTRY": "https://registry.npmjs.org/",
+        "NODE_EXTRA_CA_CERTS": "/Users/oobuli/Zscaler Root CA.pem"
+      }
+    }
+  }
+}
