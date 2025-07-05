@@ -1,28 +1,47 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Forest Fire Prediction using Deep Learning - Classify images to detect fire, smoke, and fire hazards">
+    <meta name="keywords" content="forest fire, prediction, deep learning, tensorflow, image classification">
+    <meta name="author" content="OSNaren">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="Forest Fire Prediction">
+    <meta property="og:description" content="AI-powered forest fire detection and prediction system">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="public/images/fire.png">
+    
     <title>Forest Fire Prediction</title>
-    <link rel="icon" type="image/png" href="img/fire.png">
+    <link rel="icon" type="image/png" href="public/images/fire.png">
+    <link rel="apple-touch-icon" href="public/images/fire.png">
 
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
-    <link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+    <!-- External CSS Dependencies -->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet' crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' crossorigin="anonymous">
 
-    <link rel="stylesheet" media="all" href="css/style.css">
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Bad+Script&display=swap' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Merienda&display=swap' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Courgette&display=swap' rel='stylesheet'>
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" media="all" href="css/main.css">
+    <link rel="stylesheet" media="all" href="css/btn.css">
+    <link rel="stylesheet" media="all" href="css/button.css">
     <link rel="stylesheet" media="all" href="css/progress.css">
     <link rel="stylesheet" media="all" href="css/splash.css">
-    <link rel="stylesheet" media="all" href="css/button.css">
-    <link rel="stylesheet" media="all" href="css/btn.css">
+    <link rel="stylesheet" media="all" href="css/enhanced.css">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-
-    <link href='https://fonts.googleapis.com/css?family=Bad+Script' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Merienda' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Courgette' rel='stylesheet'>
+    <!-- External JS Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body onload="setTimeout(loader,2500)" class="welcome" id="bdy">
@@ -70,15 +89,19 @@
 
                         <!-- Upload image input-->
                         <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
-                            <input id="upload" type="file" onchange="readURL(this);" class="form-control border-0">
+                            <input id="upload" type="file" onchange="readURL(this);" class="form-control border-0" 
+                                   accept="image/jpeg,image/jpg,image/png,image/webp"
+                                   aria-label="Choose image file for forest fire prediction"
+                                   aria-describedby="upload-help">
                             <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose
                                 file</label>
                             <div class="input-group-append">
                                 <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> <i
-                                        class="fa fa-cloud-upload mr-2 text-muted"></i><small
+                                        class="fa fa-cloud-upload mr-2 text-muted" aria-hidden="true"></i><small
                                         class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
                             </div>
                         </div>
+                        <div id="upload-help" class="sr-only">Upload an image file (JPEG, PNG, WebP) up to 10MB for forest fire prediction analysis</div>
                     </div>
                 </div>
                 <div class="row justify-content-center" style="text-align:center">
@@ -88,23 +111,25 @@
                 </div>
                 <div class="row justify-content-center" style="text-align:center">
                     <!-- Uploaded image area-->
-                    <div class="image-area mt-4"><img id="imageResult" src="#" alt=""
-                            class="img-fluid rounded shadow-sm mx-auto d-block">
+                    <div class="image-area mt-4">
+                        <img id="imageResult" src="#" alt="Uploaded image for analysis" 
+                             class="img-fluid rounded shadow-sm mx-auto"
+                             style="display: none; max-height: 300px;">
                     </div>
                 </div>
             </div>
             <div class="col align-items-center" style="text-align:center; margin-top: 200px;">
                 <div class="row justify-content-center">
                     <div class='button'>
-                        <input id='button' type='checkbox' onclick="checker()">
-                        <label for='button'>
+                        <input id='button' type='checkbox' onclick="checker()" aria-label="Toggle forest fire classification">
+                        <label for='button' class="classify-button-label">
                             <div class='button_inner q'>
-                                <i class='l ion-log-in'></i>
+                                <i class='l ion-log-in' aria-hidden="true"></i>
                                 <span class='t'>Classify</span>
                                 <span>
-                                    <i class='tick ion-checkmark-round'></i>
+                                    <i class='tick ion-checkmark-round' aria-hidden="true"></i>
                                 </span>
-                                <div class='b_l_quad'>
+                                <div class='b_l_quad' aria-hidden="true">
                                     <div class='button_spots'></div>
                                     <div class='button_spots'></div>
                                     <div class='button_spots'></div>
@@ -170,39 +195,39 @@
                     </div>
                 </div>
             </div>
-            <div class="col align-items-center" id="pred" style="text-align:center; margin-top: 200px;display:block;">
-                <h1 style="margin-left: 0">Classification Result</h1>
+            <div class="col align-items-center" id="pred" style="text-align:center; margin-top: 200px;display:block;" role="region" aria-labelledby="prediction-title">
+                <h1 id="prediction-title" style="margin-left: 0">Classification Result</h1>
 
                 <div class="row align-items-center">
                     <div class="col-lg-9 mx-auto" style="width:50%">
-                        <div class="progress red">
+                        <div class="progress red" role="progressbar" aria-label="Fire probability">
                             <h3 class="progress-title">FIRE</h3>
                             <div class="progress-bar" id="fire" style="width:0">
                                 <div class="progress-value"></div>
                             </div>
-                            <div class="progress-title1" id="fireval">~</div>
+                            <div class="progress-title1" id="fireval" aria-live="polite">~</div>
                         </div>
 
-                        <div class="progress green">
+                        <div class="progress green" role="progressbar" aria-label="No fire probability">
                             <h3 class="progress-title">NO-FIRE</h3>
                             <div class="progress-bar" id="nofire" style="width:0">
                                 <div class="progress-value"></div>
                             </div>
-                            <div class="progress-title1" id="nfval">~</div>
+                            <div class="progress-title1" id="nfval" aria-live="polite">~</div>
                         </div>
-                        <div class="progress blue">
+                        <div class="progress blue" role="progressbar" aria-label="Smoke probability">
                             <h3 class="progress-title">SMOKE</h3>
                             <div class="progress-bar" id="smoke" style="width:0">
                                 <div class="progress-value"></div>
                             </div>
-                            <div class="progress-title1" id="smokeval">~</div>
+                            <div class="progress-title1" id="smokeval" aria-live="polite">~</div>
                         </div>
-                        <div class="progress yellow">
+                        <div class="progress yellow" role="progressbar" aria-label="Smoke and fire probability">
                             <h6 class="progress-title" style="font-size: 13px;">SMOKE-FIRE</h6>
                             <div class="progress-bar" id="sfire" style="width:0">
                                 <div class="progress-value"></div>
                             </div>
-                            <div class="progress-title1" id="sfval">~</div>
+                            <div class="progress-title1" id="sfval" aria-live="polite">~</div>
                         </div>
                     </div>
                 </div>
@@ -210,7 +235,7 @@
             </div>
 
         </div>
-        <div class="row fixed-bottom align-items-end mx-2 my-4 justify-content-center" id="btm">
+        <div class="row fixed-bottom align-items-end mx-2 my-5 justify-content-center" id="btm">
             <div class="col align-bottom">
                 <h4 class="copyright mb-0" style="z-index: -1">
                     © 2021 | Designed By
@@ -218,9 +243,9 @@
                 <div class="perspective">
                     <div class="button1">
                         <div class="button__icon">
-                            <a href="https://github.com/OSNaren/ForestFire" target="_blank" style="all:unset;"
+                            <a href="https://github.com/osnaren/ForestFire" target="_blank" style="all:unset;"
                                 rel="noopener noreferrer">
-                                <img src="img/logo_nobg.gif" alt="osn" width="100" height="100">
+                                <img src="public/images/logo_nobg.gif" alt="osn" width="100" height="100">
                             </a>
                         </div>
                     </div>
@@ -231,7 +256,7 @@
                 <div class="social-btns">
                     <a class="btn github" href="https://github.com/osnaren/" target="_blank" aria-label="GitHub"
                         rel="noopener noreferrer"><i class="fa fa-github"></i></a>
-                    <a class="btn linkedin" href="https://www.linkedin.com/in/obuli-sai-naren" target="_blank"
+                    <a class="btn linkedin" href="https://www.linkedin.com/in/osnaren" target="_blank"
                         aria-label="LinkedIn" rel="noopener noreferrer"><i class="fa fa-linkedin"></i></a>
                     <a class="btn twitter" href="https://x.com/osnaren" target="_blank" aria-label="Twitter"
                         rel="noopener noreferrer"><i class="fa fa-twitter"></i></a>
@@ -248,76 +273,186 @@
 
 </body>
 
+<!-- JavaScript Dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js" crossorigin="anonymous"></script>
+
+<!-- Application Scripts -->
+<script type="text/javascript" src="js/constants.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="js/model-manager.js"></script>
+<script type="text/javascript" src="js/ui-manager.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+
+<!-- Legacy Support Scripts -->
+<script type="text/javascript" src="js/script.js"></script>
+
+<!-- Legacy inline scripts for backward compatibility -->
 <script>
+    /**
+     * Legacy compatibility functions
+     * These maintain backward compatibility with the original implementation
+     */
+    
+    // Legacy checker function - now delegates to new architecture
     function checker() {
-        var chk = document.getElementById("button").checked;
-        if (chk === true) {
-            init();
+        if (window.forestFireApp && window.forestFireApp.uiManager) {
+            const checkbox = Utils.getElementById('button');
+            if (!checkbox) return;
+            
+            const isChecked = checkbox.checked;
+            
+            if (isChecked) {
+                window.forestFireApp.uiManager.performClassification();
+            } else {
+                window.forestFireApp.uiManager.resetApplication();
+            }
         } else {
-            setTimeout(reload, 1000);
+            // Fallback for legacy support
+            console.warn('Using legacy checker function - new architecture not available');
+            legacyChecker();
         }
     }
 
-    var container = document.getElementById("main");
-    var content = container.innerHTML;
-
-    function reload() {
-        container.innerHTML = content;
-        loader();
+    // Legacy loader function - now delegates to new architecture
+    function loader() {
+        if (window.forestFireApp && window.forestFireApp.uiManager) {
+            window.forestFireApp.uiManager.showMainApplication();
+        } else {
+            // Fallback to original loader logic
+            legacyLoader();
+        }
     }
 
-    function loader() {
-        $('link[rel=stylesheet][href*="css/splash.css"]').remove();
-        document.getElementById("main").style.display = "block";
-        document.getElementById("splasher").style.display = "none";
+    // Fallback legacy functions
+    function legacyChecker() {
+        var chk = document.getElementById("button").checked;
+        if (chk === true) {
+            if (typeof init === 'function') {
+                init();
+            }
+        } else {
+            setTimeout(() => {
+                if (typeof reload === 'function') {
+                    reload();
+                }
+            }, 1000);
+        }
+    }
+
+    function legacyLoader() {
+        const splashLink = document.querySelector('link[href*="css/splash.css"]');
+        if (splashLink) {
+            splashLink.remove();
+        }
+        
+        const mainElement = document.getElementById("main");
+        const splasherElement = document.getElementById("splasher");
+        
+        if (mainElement) mainElement.style.display = "block";
+        if (splasherElement) splasherElement.style.display = "none";
+        
+        // Legacy progress bar setup
         var xx = document.getElementsByClassName("progress-value");
         var prr = ["fire", "nofire", "smoke", "sfire"];
         for (let i = 0; i < 4; i++) {
-            xx[i].style.backgroundImage = "linear-gradient(135deg, #f5f7fa 0%, #9faac6 100%)";
-            document.getElementById(prr[i]).setAttribute("style", "width: 100%;");
+            if (xx[i]) {
+                xx[i].style.backgroundImage = "linear-gradient(135deg, #f5f7fa 0%, #9faac6 100%)";
+            }
+            const progressElement = document.getElementById(prr[i]);
+            if (progressElement) {
+                progressElement.setAttribute("style", "width: 100%;");
+            }
         }
     }
-</script>
-<script type="text/javascript" src="js/script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
-<script type="text/javascript" aria-label="Forest Fire Prediction Model">
-    const URL = "model/";
 
+    // Legacy reload function
+    var container = document.getElementById("main");
+    var content = container ? container.innerHTML : '';
+
+    function reload() {
+        if (container && content) {
+            container.innerHTML = content;
+            loader();
+        }
+    }
+
+    // Legacy model functions for backward compatibility
+    const URL = "model/";
     let model, maxPredictions;
     var prg = ["fire", "nofire", "smoke", "sfire"];
     var prval = ["fireval", "nfval", "smokeval", "sfval"];
 
     async function init() {
+        console.warn('Using legacy init function - consider upgrading to new architecture');
+        
+        if (window.forestFireApp && window.forestFireApp.modelManager) {
+            // Delegate to new system
+            await window.forestFireApp.uiManager.performClassification();
+            return;
+        }
+
+        // Legacy implementation
         var x = document.getElementById("pred");
-        x.style.display = "block";
-        const modelURL = URL + "model.json";
-        const metadataURL = URL + "metadata.json";
+        if (x) x.style.display = "block";
+        
+        try {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
 
-        model = await tmImage.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
 
-        await predict();
+            await predict();
+        } catch (error) {
+            console.error('Legacy model loading failed:', error);
+            Utils.showNotification('Failed to load model. Please try again.', 'error');
+        }
     }
 
     async function predict() {
-        var x = document.getElementById("imageResult");
-        var xx = document.getElementsByClassName("progress-value");
-        // predict can take in an image, video or canvas html element
-        const prediction = await model.predict(x);
-        for (let i = 0; i < maxPredictions; i++) {
-            var prd = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-            var res = prediction[i].probability.toFixed(2);
-            var prd1 = parseFloat(res) * 100;
-            var prr = prd1.toString();
-            if (prd1 !== 0) {
-                document.getElementById(prg[i]).setAttribute("style", "width: " + prr + "%;");
-                document.getElementById(prval[i]).setAttribute("style", "font-size: 15;");
-                document.getElementById(prval[i]).innerHTML = prr + "%";
-                xx[i].removeAttribute("style");
+        if (!model) return;
+        
+        try {
+            var x = document.getElementById("imageResult");
+            var xx = document.getElementsByClassName("progress-value");
+            
+            if (!x || !x.src || x.src === '#') {
+                throw new Error('No image selected');
             }
+            
+            const prediction = await model.predict(x);
+            for (let i = 0; i < maxPredictions; i++) {
+                var res = prediction[i].probability.toFixed(2);
+                var prd1 = parseFloat(res) * 100;
+                var prr = prd1.toString();
+                
+                if (prd1 !== 0) {
+                    const progressElement = document.getElementById(prg[i]);
+                    const valueElement = document.getElementById(prval[i]);
+                    
+                    if (progressElement) {
+                        progressElement.setAttribute("style", "width: " + prr + "%;");
+                    }
+                    if (valueElement) {
+                        valueElement.setAttribute("style", "font-size: 15;");
+                        valueElement.innerHTML = prr + "%";
+                    }
+                    if (xx[i]) {
+                        xx[i].removeAttribute("style");
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Legacy prediction failed:', error);
+            Utils.showNotification('Prediction failed. Please try again.', 'error');
         }
     }
+
+    // Initialize legacy loader on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(loader, 2500);
+    });
 </script>
 
 </html>

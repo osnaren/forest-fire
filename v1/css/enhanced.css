@@ -1,0 +1,314 @@
+/**
+ * Enhanced styles for the Forest Fire Prediction application
+ * These styles add modern UI improvements while maintaining the original design
+ */
+
+/* Enhanced Loading States */
+.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #ffffff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 1000;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Enhanced Image Upload Area */
+.image-area {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-area:hover {
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-area.drag-over {
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Enhanced Upload Input */
+#upload {
+    cursor: pointer;
+}
+
+#upload:focus + label {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Enhanced Button States */
+.btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Enhanced Progress Bars */
+.progress {
+    transition: all 0.3s ease;
+    overflow: visible;
+}
+
+.progress-bar {
+    transition: width 0.8s ease-in-out;
+    position: relative;
+}
+
+/* Enhanced Progress Bar Animations */
+@keyframes progress-bar-stripes {
+    from { background-position: 1rem 0; }
+    to { background-position: 0 0; }
+}
+
+.progress-bar-animated {
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+/* Enhanced Classify Button */
+.classify-button-label {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#button:focus + .classify-button-label {
+    outline: 2px solid #007bff;
+    outline-offset: 4px;
+}
+
+/* Enhanced Error States */
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 3.6.4.4.4-.4m-1.2 2.4v2.8m0 1.2h.01'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+/* Enhanced Success States */
+.form-control.is-valid {
+    border-color: #28a745;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='m2.3 6.73.4-.4 2.4-2.4.4-.4-.8-.8-.4.4L3 4.84l-.8-.8-.4.4z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+/* Enhanced Accessibility */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Focus styles for better accessibility */
+*:focus {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+    body {
+        zoom: 90%;
+    }
+    
+    .container-fluid {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    #ffp {
+        font-size: 2em !important;
+    }
+    
+    .col {
+        margin-top: 100px !important;
+    }
+    
+    .image-area {
+        width: 90% !important;
+    }
+    
+    .progress {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        zoom: 85%;
+    }
+    
+    .boxes {
+        transform: scale(0.8);
+    }
+    
+    .social-btns a {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+
+/* Enhanced Print Styles */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .no-print,
+    .btn,
+    .social-btns,
+    .fixed-top,
+    .fixed-bottom {
+        display: none !important;
+    }
+    
+    .progress-bar {
+        background-color: #6c757d !important;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+    
+    .progress-bar.bg-danger {
+        background-color: #dc3545 !important;
+    }
+    
+    .progress-bar.bg-success {
+        background-color: #28a745 !important;
+    }
+    
+    .progress-bar.bg-primary {
+        background-color: #007bff !important;
+    }
+    
+    .progress-bar.bg-warning {
+        background-color: #ffc107 !important;
+    }
+}
+
+/* Enhanced Dark Mode Support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+    /* Dark mode styles would go here */
+}
+
+/* Enhanced Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .gradient {
+        animation: none !important;
+    }
+}
+
+/* Enhanced High Contrast Support */
+@media (prefers-contrast: high) {
+    .progress-bar {
+        border: 2px solid #000000;
+    }
+    
+    .btn {
+        border: 2px solid currentColor;
+    }
+    
+    .image-area {
+        border-width: 3px;
+    }
+}
+
+/* Toast Notification Styles */
+.toast {
+    min-width: 250px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    pointer-events: auto;
+}
+
+.toast.toast-error {
+    background-color: #dc3545;
+    border-left: 4px solid #a71e2a;
+}
+
+.toast.toast-success {
+    background-color: #28a745;
+    border-left: 4px solid #1e7e34;
+}
+
+.toast.toast-info {
+    background-color: #17a2b8;
+    border-left: 4px solid #117a8b;
+}
+
+/* Performance Enhancements */
+.boxes,
+.progress-bar,
+.btn {
+    will-change: transform;
+}
+
+/* GPU Acceleration for animations */
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+        transform: translateZ(0);
+    }
+    50% {
+        background-position: 100% 50%;
+        transform: translateZ(0);
+    }
+    100% {
+        background-position: 0% 50%;
+        transform: translateZ(0);
+    }
+}
