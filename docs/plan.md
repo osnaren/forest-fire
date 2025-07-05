@@ -14,22 +14,22 @@ Forest Fire Classifier v2 is a professional-grade overhaul of the original colle
 - [x] **Repository restructuring**
   - Create `feature/new-nextjs-app` working branch.
   - Add `/v2` folder if opting for mono-repo; otherwise convert repo root to Next.js project.
-- [ ] **Bootstrap Next.js 14 project**
+- [x] **Bootstrap Next.js 14 project**
   - `npx create-next-app@latest forestfire-v2 --ts --tailwind --app`.
   - Remove boilerplate assets; commit initial scaffold.
-- [ ] **Establish workspace conventions**
+- [x] **Establish workspace conventions**
   - Configure ESLint, Prettier, Husky pre-commit hooks.
-  - Add `.editorconfig` and updated `.gitignore`.
+  - Add appropriate configuration files.
   - **Git commit style guide**: Keep subject lines under 50 chars; use imperative mood; add bullet-point body when needed.
-- [ ] **Environment variable management**
+- [x] **Environment variable management**
   - Create `.env.local.example`; document `KV_REST_API_URL`, `KV_REST_API_TOKEN`, etc.
-- [ ] **Continuous Integration (CI)**
+- [x] **Continuous Integration (CI)**
   - GitHub Actions workflow: install, lint, test, build.
   - Fail builds on lint/test errors.
-- [ ] **Initial Vercel project**
+- [x] **Initial Vercel project**
   - Connect GitHub repo; assign Production to `main`, Legacy to `legacy-v1`.
   - Add Preview deployments for feature branches.
-- [ ] **Project licensing**
+- [x] **Project licensing**
   - Add `LICENSE` file (MIT License) to the repository root.
 
 ## 2. Backend Foundation
@@ -37,7 +37,7 @@ Forest Fire Classifier v2 is a professional-grade overhaul of the original colle
 - [ ] **Install core dependencies**
   - `@tensorflow/tfjs`, `@tensorflow/tfjs-backend-webgl`, `@tensorflow/tfjs-node`, `sharp`, `@upstash/ratelimit`, `@vercel/kv`, `zod` for validation.
 - [ ] **API folder structure** (`src/app/api/...`)
-  - `predict/route.ts` (placeholder)
+  - `predict/route.ts`
   - `health/route.ts`
 - [ ] **Prediction service module**
   - `src/lib/server/predict.ts` to load & cache model with tfjs-node.
