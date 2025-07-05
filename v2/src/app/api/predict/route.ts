@@ -1,63 +1,70 @@
+import { CommonErrors, withErrorHandling } from '@/lib/server/errors';
 import { runPrediction } from '@/lib/server/predict';
 import { ratelimit } from '@/lib/server/ratelimit';
-import { CLASS_NAMES, PredictionResult } from '@/lib/types';
+import { CLASS_NAMES, PredictionResponse, PredictionResult } from '@/lib/types';
 import { NextResponse } from 'next/server';
 
 const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 MB
 
-const errorResponse = (message: string, status: number) => {
-  return NextResponse.json({ error: message }, { status });
-};
-
-export async function POST(request: Request) {
+async function handlePrediction(request: Request) {
   // 1. Rate limit the request
   const ip = request.headers.get('x-forwarded-for') ?? '127.0.0.1';
   const { success, limit, remaining, reset } = await ratelimit.limit(ip);
 
   if (!success) {
-    return errorResponse('Too many requests', 429);
+    return CommonErrors.tooManyRequests('Rate limit exceeded. Please try again later.');
   }
 
   // 2. Parse and validate the form data
-  let formData;
+  let formData: FormData;
   try {
     formData = await request.formData();
   } catch (error) {
-    return errorResponse('Invalid form data', 400);
+    return CommonErrors.badRequest('Invalid form data. Please ensure you are sending multipart/form-data.');
   }
 
   const file = formData.get('image');
 
   if (!file || !(file instanceof Blob)) {
-    return errorResponse('No image file found in the request', 400);
+    return CommonErrors.badRequest(
+      'No image file found in the request. Please include an image file with the key "image".'
+    );
   }
 
   if (file.size > MAX_FILE_SIZE) {
-    return errorResponse(`File size exceeds the limit of ${MAX_FILE_SIZE / 1024 / 1024} MB`, 413);
+    return CommonErrors.payloadTooLarge(`File size exceeds the limit of ${MAX_FILE_SIZE / 1024 / 1024} MB`);
+  }
+
+  // Validate file type
+  if (!file.type.startsWith('image/')) {
+    return CommonErrors.badRequest('Invalid file type. Please upload an image file.');
   }
 
   // 3. Run the prediction
-  try {
-    const imageBuffer = Buffer.from(await file.arrayBuffer());
-    const probabilities = await runPrediction(imageBuffer);
+  const imageBuffer = Buffer.from(await file.arrayBuffer());
+  const probabilities = await runPrediction(imageBuffer);
 
-    const results: PredictionResult[] = CLASS_NAMES.map((className: PredictionResult['className'], i: number) => ({
-      className,
-      probability: probabilities[i],
-    }));
+  const results: PredictionResult[] = CLASS_NAMES.map((className: PredictionResult['className'], i: number) => ({
+    className,
+    probability: Math.round(probabilities[i] * 10000) / 10000, // Round to 4 decimal places
+  }));
 
-    return NextResponse.json(
-      { results },
-      {
-        headers: {
-          'X-RateLimit-Limit': limit.toString(),
-          'X-RateLimit-Remaining': remaining.toString(),
-          'X-RateLimit-Reset': reset.toString(),
-        },
-      }
-    );
-  } catch (error) {
-    console.error('Prediction failed:', error);
-    return errorResponse('An error occurred during prediction.', 500);
-  }
+  // Sort results by probability (descending)
+  results.sort((a, b) => b.probability - a.probability);
+
+  return NextResponse.json<PredictionResponse>(
+    {
+      results,
+      processingTime: new Date().toISOString(),
+    },
+    {
+      headers: {
+        'X-RateLimit-Limit': limit.toString(),
+        'X-RateLimit-Remaining': remaining.toString(),
+        'X-RateLimit-Reset': reset.toString(),
+      },
+    }
+  );
 }
+
+export const POST = withErrorHandling(handlePrediction);

@@ -26,6 +26,8 @@ jobs:
       run: cd v2 && npm install
     - name: Lint
       run: cd v2 && npm run lint
+    - name: Type Check
+      run: cd v2 && npm run type-check
     - name: Test
       run: cd v2 && npm test
     - name: Build

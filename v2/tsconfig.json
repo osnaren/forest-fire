@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,62 +19,26 @@
         "name": "next"
       }
     ],
-    "types": [
-      "node",
-    ],
+    "types": ["node"],
     "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@src/*": [
-        "./src/*"
-      ],
-      "@app/*": [
-        "./src/app/*"
-      ],
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@ui/*": [
-        "./src/components/ui/*"
-      ],
-      "@layout/*": [
-        "./src/components/layout/*"
-      ],
-      "@utility/*": [
-        "./src/components/utility/*"
-      ],
-      "@modules/*": [
-        "./src/modules/*"
-      ],
-      "@sections/*": [
-        "./src/modules/sections/*"
-      ],
-      "@config/*": [
-        "./src/config/*"
-      ],
-      "@context/*": [
-        "./src/context/*"
-      ],
-      "@hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@messages/*": [
-        "./src/messages/*"
-      ],
-      "@styles/*": [
-        "./src/styles/*"
-      ],
-      "@lib/*": [
-        "./src/lib/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ],
-      "@utils": [
-        "./src/utils/index.ts"
-      ]
+      "@/*": ["./src/*"],
+      "@src/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@components/*": ["./src/components/*"],
+      "@ui/*": ["./src/components/ui/*"],
+      "@layout/*": ["./src/components/layout/*"],
+      "@utility/*": ["./src/components/utility/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@sections/*": ["./src/modules/sections/*"],
+      "@config/*": ["./src/config/*"],
+      "@context/*": ["./src/context/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@messages/*": ["./src/messages/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@utils": ["./src/utils/index.ts"]
     }
   },
   "include": [
@@ -90,7 +50,5 @@
     "jest.config.mjs",
     "eslint.config.mjs"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

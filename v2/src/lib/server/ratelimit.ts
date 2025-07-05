@@ -12,4 +12,4 @@ export const ratelimit = new Ratelimit({
    * "@upstash/ratelimit"
    */
   prefix: '@upstash/ratelimit/forestfire',
-}); 
+});
