@@ -289,6 +289,9 @@ class UIManager {
      * Resets the entire application state
      */
     resetApplication() {
+        // Clear current file immediately to prevent race conditions
+        this.currentImageFile = null;
+        
         setTimeout(() => {
             // Reset file input
             this.resetFileInput();
@@ -311,9 +314,6 @@ class UIManager {
 
             // Reset predictions
             this.resetPredictionDisplay();
-            
-            // Clear current file
-            this.currentImageFile = null;
             
             Utils.showNotification('Application reset', 'info');
         }, APP_CONFIG.UI.ANIMATION_DURATION);

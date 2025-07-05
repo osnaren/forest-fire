@@ -303,7 +303,13 @@
             const isChecked = checkbox.checked;
             
             if (isChecked) {
+                // Call performClassification directly
                 window.forestFireApp.uiManager.performClassification();
+                
+                // If there's no image, uncheck the button (since performClassification unchecks internally)
+                if (!window.forestFireApp.uiManager.currentImageFile) {
+                    checkbox.checked = false;
+                }
             } else {
                 window.forestFireApp.uiManager.resetApplication();
             }

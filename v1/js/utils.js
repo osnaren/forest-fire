@@ -2,6 +2,36 @@
  * Utility functions for the Forest Fire Prediction app
  */
 class Utils {
+    // Track active toasts to prevent duplicates
+    static activeToasts = new Set();
+    
+    // Track toast container
+    static toastContainer = null;
+    
+    /**
+     * Initializes the toast container once
+     * @returns {HTMLElement} - The toast container element
+     */
+    static getToastContainer() {
+        if (!this.toastContainer) {
+            const container = document.createElement('div');
+            container.id = 'toast-container';
+            container.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                z-index: 10000;
+                pointer-events: none;
+            `;
+            document.body.appendChild(container);
+            this.toastContainer = container;
+        }
+        return this.toastContainer;
+    }
+
     /**
      * Validates if a file is a supported image format
      * @param {File} file - The file to validate
@@ -167,8 +197,9 @@ class Utils {
      * Shows toast notification to user
      * @param {string} message - Message to show
      * @param {string} type - Type of notification (success, error, info)
+     * @param {number} duration - Duration in milliseconds to show the toast (default 3000ms)
      */
-    static showNotification(message, type = 'info') {
+    static showNotification(message, type = 'info', duration = 3000) {
         // For now, use console. In a real app, you'd implement a toast system
         const styles = {
             success: 'color: green; font-weight: bold;',
@@ -178,54 +209,66 @@ class Utils {
         
         console.log(`%c${type.toUpperCase()}: ${message}`, styles[type] || styles.info);
         
-        // You could also create a simple toast element
-        this.createToast(message, type);
+        // Check for duplicate messages within a short time window
+        const toastKey = `${message}-${type}`;
+        if (this.activeToasts.has(toastKey)) {
+            return; // Avoid duplicates
+        }
+        
+        this.createToast(message, type, duration, toastKey);
     }
 
     /**
-     * Creates a simple toast notification element
+     * Creates a toast notification element in the toast container
      * @param {string} message - Message to show
      * @param {string} type - Type of notification
+     * @param {number} duration - Duration in milliseconds
+     * @param {string} toastKey - Unique identifier for the toast
      */
-    static createToast(message, type) {
+    static createToast(message, type, duration, toastKey) {
+        // Add to active toasts to prevent duplicates
+        this.activeToasts.add(toastKey);
+        
+        // Get or create container
+        const container = this.getToastContainer();
+        
+        // Create toast element
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
         toast.textContent = message;
         toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
             padding: 12px 20px;
             border-radius: 4px;
             color: white;
-            z-index: 10000;
             font-family: Arial, sans-serif;
             font-size: 14px;
             max-width: 300px;
             word-wrap: break-word;
             opacity: 0;
             transition: opacity 0.3s ease;
-            ${type === 'error' ? 'background-color: #dc3545;' : ''}
-            ${type === 'success' ? 'background-color: #28a745;' : ''}
-            ${type === 'info' ? 'background-color: #17a2b8;' : ''}
+            pointer-events: auto;
         `;
 
-        document.body.appendChild(toast);
+        // Add to container instead of document.body
+        container.appendChild(toast);
 
         // Animate in
         setTimeout(() => {
             toast.style.opacity = '1';
-        }, 100);
+        }, 10);
 
-        // Remove after 3 seconds
+        // Remove after duration
         setTimeout(() => {
             toast.style.opacity = '0';
+            
+            // Remove from DOM and active toasts list
             setTimeout(() => {
                 if (toast.parentNode) {
                     toast.parentNode.removeChild(toast);
                 }
+                this.activeToasts.delete(toastKey);
             }, 300);
-        }, 3000);
+        }, duration);
     }
 }
 
