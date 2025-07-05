@@ -38,8 +38,21 @@ class ForestFireApp {
             window.modelManager = this.modelManager;
             window.uiManager = this.uiManager;
             
-            // Preload model in background
-            this.modelManager.preloadModel();
+            // Ensure Teachable Machine library is available
+            if (typeof tmImage === 'undefined') {
+                throw new Error('Teachable Machine library not loaded. Please check your network connection and refresh the page.');
+            }
+            
+            // Ensure TensorFlow.js is available
+            if (typeof tf === 'undefined') {
+                throw new Error('TensorFlow.js library not loaded. Please check your network connection and refresh the page.');
+            }
+            
+            console.log('TensorFlow.js version:', tf.version);
+            console.log('TensorFlow.js backend:', tf.getBackend());
+            
+            // Preload model in background with a retry mechanism
+            this.initModelWithRetry();
             
             // Set up splash screen timer
             this.setupSplashScreen();
@@ -52,6 +65,26 @@ class ForestFireApp {
             
         } catch (error) {
             this.handleError('App Initialization', error);
+        }
+    }
+
+    /**
+     * Initialize the model with a retry mechanism
+     * @param {number} retryCount - Number of retries
+     */
+    async initModelWithRetry(retryCount = 3) {
+        try {
+            // First attempt to load the model
+            await this.modelManager.preloadModel();
+        } catch (error) {
+            if (retryCount > 0) {
+                Utils.showNotification(`Retrying model load (${retryCount} attempts left)...`, 'info');
+                setTimeout(() => {
+                    this.initModelWithRetry(retryCount - 1);
+                }, 2000);
+            } else {
+                this.handleError('Model Loading', new Error('Failed to load model after multiple attempts'));
+            }
         }
     }
 

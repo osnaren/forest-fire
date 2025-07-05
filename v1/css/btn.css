@@ -45,7 +45,7 @@ input:checked + label .tick {
   right: 0;
   transform: scale(0) rotate(-90deg);
   color: #00C1FC;
-  top: 11px;
+  top: 7px;
   margin: auto;
   font-size: 22px;
   animation: tick 0.3s 2.7s forwards;
@@ -1129,9 +1129,9 @@ input:checked + label .button_spots:nth-of-type(60) {
 }
 .button_inner span.t {
   position: relative;
-  top: 6px;
+  top: 4px;
   opacity: 1;
-  left: -10px;
+  left: -15px;
   transition: left 0.4s 0.1s;
 }
 .button_inner i.l {
@@ -1153,7 +1153,7 @@ input:checked + label .button_spots:nth-of-type(60) {
   transition: left 0.4s;
 }
 .button_inner:hover i.l {
-  top: 12px;
+  top: 7px;
   opacity: 1;
   transition: left 0.3s 0s, top 0.3s 0.1s, opacity 0.3s 0.1s;
 }

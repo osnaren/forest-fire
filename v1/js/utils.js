@@ -122,14 +122,43 @@ class Utils {
      * @param {Error} error - Error object
      */
     static logError(context, error) {
-        console.error(`[${context}] Error:`, error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        const errorStack = error instanceof Error ? error.stack : 'No stack trace available';
+        
+        console.error(`[${context}] Error:`, {
+            message: errorMessage,
+            stack: errorStack,
+            originalError: error
+        });
+        
+        // Log additional debugging information that might help diagnose model loading issues
+        if (context.includes('model') || context.includes('Model')) {
+            console.log('Browser information:', navigator.userAgent);
+            console.log('Current URL:', window.location.href);
+            
+            // Check TensorFlow.js status
+            if (typeof tf !== 'undefined') {
+                console.log('TensorFlow.js version:', tf.version);
+                console.log('TensorFlow.js backend:', tf.getBackend());
+            } else {
+                console.error('TensorFlow.js is not loaded');
+            }
+            
+            // Check if Teachable Machine library is loaded
+            if (typeof tmImage !== 'undefined') {
+                console.log('Teachable Machine library is loaded');
+            } else {
+                console.error('Teachable Machine library is not loaded');
+            }
+        }
         
         // In production, you might want to send this to an error tracking service
         if (window.analytics && typeof window.analytics.track === 'function') {
             window.analytics.track('Error', {
                 context,
-                error: error.message,
-                stack: error.stack
+                error: errorMessage,
+                stack: errorStack,
+                timestamp: new Date().toISOString()
             });
         }
     }

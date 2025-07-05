@@ -49,7 +49,7 @@ The conventional fire detection methods have had an accuracy ranging between 80%
 
 ### Modules of the Project
 <!--![Modules](/img/CNN_Flow.png)-->
-<img src="../public/images/CNN_Flow.png" alt="Logo" width="537" height="400">
+<img src="./images/CNN_Flow.png" alt="Logo" width="537" height="400">
 
 ### CNN Models Used
 

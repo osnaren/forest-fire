@@ -3,7 +3,7 @@
  */
 const APP_CONFIG = {
     MODEL: {
-        URL: 'public/model/',
+        URL: 'model/',
         MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB
         SUPPORTED_FORMATS: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
         CLASSES: ['FIRE', 'NO-FIRE', 'SMOKE', 'SMOKE-FIRE']
