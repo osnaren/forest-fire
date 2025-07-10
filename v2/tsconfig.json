@@ -48,7 +48,9 @@
     ".next/types/**/*.ts",
     "jest.setup.mjs",
     "jest.config.mjs",
-    "eslint.config.mjs"
+    "eslint.config.mjs",
+    "postcss.config.mjs",
+    "tailwind.config.ts"
   ],
   "exclude": ["node_modules"]
 }
