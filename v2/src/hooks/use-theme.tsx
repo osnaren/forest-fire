@@ -24,7 +24,7 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
-export function ThemeProvider({
+export default function ThemeProvider({
   children,
   defaultTheme = 'dark',
   storageKey = 'forest-fire-theme',

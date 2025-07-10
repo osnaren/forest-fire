@@ -1,7 +1,6 @@
-import { Footer } from '@/components/footer';
-import { Navbar } from '@/components/navbar';
+import { Footer, Navbar } from '@/components/layout';
 import SponsorFAB from '@/components/sponsor/SponsorFAB';
-import { ThemeProvider } from '@/hooks/use-theme';
+import ThemeProvider from '@/hooks/use-theme';
 import type { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
 import './index.css';

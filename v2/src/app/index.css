@@ -13,25 +13,6 @@
 @import '../styles/custom.css';
 @import '../styles/theme.css';
 
-/* Theme configuration for Tailwind CSS v4 */
-@theme {
-  /* Custom breakpoints */
-  --breakpoint-3xl: 120rem;
-
-  /* Design system colors */
-  --color-charcoal-900: #1a1a1a;
-  --color-gray-300: #d1d5db;
-  --color-emerald-500: #10b981;
-  --color-amber-500: #f59e0b;
-
-  /* Typography */
-  --font-sans: 'Noto Sans', system-ui, sans-serif;
-  --font-display: 'Satoshi', system-ui, sans-serif;
-
-  /* Custom max width utility */
-  --size-model: 560px;
-}
-
 /* Layout Adjustments */
 @layer base {
   html {
@@ -72,11 +53,6 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 0.15s;
   }
-}
-
-/* Custom utilities */
-@utility max-w-model {
-  max-width: var(--size-model);
 }
 
 /* Component styles */

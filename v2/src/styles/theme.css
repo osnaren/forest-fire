@@ -21,9 +21,10 @@
   --s-duration: 14.5s;
 
   /* Font Families */
+  --font-sans: 'Noto Sans', system-ui, sans-serif;
+  --font-display: 'Satoshi', system-ui, sans-serif;
   --font-heading: 'DM Serif Text', serif;
-  --font-body: 'Noto Sans', sans-serif;
-  --font-josefin: 'Josefin Sans', sans-serif;
+  --font-body: 'Josefin Sans', sans-serif;
   --font-space: 'Space Grotesk', sans-serif;
   --font-emoji: 'Noto Color Emoji', sans-serif;
 
