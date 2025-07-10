@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/fontshare/fontshare@main/fonts/satoshi/satoshi.css');
+
+/* Theme configuration for Tailwind CSS v4 */
+@theme {
+  /* Custom breakpoints */
+  --breakpoint-3xl: 120rem;
+  
+  /* Design system colors */
+  --color-charcoal-900: #1a1a1a;
+  --color-gray-300: #d1d5db;
+  --color-emerald-500: #10b981;
+  --color-amber-500: #f59e0b;
+  
+  /* Typography */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Satoshi", system-ui, sans-serif;
+  
+  /* Custom max width utility */
+  --size-model: 560px;
+}
+
+/* Base styles */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+  
+  body {
+    @apply bg-charcoal-900 text-white antialiased;
+  }
+  
+  /* Ensure dialog elements are centered (v4 compatibility) */
+  dialog {
+    margin: auto;
+  }
+}
+
+/* Custom utilities */
+@utility max-w-model {
+  max-width: var(--size-model);
+}
+
+/* Component styles */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+  
+  .btn-primary {
+    @apply bg-emerald-500 text-white hover:bg-emerald-600;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300;
+  }
+  
+  .card {
+    @apply rounded-xl border border-gray-800 bg-gray-900/50 p-6 backdrop-blur-sm;
+  }
+}

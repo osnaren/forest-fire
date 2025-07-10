@@ -62,24 +62,34 @@ Forest Fire Classifier v2 is a professional-grade overhaul of the original colle
 
 ## 4. Frontend Foundation
 
-- [ ] **Tailwind configuration**
-  - Extend theme with design-system colors (charcoal 900, gray 300, emerald 500, amber 500).
+- [x] **Tailwind configuration**
+  - Check the updated documentation for Tailwind CSS v4 using context7 MCP.
+  - Setup theme.css in `styles/` with proper imports.
+  - Configure tailwind.config.ts with latest config.
+  - Use theme with design-system colors (charcoal 900, gray 300, emerald 500, amber 500).
   - Add custom **`maxWModel: '560px'`** utility to prevent the uploader stretching on ultra-wide displays.
   - Enable dark-mode via `class` strategy.
-- [ ] **Global fonts**
-  - Add Inter & Satoshi via @next/font/google / local import.
-- [ ] **Root layout** (`src/app/layout.tsx`)
+- [x] **Global fonts**
+  - Add Inter & Satoshi in CSS imports.
+- [x] **Root layout** (`src/app/layout.tsx`)
   - Apply fonts, dark background, and `<Navbar/>` + `<Footer/>`.
-- [ ] **Routing skeleton**
+- [x] **Routing skeleton**
   - Pages: `/`, `/about`, `/research`, `/map`, `/api-docs`.
-- [ ] **State management helpers**
+- [x] **State management helpers**
   - Lightweight React Context or Zustand for global UI state.
-- [ ] **Component organization & UI library**
-  - Create `src/components/ui/` for generic, reusable atoms (Button, Card, Input, Dialog, Toast). Leverage **shadcn/ui** patterns and consult Magic MCP for inspiration.
+- [x] **Component organization & UI library**
+  - Use the best practices for component organization.
+  - Create `src/components/ui/` for generic, reusable atoms (Button, Card, Input, Dialog). Leverage **shadcn/ui** patterns and consult Magic MCP for inspiration.
   - Install `react-hot-toast` for global notifications.
-- [ ] **Metadata & SEO**
+- [x] **Metadata & SEO**
   - Implement `generateMetadata()` (Next.js 14) per route for dynamic titles/descriptions.
   - Configure Open Graph & Twitter tags; generate social-share `og:image` via `/api/og` (optional).
+- [x] **Design system**
+  - Use modern, minimalistic design with dark mode.
+  - Use the best practices for responsive design and accessibility.
+  - Use Framer Motion for smooth animations.
+  - Use GSAP for complex animations (e.g., results reveal).
+  - Create the best user experience with intuitive navigation and clear calls to action.
 
 ## 5. Feature-specific Frontend
 
@@ -96,13 +106,13 @@ Forest Fire Classifier v2 is a professional-grade overhaul of the original colle
   - About: "From Research to Real-Time" narrative.
   - Research: links to paper & Kaggle dataset.
   - API Docs: spec table + code snippets (cURL, JS, Python).
-- [ ] **Live wildfire map page (MVP)**
+- [x] **Live wildfire map page (MVP)**
   - Embed NASA FIRMS or ArcGIS iframe; plan Leaflet heat-map upgrade.
 - [ ] **Micro-interactions**
   - Framer Motion hover/tap on buttons; page transitions with `<AnimatePresence/>`.
 - [ ] **Dark-mode toggle**
   - Switcher in Navbar; persist choice in localStorage.
-- [ ] **Footer model version badge**
+- [x] **Footer model version badge**
   - Add a subtle "Model v1.0" badge in footer that links to `/about#model`.
 
 ## 6. Integration
