@@ -2,7 +2,7 @@
 	Installed from https://reactbits.dev/ts/tailwind/
 */
 
-import { useInView, useMotionValue, useSpring } from 'framer-motion';
+import { useInView, useMotionValue, useSpring } from 'motion/react';
 import { useEffect, useRef } from 'react';
 interface CountUpProps {
   to: number;

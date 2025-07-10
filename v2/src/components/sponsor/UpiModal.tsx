@@ -58,7 +58,7 @@ const UpiPaymentContent: React.FC<{
   // State for amount handling
   const [selectedAmount, setSelectedAmount] = useState<string>('');
   const [customAmount, setCustomAmount] = useState<string>('');
-  const [note, setNote] = useState<string>('Support ShadySide App');
+  const [note, setNote] = useState<string>('Support the work.');
 
   // Compute the final amount to use
   const finalAmount = selectedAmount === 'custom' ? customAmount : selectedAmount;
@@ -303,7 +303,7 @@ const UpiDialog: React.FC<UpiModalProps> = ({ isOpen, onOpenChange, upiId, upiNa
             ❤️ Support via UPI
           </DialogTitle>
           <DialogDescription className="text-center">
-            Scan the QR with any UPI app or copy the ID below. Thanks a ton for helping keep ShadySide cool! 😎
+            Scan the QR with any UPI app or copy the ID below. Thanks a ton for helping keep me running! 🏃🏼‍♂️
           </DialogDescription>
         </DialogHeader>
 
@@ -344,7 +344,7 @@ const UpiDrawer: React.FC<UpiModalProps> = ({ isOpen, onOpenChange, upiId, upiNa
         <DrawerHeader className="text-left">
           <DrawerTitle className="flex items-center gap-2">❤️ Support via UPI</DrawerTitle>
           <DrawerDescription>
-            Scan the QR with any UPI app or copy the ID below. Thanks a ton for helping keep ShadySide cool! 😎
+            Scan the QR with any UPI app or copy the ID below. Thanks a ton for helping keep me running! 🏃🏼‍♂️
           </DrawerDescription>
         </DrawerHeader>
 

@@ -1,4 +1,4 @@
-import { useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from 'motion/react';
 import { useMemo } from 'react';
 import useMediaQuery from './use-media-query';
 

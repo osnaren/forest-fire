@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'motion/react';
 import { HeartHandshake, X } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { sponsorOptions, UPI_ID, UPI_NAME, type SponsorAction } from './sponsor.config';
