@@ -25,6 +25,16 @@ export const metadata: Metadata = {
     title: 'Forest Fire Classifier v2',
     description: 'Professional-grade wildfire detection powered by advanced machine learning.',
   },
+  manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any', type: 'image/x-icon' },
+      { url: '/icon1.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon1.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+    shortcut: '/favicon.ico',
+  },
   robots: {
     index: true,
     follow: true,
