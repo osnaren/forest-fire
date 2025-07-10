@@ -1,15 +1,17 @@
+import { Footer } from '@/components/footer';
+import { Navbar } from '@/components/navbar';
+import SponsorFAB from '@/components/sponsor/SponsorFAB';
+import { ThemeProvider } from '@/hooks/use-theme';
 import type { Metadata, Viewport } from 'next';
-import './globals.css';
-import { ThemeProvider } from "@/hooks/use-theme";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
+import './index.css';
 
 export const metadata: Metadata = {
   title: 'Forest Fire Classifier v2',
-  description: 'Professional-grade wildfire detection powered by advanced machine learning. Real-time forest fire classification from images.',
+  description:
+    'Professional-grade wildfire detection powered by advanced machine learning. Real-time forest fire classification from images.',
   keywords: ['wildfire', 'forest fire', 'machine learning', 'tensorflow', 'detection', 'classification'],
-  authors: [{ name: 'Forest Fire Classifier Team' }],
+  authors: [{ name: 'Obuli Sai Naren', url: 'https://osnaren.com' }],
   creator: 'Forest Fire Classifier',
   publisher: 'Forest Fire Classifier',
   openGraph: {
@@ -32,7 +34,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-}
+};
 
 export default function RootLayout({
   children,
@@ -43,14 +45,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans antialiased">
         <ThemeProvider defaultTheme="dark" storageKey="forest-fire-theme">
-          <div className="relative min-h-screen flex flex-col">
+          <div className="relative flex min-h-screen flex-col">
             <Navbar />
-            <main className="flex-1">
-              {children}
-            </main>
+            <main className="flex-1">{children}</main>
             <Footer />
+            <SponsorFAB />
           </div>
-          <Toaster 
+          <Toaster
             position="top-right"
             toastOptions={{
               duration: 4000,

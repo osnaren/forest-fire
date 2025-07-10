@@ -1,0 +1,121 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+
+@import 'tailwindcss';
+
+/* Theme configuration for Tailwind CSS v4 */
+@theme {
+  /* Custom breakpoints */
+  --breakpoint-3xl: 120rem;
+
+  /* Design system colors */
+  --color-charcoal-900: #1a1a1a;
+  --color-gray-300: #d1d5db;
+  --color-emerald-500: #10b981;
+  --color-amber-500: #f59e0b;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Satoshi', system-ui, sans-serif;
+
+  /* Custom max width utility */
+  --size-model: 560px;
+}
+
+/* Layout Adjustments */
+@layer base {
+  html {
+    overflow-x: hidden; /* Only prevent horizontal scrolling */
+    height: 100%;
+  }
+
+  body {
+    min-height: 100%;
+    overflow-y: hidden; /* Prevent vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+  }
+
+  #root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    font-family: var(--font-body);
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+  footer {
+    flex-shrink: 0;
+  }
+
+  /* Theme transition handling */
+  .theme-transition {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.15s;
+  }
+
+  /* Avoid flash during theme switch */
+  .theme-transition * {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.15s;
+  }
+}
+
+/* Custom utilities */
+@utility max-w-model {
+  max-width: var(--size-model);
+}
+
+/* Component styles */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-emerald-500 text-white hover:bg-emerald-600;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300;
+  }
+
+  .card {
+    @apply rounded-xl border border-gray-800 bg-gray-900/50 p-6 backdrop-blur-sm;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-reduced-motion {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Hide scrollbar for horizontal scroll sections */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.scroll-gutter {
+  scrollbar-gutter: stable both-edges;
+}

@@ -1,5 +1,5 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Metadata } from 'next';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: 'Live Wildfire Map - Forest Fire Classifier v2',
@@ -8,15 +8,13 @@ export const metadata: Metadata = {
 
 export default function MapPage() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-6xl">
+    <div className="container mx-auto max-w-6xl px-4 py-16">
       <div className="space-y-8">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold font-display">
-            Live Wildfire Map
-          </h1>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Real-time wildfire monitoring using NASA FIRMS satellite data. 
-            Track active fires and hotspots around the globe.
+        <div className="space-y-4 text-center">
+          <h1 className="font-display text-4xl font-bold md:text-5xl">Live Wildfire Map</h1>
+          <p className="mx-auto max-w-3xl text-xl text-gray-400">
+            Real-time wildfire monitoring using NASA FIRMS satellite data. Track active fires and hotspots around the
+            globe.
           </p>
         </div>
 
@@ -28,9 +26,9 @@ export default function MapPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-96 bg-gray-800 rounded-lg flex items-center justify-center">
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center">
+            <div className="flex h-96 items-center justify-center rounded-lg bg-gray-800">
+              <div className="space-y-4 text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600">
                   <span className="text-2xl">🗺️</span>
                 </div>
                 <div>
@@ -44,7 +42,7 @@ export default function MapPage() {
           </CardContent>
         </Card>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid gap-8 md:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>Data Sources</CardTitle>
@@ -58,9 +56,7 @@ export default function MapPage() {
               </div>
               <div className="space-y-2">
                 <h4 className="font-semibold text-emerald-400">MODIS & VIIRS</h4>
-                <p className="text-sm text-gray-300">
-                  Satellite instruments providing thermal anomaly detection
-                </p>
+                <p className="text-sm text-gray-300">Satellite instruments providing thermal anomaly detection</p>
               </div>
             </CardContent>
           </Card>
@@ -72,15 +68,11 @@ export default function MapPage() {
             <CardContent className="space-y-3">
               <div className="space-y-2">
                 <h4 className="font-semibold text-amber-400">Near Real-time</h4>
-                <p className="text-sm text-gray-300">
-                  Data updated every 3-6 hours from satellite passes
-                </p>
+                <p className="text-sm text-gray-300">Data updated every 3-6 hours from satellite passes</p>
               </div>
               <div className="space-y-2">
                 <h4 className="font-semibold text-amber-400">Global Coverage</h4>
-                <p className="text-sm text-gray-300">
-                  Worldwide monitoring with detailed regional views
-                </p>
+                <p className="text-sm text-gray-300">Worldwide monitoring with detailed regional views</p>
               </div>
             </CardContent>
           </Card>

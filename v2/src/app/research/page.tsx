@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Metadata } from 'next';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: 'Research - Forest Fire Classifier v2',
@@ -9,19 +9,17 @@ export const metadata: Metadata = {
 
 export default function ResearchPage() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-6xl">
+    <div className="container mx-auto max-w-6xl px-4 py-16">
       <div className="space-y-12">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold font-display">
-            Research & Methodology
-          </h1>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Built on solid scientific foundations, our wildfire detection system 
-            leverages cutting-edge machine learning research and comprehensive datasets.
+        <div className="space-y-4 text-center">
+          <h1 className="font-display text-4xl font-bold md:text-5xl">Research & Methodology</h1>
+          <p className="mx-auto max-w-3xl text-xl text-gray-400">
+            Built on solid scientific foundations, our wildfire detection system leverages cutting-edge machine learning
+            research and comprehensive datasets.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid gap-8 md:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>Research Paper</CardTitle>
@@ -30,9 +28,9 @@ export default function ResearchPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-300 text-sm">
-                This paper presents a comprehensive study on using convolutional neural networks 
-                for real-time forest fire detection from satellite and aerial imagery.
+              <p className="text-sm text-gray-300">
+                This paper presents a comprehensive study on using convolutional neural networks for real-time forest
+                fire detection from satellite and aerial imagery.
               </p>
               <Button variant="outline" className="w-full" disabled>
                 Read Paper (Coming Soon)
@@ -43,14 +41,12 @@ export default function ResearchPage() {
           <Card>
             <CardHeader>
               <CardTitle>Training Dataset</CardTitle>
-              <CardDescription>
-                Kaggle dataset with thousands of labeled forest fire images
-              </CardDescription>
+              <CardDescription>Kaggle dataset with thousands of labeled forest fire images</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-300 text-sm">
-                Our model was trained on a curated dataset containing fire, smoke, and 
-                non-fire images collected from various sources and geographical regions.
+              <p className="text-sm text-gray-300">
+                Our model was trained on a curated dataset containing fire, smoke, and non-fire images collected from
+                various sources and geographical regions.
               </p>
               <Button variant="outline" className="w-full" disabled>
                 View Dataset (Coming Soon)
@@ -60,23 +56,23 @@ export default function ResearchPage() {
         </div>
 
         <div className="space-y-8">
-          <h2 className="text-3xl font-bold font-display text-center">Model Performance</h2>
-          
-          <div className="grid md:grid-cols-3 gap-6">
+          <h2 className="font-display text-center text-3xl font-bold">Model Performance</h2>
+
+          <div className="grid gap-6 md:grid-cols-3">
             <Card>
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl">94.2%</CardTitle>
                 <CardDescription>Overall Accuracy</CardDescription>
               </CardHeader>
             </Card>
-            
+
             <Card>
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl">91.8%</CardTitle>
                 <CardDescription>Fire Detection Precision</CardDescription>
               </CardHeader>
             </Card>
-            
+
             <Card>
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl">96.1%</CardTitle>
