@@ -32,6 +32,7 @@
         "tfjs",
         "translatex",
         "VIIRS",
-        "webgl"
+        "webgl",
+        "xlarge"
     ]
 }

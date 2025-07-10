@@ -1,0 +1,114 @@
+:root,
+[data-theme],
+.dark,
+.light,
+.dark-hc,
+.dark-mc,
+.light-hc,
+.light-mc {
+  transition:
+    background-color var(--duration, 0.3s) cubic-bezier(0.23, 1, 0.32, 1),
+    color var(--duration, 0.3s) cubic-bezier(0.23, 1, 0.32, 1),
+    border-color var(--duration, 0.3s) cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow var(--duration, 0.3s) cubic-bezier(0.23, 1, 0.32, 1),
+    background var(--duration, 0.3s) cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@theme {
+  /* Spacing & Timing */
+  --radius: 0.5rem;
+  --duration: 0.3s;
+  --s-duration: 14.5s;
+
+  /* Font Families */
+  --font-heading: 'DM Serif Text', serif;
+  --font-body: 'Noto Sans', sans-serif;
+  --font-josefin: 'Josefin Sans', sans-serif;
+  --font-space: 'Space Grotesk', sans-serif;
+  --font-emoji: 'Noto Color Emoji', sans-serif;
+
+  /* Font Sizes */
+  --text-h1: clamp(3.5rem, 4vw + 2rem, 6rem);
+  --text-h2: clamp(2.5rem, 3vw + 1.5rem, 4.5rem);
+  --text-h3: clamp(2rem, 2vw + 1rem, 3rem);
+  --text-subheading: clamp(1.5rem, 2vw + 1rem, 2.5rem);
+  --text-body: clamp(1rem, 3vw, 1.625rem);
+
+  /* Animations */
+  --animate-btn-pulse: btn-pulse var(--duration) ease-out infinite;
+  --animate-shine: shine var(--s-duration) linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulseSlow var(--duration) ease-in-out infinite;
+  --animate-fade-in: fade-in var(--duration) ease-out forwards;
+
+  @keyframes btn-pulse {
+    0%,
+    50% {
+      box-shadow: 0 0 0 0 var(--pulse-color);
+    }
+    100% {
+      box-shadow: 0 0 0 8px var(--pulse-color);
+    }
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: 100%;
+    }
+    100% {
+      background-position: -100%;
+    }
+  }
+
+  @keyframes pulseSlow {
+    0% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 0.9;
+    }
+    100% {
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* --- Shadows --- */
+  --shadow-small: 0 1px 2px var(--color-outline-variant);
+  --shadow-medium: 0 2px 4px var(--color-outline-variant);
+  --shadow-large: 0 4px 8px var(--color-outline-variant);
+  --shadow-xlarge: 0 8px 16px var(--color-outline-variant);
+  --shadow-inset: inset 0 1px 2px var(--color-outline-variant);
+  --shadow-elevation-small: 0 1px 2px var(--color-outline-variant), 0 2px 4px var(--color-outline-variant);
+  --shadow-elevation:
+    0 2px 4px var(--color-outline-variant), 0 4px 8px var(--color-outline-variant),
+    0 8px 16px var(--color-outline-variant);
+  --shadow-elevation-high:
+    0 4px 8px var(--color-outline-variant), 0 8px 16px var(--color-outline-variant),
+    0 16px 32px var(--color-outline-variant);
+  --shadow-elevation-xlarge:
+    0 8px 16px var(--color-outline-variant), 0 16px 32px var(--color-outline-variant),
+    0 32px 64px var(--color-outline-variant);
+}
