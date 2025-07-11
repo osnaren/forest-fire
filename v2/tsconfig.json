@@ -23,21 +23,23 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
-      "@src/*": ["./src/*"],
       "@app/*": ["./src/app/*"],
+      "@blocks/*": ["./src/blocks/*"],
+      "@components": ["./src/components/index.ts"],
       "@components/*": ["./src/components/*"],
-      "@ui/*": ["./src/components/ui/*"],
-      "@layout/*": ["./src/components/layout/*"],
-      "@utility/*": ["./src/components/utility/*"],
-      "@modules/*": ["./src/modules/*"],
-      "@sections/*": ["./src/modules/sections/*"],
       "@config/*": ["./src/config/*"],
       "@context/*": ["./src/context/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@styles/*": ["./src/styles/*"],
+      "@layout/*": ["./src/components/layout/*"],
       "@lib/*": ["./src/lib/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@utils": ["./src/utils/index.ts"]
+      "@modules/*": ["./src/modules/*"],
+      "@sections/*": ["./src/modules/sections/*"],
+      "@src/*": ["./src/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@ui/*": ["./src/components/ui/*"],
+      "@utility/*": ["./src/components/utility/*"],
+      "@utils": ["./src/utils/index.ts"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": [

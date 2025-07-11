@@ -1,22 +1,23 @@
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
 
 export interface SEOProps {
-  title?: string
-  description?: string
-  keywords?: string[]
-  image?: string
-  url?: string
-  type?: 'website' | 'article'
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  image?: string;
+  url?: string;
+  type?: 'website' | 'article';
 }
 
 const defaultMetadata = {
   title: 'Forest Fire Classifier v2',
-  description: 'Professional-grade wildfire detection powered by advanced machine learning. Real-time forest fire classification from images.',
+  description:
+    'Professional-grade wildfire detection powered by advanced machine learning. Real-time forest fire classification from images.',
   keywords: ['wildfire', 'forest fire', 'machine learning', 'tensorflow', 'detection', 'classification'],
   image: '/og-image.jpg',
   url: 'https://fire.osnaren.com',
   type: 'website' as const,
-}
+};
 
 export function generateSEOMetadata({
   title,
@@ -26,11 +27,11 @@ export function generateSEOMetadata({
   url,
   type = 'website',
 }: SEOProps = {}): Metadata {
-  const seoTitle = title ? `${title} - ${defaultMetadata.title}` : defaultMetadata.title
-  const seoDescription = description || defaultMetadata.description
-  const seoKeywords = keywords || defaultMetadata.keywords
-  const seoImage = image || defaultMetadata.image
-  const seoUrl = url || defaultMetadata.url
+  const seoTitle = title ? `${title} - ${defaultMetadata.title}` : defaultMetadata.title;
+  const seoDescription = description || defaultMetadata.description;
+  const seoKeywords = keywords || defaultMetadata.keywords;
+  const seoImage = image || defaultMetadata.image;
+  const seoUrl = url || defaultMetadata.url;
 
   return {
     title: seoTitle,
@@ -69,5 +70,5 @@ export function generateSEOMetadata({
     alternates: {
       canonical: seoUrl,
     },
-  }
+  };
 }

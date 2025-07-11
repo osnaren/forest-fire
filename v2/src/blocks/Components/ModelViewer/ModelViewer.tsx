@@ -4,6 +4,7 @@
 
 import { ContactShadows, Environment, Html, OrbitControls, useFBX, useGLTF, useProgress } from '@react-three/drei';
 import { Canvas, invalidate, useFrame, useLoader, useThree } from '@react-three/fiber';
+import Image from 'next/image';
 import { FC, Suspense, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
@@ -53,7 +54,7 @@ const Loader: FC<{ placeholderSrc?: string }> = ({ placeholderSrc }) => {
   return (
     <Html center>
       {placeholderSrc ? (
-        <img src={placeholderSrc} width={128} height={128} className="rounded-lg blur-lg" />
+        <Image src={placeholderSrc} width={128} height={128} alt="Placeholder" className="rounded-lg blur-lg" />
       ) : (
         `${Math.round(progress)} %`
       )}

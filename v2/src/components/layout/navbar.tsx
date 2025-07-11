@@ -1,12 +1,13 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useTheme } from '@/hooks/use-theme';
-import { MoonIcon, SunIcon, Menu, X } from 'lucide-react';
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { PulsingDot } from '@/components/ui/interactive-elements';
+import { navConfig } from '@/config/pages';
+import { useTheme } from '@/hooks/use-theme';
+import { Menu, MoonIcon, SunIcon, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -28,10 +29,10 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.nav 
+      <motion.nav
         className={`sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-charcoal-900/80 backdrop-blur-md border-b border-gray-800/50' 
+          isScrolled
+            ? 'bg-charcoal-900/80 border-b border-gray-800/50 backdrop-blur-md'
             : 'bg-charcoal-900/60 backdrop-blur-sm'
         }`}
         initial={{ y: -100 }}
@@ -41,43 +42,38 @@ export default function Navbar() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             {/* Logo and home link */}
-            <Link href="/" className="flex items-center space-x-2 group">
-              <motion.div 
+            <Link href="/" className="group flex items-center space-x-2">
+              <motion.div
                 className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/25"
-                whileHover={{ 
+                whileHover={{
                   scale: 1.1,
-                  boxShadow: "0 10px 25px rgba(16, 185, 129, 0.4)"
+                  boxShadow: '0 10px 25px rgba(16, 185, 129, 0.4)',
                 }}
                 transition={{ duration: 0.2 }}
               >
                 <span className="text-sm font-bold text-white">🔥</span>
               </motion.div>
-              <span className="font-display text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">
+              <span className="font-display text-xl font-bold text-white transition-colors group-hover:text-emerald-400">
                 Forest Fire Classifier
               </span>
             </Link>
 
             {/* Navigation links - Desktop */}
             <div className="hidden items-center space-x-8 md:flex">
-              <NavLink href="/" label="Home" />
-              <NavLink href="/about" label="About" />
-              <NavLink href="/research" label="Research" />
-              <NavLink href="/map" label="Live Map" hasIndicator />
-              <NavLink href="/api-docs" label="API Docs" />
+              {navConfig.main.map((item) => (
+                <NavLink key={item.href} href={item.href} label={item.title} />
+              ))}
             </div>
 
             {/* Right side buttons */}
             <div className="flex items-center space-x-2">
               {/* Dark mode toggle */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={toggleTheme} 
-                  className="h-9 w-9 p-0 hover:bg-emerald-500/10 hover:text-emerald-400 transition-colors"
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleTheme}
+                  className="h-9 w-9 p-0 transition-colors hover:bg-emerald-500/10 hover:text-emerald-400"
                 >
                   <AnimatePresence mode="wait">
                     {theme === 'dark' ? (
@@ -111,7 +107,7 @@ export default function Navbar() {
                 variant="ghost"
                 size="sm"
                 onClick={toggleMobileMenu}
-                className="h-9 w-9 p-0 md:hidden hover:bg-emerald-500/10 hover:text-emerald-400 transition-colors"
+                className="h-9 w-9 p-0 transition-colors hover:bg-emerald-500/10 hover:text-emerald-400 md:hidden"
               >
                 <AnimatePresence mode="wait">
                   {isMobileMenuOpen ? (
@@ -151,9 +147,9 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-charcoal-900/95 backdrop-blur-md border-b border-gray-800/50 overflow-hidden"
+            className="bg-charcoal-900/95 overflow-hidden border-b border-gray-800/50 backdrop-blur-md md:hidden"
           >
-            <div className="px-4 py-4 space-y-4">
+            <div className="space-y-4 px-4 py-4">
               <MobileNavLink href="/" label="Home" onClick={toggleMobileMenu} />
               <MobileNavLink href="/about" label="About" onClick={toggleMobileMenu} />
               <MobileNavLink href="/research" label="Research" onClick={toggleMobileMenu} />
@@ -169,9 +165,9 @@ export default function Navbar() {
 
 function NavLink({ href, label, hasIndicator = false }: { href: string; label: string; hasIndicator?: boolean }) {
   return (
-    <Link href={href} className="relative group">
-      <motion.span 
-        className="text-gray-300 transition-colors group-hover:text-emerald-400 flex items-center gap-2"
+    <Link href={href} className="group relative">
+      <motion.span
+        className="flex items-center gap-2 text-gray-300 transition-colors group-hover:text-emerald-400"
         whileHover={{ y: -2 }}
         transition={{ duration: 0.2 }}
       >
@@ -188,34 +184,30 @@ function NavLink({ href, label, hasIndicator = false }: { href: string; label: s
   );
 }
 
-function MobileNavLink({ 
-  href, 
-  label, 
-  onClick, 
-  hasIndicator = false 
-}: { 
-  href: string; 
-  label: string; 
-  onClick: () => void; 
-  hasIndicator?: boolean 
+function MobileNavLink({
+  href,
+  label,
+  onClick,
+  hasIndicator = false,
+}: {
+  href: string;
+  label: string;
+  onClick: () => void;
+  hasIndicator?: boolean;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Link 
-        href={href} 
+    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
+      <Link
+        href={href}
         onClick={onClick}
-        className="flex items-center justify-between py-2 text-gray-300 hover:text-emerald-400 transition-colors"
+        className="flex items-center justify-between py-2 text-gray-300 transition-colors hover:text-emerald-400"
       >
         <span className="flex items-center gap-2">
           {label}
           {hasIndicator && <PulsingDot size="sm" color="emerald" />}
         </span>
         <motion.div
-          className="w-1 h-1 bg-emerald-400 rounded-full opacity-0 group-hover:opacity-100"
+          className="h-1 w-1 rounded-full bg-emerald-400 opacity-0 group-hover:opacity-100"
           whileHover={{ scale: 1.5 }}
         />
       </Link>

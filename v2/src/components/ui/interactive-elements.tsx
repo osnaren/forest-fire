@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
+import { motion } from 'motion/react';
+import React, { useState } from 'react';
 
 interface FloatingElementProps {
   children: React.ReactNode;
@@ -78,7 +78,7 @@ export function GlowingButton({
         'border border-transparent',
         variants[variant],
         sizes[size],
-        disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+        disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
         className
       )}
       onClick={onClick}
@@ -108,7 +108,7 @@ export function GlowingButton({
         }}
         transition={{ duration: 0.3 }}
       />
-      <span className="relative z-10">{children}</span>
+      <span className="relative z-10 flex">{children}</span>
     </motion.button>
   );
 }
@@ -148,11 +148,7 @@ export function PulsingDot({ className, size = 'md', color = 'emerald' }: Pulsin
         }}
       />
       <motion.div
-        className={cn(
-          'absolute inset-0 rounded-full',
-          colors[color],
-          'opacity-40'
-        )}
+        className={cn('absolute inset-0 rounded-full', colors[color], 'opacity-40')}
         animate={{
           scale: [1, 1.8, 1],
           opacity: [0.4, 0, 0.4],
@@ -189,7 +185,7 @@ export function StatCounter({ value, label, className, delay = 0 }: StatCounterP
       }}
     >
       <motion.div
-        className="text-2xl font-bold text-emerald-400 mb-1"
+        className="mb-1 text-2xl font-bold text-emerald-400"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: delay + 0.2 }}
@@ -226,7 +222,7 @@ export function BackgroundEffect({ className }: BackgroundEffectProps) {
           intensity={0.5 + Math.random() * 0.5}
         >
           <div
-            className="w-1 h-1 bg-emerald-400/30 rounded-full blur-sm"
+            className="h-1 w-1 rounded-full bg-emerald-400/30 blur-sm"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -234,10 +230,10 @@ export function BackgroundEffect({ className }: BackgroundEffectProps) {
           />
         </FloatingElement>
       ))}
-      
+
       {/* Gradient orbs */}
       <motion.div
-        className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-br from-emerald-500/20 to-transparent blur-3xl"
+        className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-gradient-to-br from-emerald-500/20 to-transparent blur-3xl"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
@@ -249,7 +245,7 @@ export function BackgroundEffect({ className }: BackgroundEffectProps) {
         }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-br from-amber-500/20 to-transparent blur-3xl"
+        className="absolute right-1/4 bottom-1/4 h-80 w-80 rounded-full bg-gradient-to-br from-amber-500/20 to-transparent blur-3xl"
         animate={{
           scale: [1.2, 1, 1.2],
           opacity: [0.2, 0.4, 0.2],

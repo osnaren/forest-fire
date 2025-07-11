@@ -1,6 +1,5 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Metadata } from 'next';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: 'API Documentation - Forest Fire Classifier v2',
@@ -9,15 +8,13 @@ export const metadata: Metadata = {
 
 export default function ApiDocsPage() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-6xl">
+    <div className="container mx-auto max-w-6xl px-4 py-16">
       <div className="space-y-12">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold font-display">
-            API Documentation
-          </h1>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Integrate wildfire detection capabilities into your applications with our RESTful API.
-            Simple, fast, and reliable.
+        <div className="space-y-4 text-center">
+          <h1 className="font-display text-4xl font-bold md:text-5xl">API Documentation</h1>
+          <p className="mx-auto max-w-3xl text-xl text-gray-400">
+            Integrate wildfire detection capabilities into your applications with our RESTful API. Simple, fast, and
+            reliable.
           </p>
         </div>
 
@@ -25,22 +22,20 @@ export default function ApiDocsPage() {
         <Card>
           <CardHeader>
             <CardTitle>Prediction Endpoint</CardTitle>
-            <CardDescription>
-              Submit images for wildfire classification analysis
-            </CardDescription>
+            <CardDescription>Submit images for wildfire classification analysis</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
-              <h4 className="font-semibold text-emerald-400 mb-2">POST /api/predict</h4>
-              <p className="text-gray-300 text-sm mb-4">
+              <h4 className="mb-2 font-semibold text-emerald-400">POST /api/predict</h4>
+              <p className="mb-4 text-sm text-gray-300">
                 Upload an image to get fire, smoke, and no-fire probability predictions.
               </p>
             </div>
 
             <div className="space-y-4">
               <div>
-                <h5 className="font-semibold mb-2">Request Format</h5>
-                <div className="bg-gray-800 p-4 rounded-lg">
+                <h5 className="mb-2 font-semibold">Request Format</h5>
+                <div className="rounded-lg bg-gray-800 p-4">
                   <code className="text-sm text-gray-300">
                     Content-Type: multipart/form-data
                     <br />
@@ -50,10 +45,10 @@ export default function ApiDocsPage() {
               </div>
 
               <div>
-                <h5 className="font-semibold mb-2">Response Format</h5>
-                <div className="bg-gray-800 p-4 rounded-lg">
+                <h5 className="mb-2 font-semibold">Response Format</h5>
+                <div className="rounded-lg bg-gray-800 p-4">
                   <pre className="text-sm text-gray-300">
-{`{
+                    {`{
   "predictions": {
     "fire": 0.85,
     "smoke": 0.12,
@@ -74,12 +69,10 @@ export default function ApiDocsPage() {
         <Card>
           <CardHeader>
             <CardTitle>Rate Limits</CardTitle>
-            <CardDescription>
-              API usage limits and guidelines
-            </CardDescription>
+            <CardDescription>API usage limits and guidelines</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
                 <h4 className="font-semibold text-amber-400">Free Tier</h4>
                 <p className="text-sm text-gray-300">10 requests per 30 seconds</p>
@@ -96,18 +89,18 @@ export default function ApiDocsPage() {
 
         {/* Code Examples */}
         <div className="space-y-8">
-          <h2 className="text-3xl font-bold font-display text-center">Code Examples</h2>
-          
-          <div className="grid lg:grid-cols-2 gap-8">
+          <h2 className="font-display text-center text-3xl font-bold">Code Examples</h2>
+
+          <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle>cURL</CardTitle>
                 <CardDescription>Command line example</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="bg-gray-800 p-4 rounded-lg overflow-x-auto">
+                <div className="overflow-x-auto rounded-lg bg-gray-800 p-4">
                   <pre className="text-sm text-gray-300">
-{`curl -X POST \\
+                    {`curl -X POST \\
   https://fire.osnaren.com/api/predict \\
   -F "image=@forest.jpg" \\
   -H "Content-Type: multipart/form-data"`}
@@ -122,9 +115,9 @@ export default function ApiDocsPage() {
                 <CardDescription>Fetch API example</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="bg-gray-800 p-4 rounded-lg overflow-x-auto">
+                <div className="overflow-x-auto rounded-lg bg-gray-800 p-4">
                   <pre className="text-sm text-gray-300">
-{`const formData = new FormData();
+                    {`const formData = new FormData();
 formData.append('image', file);
 
 const response = await fetch('/api/predict', {
@@ -144,9 +137,9 @@ const result = await response.json();`}
                 <CardDescription>Requests library example</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="bg-gray-800 p-4 rounded-lg overflow-x-auto">
+                <div className="overflow-x-auto rounded-lg bg-gray-800 p-4">
                   <pre className="text-sm text-gray-300">
-{`import requests
+                    {`import requests
 
 url = "https://fire.osnaren.com/api/predict"
 files = {"image": open("forest.jpg", "rb")}
@@ -164,9 +157,9 @@ result = response.json()`}
                 <CardDescription>FormData with axios</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="bg-gray-800 p-4 rounded-lg overflow-x-auto">
+                <div className="overflow-x-auto rounded-lg bg-gray-800 p-4">
                   <pre className="text-sm text-gray-300">
-{`const axios = require('axios');
+                    {`const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
 
@@ -189,13 +182,11 @@ const response = await axios.post(
         <Card>
           <CardHeader>
             <CardTitle>Error Codes</CardTitle>
-            <CardDescription>
-              Common error responses and their meanings
-            </CardDescription>
+            <CardDescription>Common error responses and their meanings</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <h4 className="font-semibold text-red-400">400 Bad Request</h4>
                   <p className="text-sm text-gray-300">Invalid image format or missing file</p>

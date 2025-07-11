@@ -12,7 +12,7 @@
 
 @import '../styles/custom.css';
 @import '../styles/theme.css';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 /* Layout Adjustments */
 @layer base {

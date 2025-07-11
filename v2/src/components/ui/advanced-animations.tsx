@@ -1,6 +1,8 @@
-import { motion } from 'motion/react';
+'use client';
+
 import { cn } from '@/lib/utils';
-import { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
 
 interface GradientTextProps {
   children: React.ReactNode;
@@ -9,11 +11,11 @@ interface GradientTextProps {
   animated?: boolean;
 }
 
-export function GradientText({ 
-  children, 
-  className, 
+export function GradientText({
+  children,
+  className,
   colors = ['from-emerald-400', 'via-emerald-500', 'to-amber-400'],
-  animated = true 
+  animated = true,
 }: GradientTextProps) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -24,7 +26,7 @@ export function GradientText({
   return (
     <motion.span
       className={cn(
-        'text-transparent bg-clip-text bg-gradient-to-r',
+        'bg-gradient-to-r bg-clip-text text-transparent',
         colors.join(' '),
         animated && 'animate-gradient',
         className
@@ -45,12 +47,7 @@ interface TypewriterTextProps {
   speed?: number;
 }
 
-export function TypewriterText({ 
-  text, 
-  className, 
-  delay = 0, 
-  speed = 50 
-}: TypewriterTextProps) {
+export function TypewriterText({ text, className, delay = 0, speed = 50 }: TypewriterTextProps) {
   const [displayedText, setDisplayedText] = useState('');
   const [isStarted, setIsStarted] = useState(false);
 
@@ -78,11 +75,7 @@ export function TypewriterText({
     <span className={cn('relative', className)}>
       {displayedText}
       {isStarted && displayedText.length < text.length && (
-        <motion.span
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{ duration: 0.8, repeat: Infinity }}
-          className="ml-1"
-        >
+        <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ duration: 0.8, repeat: Infinity }} className="ml-1">
           |
         </motion.span>
       )}
@@ -96,11 +89,7 @@ interface ParallaxElementProps {
   speed?: number;
 }
 
-export function ParallaxElement({ 
-  children, 
-  className, 
-  speed = 0.5 
-}: ParallaxElementProps) {
+export function ParallaxElement({ children, className, speed = 0.5 }: ParallaxElementProps) {
   const [offsetY, setOffsetY] = useState(0);
 
   useEffect(() => {
@@ -113,10 +102,7 @@ export function ParallaxElement({
   }, [speed]);
 
   return (
-    <div 
-      className={cn(className)}
-      style={{ transform: `translateY(${offsetY}px)` }}
-    >
+    <div className={cn(className)} style={{ transform: `translateY(${offsetY}px)` }}>
       {children}
     </div>
   );
@@ -129,17 +115,9 @@ interface MorphingShapeProps {
   speed?: number;
 }
 
-export function MorphingShape({ 
-  className, 
-  size = 100, 
-  color = '#10b981', 
-  speed = 3 
-}: MorphingShapeProps) {
+export function MorphingShape({ className, size = 100, color = '#10b981', speed = 3 }: MorphingShapeProps) {
   return (
-    <motion.div
-      className={cn('relative', className)}
-      style={{ width: size, height: size }}
-    >
+    <motion.div className={cn('relative', className)} style={{ width: size, height: size }}>
       <motion.div
         className="absolute inset-0 rounded-full opacity-20"
         style={{ backgroundColor: color }}
@@ -178,10 +156,7 @@ interface ScrollProgressProps {
   color?: string;
 }
 
-export function ScrollProgress({ 
-  className, 
-  color = '#10b981' 
-}: ScrollProgressProps) {
+export function ScrollProgress({ className, color = '#10b981' }: ScrollProgressProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -198,7 +173,7 @@ export function ScrollProgress({
   return (
     <motion.div
       className={cn('fixed top-0 left-0 z-50 h-1', className)}
-      style={{ 
+      style={{
         width: `${scrollProgress}%`,
         backgroundColor: color,
         boxShadow: `0 0 10px ${color}`,
@@ -217,12 +192,7 @@ interface HoverCardProps {
   rotateOnHover?: boolean;
 }
 
-export function HoverCard({ 
-  children, 
-  className, 
-  glowColor = '#10b981',
-  rotateOnHover = false 
-}: HoverCardProps) {
+export function HoverCard({ children, className, glowColor = '#10b981', rotateOnHover = false }: HoverCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -230,23 +200,21 @@ export function HoverCard({
       className={cn('relative cursor-pointer', className)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      whileHover={{ 
+      whileHover={{
         scale: 1.05,
         y: -5,
         rotateY: rotateOnHover ? 5 : 0,
       }}
-      transition={{ 
-        type: 'spring', 
-        stiffness: 300, 
-        damping: 20 
+      transition={{
+        type: 'spring',
+        stiffness: 300,
+        damping: 20,
       }}
     >
       <motion.div
         className="absolute inset-0 rounded-lg"
         animate={{
-          boxShadow: isHovered 
-            ? `0 20px 40px ${glowColor}40` 
-            : `0 5px 15px ${glowColor}20`,
+          boxShadow: isHovered ? `0 20px 40px ${glowColor}40` : `0 5px 15px ${glowColor}20`,
         }}
         transition={{ duration: 0.3 }}
       />

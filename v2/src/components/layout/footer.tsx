@@ -1,6 +1,7 @@
 'use client';
 
 import { PulsingDot } from '@/components/ui/interactive-elements';
+import { footerConfig } from '@/config/pages';
 import { motion } from 'motion/react';
 import Link from 'next/link';
 
@@ -111,7 +112,8 @@ export default function Footer() {
           viewport={{ once: true }}
         >
           <p className="text-sm text-gray-400">
-            © 2025 Forest Fire Classifier. Built with Next.js, TensorFlow.js, and Tailwind CSS.
+            © {footerConfig.copyright.year} {footerConfig.copyright.text} {footerConfig.copyright.name}. Built with
+            Next.js, TensorFlow.js, and lots of ☕.
           </p>
           <div className="mt-4 flex items-center gap-2 sm:mt-0">
             <span className="text-xs text-gray-500">Made with</span>
@@ -122,7 +124,7 @@ export default function Footer() {
             >
               ❤️
             </motion.span>
-            <span className="text-xs text-gray-500">for wildfire prevention</span>
+            <span className="text-xs text-gray-500">for environmental protection</span>
           </div>
         </motion.div>
       </div>

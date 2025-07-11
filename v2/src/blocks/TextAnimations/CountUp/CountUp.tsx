@@ -1,6 +1,7 @@
 /*
 	Installed from https://reactbits.dev/ts/tailwind/
 */
+'use client';
 
 import { useInView, useMotionValue, useSpring } from 'motion/react';
 import { useEffect, useRef } from 'react';

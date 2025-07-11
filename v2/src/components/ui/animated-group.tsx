@@ -1,20 +1,9 @@
 'use client';
-import { ReactNode } from 'react';
-import { motion, Variants } from 'motion/react';
 import { cn } from '@/lib/utils';
-import React from 'react';
+import { motion, Variants } from 'motion/react';
+import React, { ReactNode } from 'react';
 
-type PresetType =
-  | 'fade'
-  | 'slide'
-  | 'scale'
-  | 'blur'
-  | 'blur-slide'
-  | 'zoom'
-  | 'flip'
-  | 'bounce'
-  | 'rotate'
-  | 'swing';
+type PresetType = 'fade' | 'slide' | 'scale' | 'blur' | 'blur-slide' | 'zoom' | 'flip' | 'bounce' | 'rotate' | 'swing';
 
 type AnimatedGroupProps = {
   children: ReactNode;
@@ -41,10 +30,7 @@ const defaultItemVariants: Variants = {
   visible: { opacity: 1 },
 };
 
-const presetVariants: Record<
-  PresetType,
-  { container: Variants; item: Variants }
-> = {
+const presetVariants: Record<PresetType, { container: Variants; item: Variants }> = {
   fade: {
     container: defaultContainerVariants,
     item: {
@@ -137,12 +123,7 @@ const presetVariants: Record<
   },
 };
 
-function AnimatedGroup({
-  children,
-  className,
-  variants,
-  preset,
-}: AnimatedGroupProps) {
+function AnimatedGroup({ children, className, variants, preset }: AnimatedGroupProps) {
   const selectedVariants = preset
     ? presetVariants[preset]
     : { container: defaultContainerVariants, item: defaultItemVariants };
@@ -150,12 +131,7 @@ function AnimatedGroup({
   const itemVariants = variants?.item || selectedVariants.item;
 
   return (
-    <motion.div
-      initial='hidden'
-      animate='visible'
-      variants={containerVariants}
-      className={cn(className)}
-    >
+    <motion.div initial="hidden" animate="visible" variants={containerVariants} className={cn(className)}>
       {React.Children.map(children, (child, index) => (
         <motion.div key={index} variants={itemVariants}>
           {child}

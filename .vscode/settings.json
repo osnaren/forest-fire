@@ -21,6 +21,7 @@
         "finalbox",
         "fireval",
         "forestfire",
+        "gltf",
         "Grotesk",
         "headlessui",
         "Kaggle",
@@ -28,16 +29,19 @@
         "MODIS",
         "nfval",
         "nofire",
+        "persp",
         "prval",
         "Satoshi",
         "sfire",
         "sfval",
         "smokeval",
+        "staticity",
         "tabler",
         "tfjs",
         "translatex",
         "VIIRS",
         "webgl",
         "xlarge"
-    ]
+    ],
+    "postman.settings.dotenv-detection-notification-visibility": false
 }
