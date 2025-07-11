@@ -180,16 +180,16 @@ function getStackIcon(name: string): string {
   return icons[name] || '⚙️';
 }
 
-function getAccentColor(category: string): 'blue' | 'emerald' | 'purple' | 'amber' {
-  const colors: Record<string, 'blue' | 'emerald' | 'purple' | 'amber'> = {
-    'Machine Learning': 'amber',
-    Frontend: 'blue',
-    Language: 'purple',
-    Styling: 'emerald',
-    Animation: 'purple',
-    Infrastructure: 'blue',
+function getAccentColor(category: string): 'primary' | 'secondary' | 'accent' | 'destructive' {
+  const colors: Record<string, 'primary' | 'secondary' | 'accent' | 'destructive'> = {
+    'Machine Learning': 'accent',
+    Frontend: 'primary',
+    Language: 'secondary',
+    Styling: 'primary',
+    Animation: 'secondary',
+    Infrastructure: 'accent',
   };
-  return colors[category] || 'emerald';
+  return colors[category] || 'primary';
 }
 
 function getMetricIcon(label: string): string {

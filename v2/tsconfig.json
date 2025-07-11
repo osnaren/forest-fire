@@ -33,7 +33,7 @@
       "@layout/*": ["./src/components/layout/*"],
       "@lib/*": ["./src/lib/*"],
       "@modules/*": ["./src/modules/*"],
-      "@sections/*": ["./src/modules/sections/*"],
+      "@sections/*": ["./src/sections/*"],
       "@src/*": ["./src/*"],
       "@styles/*": ["./src/styles/*"],
       "@ui/*": ["./src/components/ui/*"],

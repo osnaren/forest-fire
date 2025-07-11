@@ -6,23 +6,42 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { HTMLMotionProps, motion, useMotionValue, useSpring } from 'framer-motion';
+import { HTMLMotionProps, motion, useMotionValue, useSpring } from 'motion/react';
 import * as React from 'react';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 export function AnimatedGradientText({ children, className }: { children: ReactNode; className?: string }) {
-  return (
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const textContent = (
     <div
       className={cn(
-        'group relative mx-auto flex max-w-fit flex-row items-center justify-center rounded-2xl bg-white/40 px-4 py-1.5 text-sm font-medium shadow-[inset_0_-8px_10px_#8fdfff1f] backdrop-blur-sm transition-shadow duration-500 ease-out [--bg-size:300%] hover:shadow-[inset_0_-5px_10px_#8fdfff3f] dark:bg-black/40',
+        'group bg-card/80 border-border/50 relative mx-auto flex max-w-fit flex-row items-center justify-center rounded-2xl border px-4 py-1.5 text-sm font-medium shadow-sm backdrop-blur-sm transition-shadow duration-500 ease-out',
         className
       )}
     >
-      <div
-        className={`animate-gradient absolute inset-0 block h-full w-full [border-radius:inherit] bg-gradient-to-r from-[#ffaa40]/50 via-[#9c40ff]/50 to-[#ffaa40]/50 bg-[length:var(--bg-size)_100%] ![mask-composite:subtract] p-[1px] [mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]`}
-      />
-      {children}
+      <div className="animate-gradient from-primary/20 via-accent/20 to-primary/20 absolute inset-0 block h-full w-full rounded-2xl bg-gradient-to-r bg-[length:200%_100%] opacity-50 transition-opacity group-hover:opacity-75" />
+      <div className="relative z-10 flex items-center">{children}</div>
     </div>
+  );
+
+  if (!isMounted) {
+    return textContent;
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      className="will-change-transform"
+    >
+      {textContent}
+    </motion.div>
   );
 }
 
@@ -48,6 +67,27 @@ export function HoverBackground({
   colors = {},
   ...props
 }: HoverBackgroundProps) {
+  const [isMounted, setIsMounted] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const springConfig = { damping: 25, stiffness: 700 };
+  const mouseXSpring = useSpring(mouseX, springConfig);
+  const mouseYSpring = useSpring(mouseY, springConfig);
+
+  const defaultColors = {
+    background: 'bg-gradient-to-br from-card/60 via-background/80 to-card/60',
+    objects: ['bg-primary/20', 'bg-accent/20', 'bg-primary/10'],
+    glow: 'shadow-primary/20',
+  };
+
+  const effectiveColors = { ...defaultColors, ...colors };
+
   const {
     background = 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900',
     objects = [
@@ -60,12 +100,6 @@ export function HoverBackground({
     ],
     glow = 'shadow-emerald-400/50',
   } = colors;
-
-  const [isHovered, setIsHovered] = React.useState(false);
-
-  // Mouse position tracking for parallax
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
 
   // Spring animations for smooth parallax with slower exit
   const springX = useSpring(mouseX, {
@@ -127,6 +161,39 @@ export function HoverBackground({
     mouseX.set(0);
     mouseY.set(0);
   };
+
+  const backgroundContent = (
+    <div
+      className={cn(
+        'group border-border/50 hover:border-border/70 relative overflow-hidden rounded-3xl border backdrop-blur-sm transition-all duration-300',
+        effectiveColors.background,
+        effectiveColors.glow,
+        className
+      )}
+    >
+      {/* Static decorative objects for non-mounted state */}
+      <div className="absolute inset-0 overflow-hidden">
+        {Array.from({ length: Math.min(objectCount, 6) }, (_, i) => (
+          <div
+            key={i}
+            className={cn(
+              'absolute h-2 w-2 rounded-full opacity-30',
+              effectiveColors.objects[i % effectiveColors.objects.length]
+            )}
+            style={{
+              left: `${20 + ((i * 60) % 60)}%`,
+              top: `${30 + ((i * 40) % 40)}%`,
+            }}
+          />
+        ))}
+      </div>
+      <div className="relative z-10">{children}</div>
+    </div>
+  );
+
+  if (!isMounted) {
+    return backgroundContent;
+  }
 
   return (
     <motion.div

@@ -28,7 +28,7 @@ export const homeConfig = {
   hero: {
     badge: {
       text: 'Real-time Detection',
-      color: 'emerald', // Tailwind token (see design.md)
+      color: 'primary',
     },
     title: {
       main: 'Forest ',
