@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import RotatingText from '@/blocks/TextAnimations/RotatingText/RotatingText';
 import {

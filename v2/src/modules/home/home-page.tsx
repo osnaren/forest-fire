@@ -7,7 +7,7 @@ export function HomePage() {
   return (
     <main className="relative min-h-screen overflow-hidden scroll-smooth" style={{ willChange: 'scroll-position' }}>
       {/* Background Effect */}
-      <BackgroundEffect />
+      {/* <BackgroundEffect /> */}
 
       {/* Home Page Sections */}
       <HeroSection />

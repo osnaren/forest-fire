@@ -20,7 +20,7 @@ export function AnimatedGradientText({ children, className }: { children: ReactN
   const textContent = (
     <div
       className={cn(
-        'group bg-card/80 border-border/50 relative mx-auto flex max-w-fit flex-row items-center justify-center rounded-2xl border px-4 py-1.5 text-sm font-medium shadow-sm backdrop-blur-sm transition-shadow duration-500 ease-out',
+        'group bg-card/80 border-border/50 relative mx-auto flex max-w-fit cursor-default flex-row items-center justify-center rounded-2xl border px-4 py-1.5 text-sm font-medium shadow-sm backdrop-blur-sm transition-shadow duration-500 ease-out',
         className
       )}
     >

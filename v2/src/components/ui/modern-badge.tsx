@@ -1,8 +1,8 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
 import { Loader2, X } from 'lucide-react';
+import { motion } from 'motion/react';
 import React from 'react';
 
 type BadgeProps = {

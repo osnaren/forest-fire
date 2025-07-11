@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  AnimatedGroup,
-  FloatingElement,
-  GlowingButton,
-  HoverBackground,
-  PulsingDot,
-} from '@/components/ui';
+import { AnimatedGroup, FloatingElement, GlowingButton, HoverBackground, PulsingDot } from '@/components/ui';
 import { homeConfig } from '@/config/pages';
 import Link from 'next/link';
 
@@ -22,49 +16,68 @@ export function CTASection() {
             glow: 'shadow-primary/30',
           }}
         >
-          <article className="relative rounded-3xl bg-card/80 backdrop-blur-sm border border-border/50 p-8 lg:p-12">
+          <article className="border-border/50 relative rounded-3xl border p-8 backdrop-blur-sm lg:p-12">
             <div className="text-center">
               <AnimatedGroup preset="scale" className="space-y-8">
                 <header className="relative">
                   <FloatingElement duration={8} yOffset={6} intensity={0.3}>
-                    <h2 id="cta-heading" className="font-display text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+                    <h2
+                      id="cta-heading"
+                      className="font-display text-foreground text-3xl font-bold sm:text-4xl lg:text-5xl"
+                    >
                       {homeConfig.cta.title}
                     </h2>
                   </FloatingElement>
                 </header>
 
-                <p className="mx-auto max-w-3xl text-lg text-muted-foreground lg:text-xl">
+                <p className="text-muted-foreground mx-auto max-w-3xl text-lg lg:text-xl">
                   {homeConfig.cta.description}
                 </p>
 
-                <nav className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row sm:gap-6" role="navigation" aria-label="Call to action">
-                  <GlowingButton variant="fire" size="lg" className="w-full px-8 py-4 text-lg shadow-2xl transition-all sm:w-auto">
-                    {homeConfig.cta.primary.text}
-                  </GlowingButton>
+                <nav
+                  className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row sm:gap-6"
+                  role="navigation"
+                  aria-label="Call to action"
+                >
+                  <Link href={homeConfig.cta.primary.href}>
+                    <GlowingButton
+                      variant="fire"
+                      size="lg"
+                      aria-label={homeConfig.cta.primary.text}
+                      className="group w-full px-8 py-4 text-lg shadow-2xl transition-all sm:w-auto"
+                    >
+                      {homeConfig.cta.primary.text}
+                      <span className="transition-transform group-hover:hidden">{homeConfig.cta.primary.icon}</span>
+                      <span className="hidden transition-transform group-hover:inline">
+                        {homeConfig.cta.primary.hoverIcon}
+                      </span>
+                    </GlowingButton>
+                  </Link>
 
                   <Link
                     href={homeConfig.cta.secondary.href}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card/50 px-8 py-4 text-lg font-semibold text-foreground backdrop-blur-sm transition-all hover:border-border/60 hover:bg-card/70 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 sm:w-auto"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={homeConfig.cta.secondary.text}
+                    className="group border-border bg-card/50 text-foreground hover:border-border/60 hover:bg-card/70 focus:ring-ring flex w-full items-center justify-center gap-2 rounded-xl border px-8 py-4 text-lg font-semibold backdrop-blur-sm transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto"
                   >
                     {homeConfig.cta.secondary.text}
+                    <span className="transition-transform group-hover:hidden">{homeConfig.cta.secondary.icon}</span>
+                    <span className="hidden transition-transform group-hover:inline">
+                      {homeConfig.cta.secondary.hoverIcon}
+                    </span>
                   </Link>
                 </nav>
 
                 {/* Trust indicators */}
                 <footer className="pt-8">
-                  <div className="flex flex-col items-center justify-center gap-6 text-sm text-muted-foreground sm:flex-row lg:text-base">
-                    <div className="flex items-center gap-2">
-                      <PulsingDot size="sm" color="emerald" />
-                      <span>Real-time Processing</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <PulsingDot size="sm" color="amber" />
-                      <span>High Accuracy</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <PulsingDot size="sm" color="blue" />
-                      <span>Open Source</span>
-                    </div>
+                  <div className="text-muted-foreground flex flex-col items-center justify-center gap-6 text-sm sm:flex-row lg:text-base">
+                    {homeConfig.cta.indicators.map((indicator, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <PulsingDot size="sm" color={indicator.color as 'emerald' | 'amber' | 'red' | 'blue'} />
+                        <span>{indicator.label}</span>
+                      </div>
+                    ))}
                   </div>
                 </footer>
               </AnimatedGroup>

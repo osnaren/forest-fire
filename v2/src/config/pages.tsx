@@ -3,6 +3,12 @@
  * Centralized configuration for copy, links, and settings
  */
 
+import { FaUserLock } from 'react-icons/fa';
+import { GiStrong, GiThrustBend } from 'react-icons/gi';
+import { LuImage, LuImageUp } from 'react-icons/lu';
+import { PiPackageFill, PiPlugsConnectedLight, PiPlugsLight } from 'react-icons/pi';
+import { TbBrandOpenSourceFilled, TbEyeBolt } from 'react-icons/tb';
+
 export const siteConfig = {
   name: 'Forest Fire Classifier',
   version: 'v2',
@@ -88,32 +94,38 @@ export const homeConfig = {
     subtitle: 'Lightweight, privacy-first, and open-source',
     items: [
       {
-        icon: '⚡',
+        emoji: '⚡',
+        icon: <TbEyeBolt className="size-6" />,
         title: 'Real-time Detection',
         description: 'Sub-second analysis directly in your browser — vital seconds saved in early response.',
       },
       {
-        icon: '📦',
+        emoji: '🍃',
+        icon: <PiPackageFill className="size-6" />,
         title: 'Lightweight Web Model',
         description: 'Teachable-Machine MobileNet distilled to <5 MB, so it loads even on 3G.',
       },
       {
-        icon: '🔒',
+        emoji: '🔐',
+        icon: <FaUserLock className="size-6" />,
         title: 'Privacy-First',
         description: 'Images stay on-device by default; no cloud upload needed.',
       },
       {
-        icon: '🔀',
+        emoji: '🔀',
+        icon: <GiThrustBend className="size-6" />,
         title: 'Flexible Deployment',
         description: 'Run client-side or call the optional rate-limited API for server inference.',
       },
       {
-        icon: '📊',
+        emoji: '📊',
+        icon: <GiStrong className="size-6" />,
         title: 'Confidence Scores',
         description: 'See class probabilities to gauge how certain the model is.',
       },
       {
-        icon: '🛠️',
+        emoji: '🛠️',
+        icon: <TbBrandOpenSourceFilled className="size-6" />,
         title: 'Open Source',
         description: 'MIT-licensed codebase — fork it, improve it, or deploy on your own edge devices.',
       },
@@ -130,11 +142,20 @@ export const homeConfig = {
     primary: {
       text: 'Upload Image',
       href: '/tool',
+      icon: <LuImage className="size-5" />,
+      hoverIcon: <LuImageUp className="size-5" />,
     },
     secondary: {
-      text: 'View on GitHub',
+      text: 'View API',
       href: siteConfig.social.github,
+      icon: <PiPlugsLight className="size-5" />,
+      hoverIcon: <PiPlugsConnectedLight className="size-5" />,
     },
+    indicators: [
+      { label: 'Real-time Processing', color: 'emerald' },
+      { label: 'High Accuracy', color: 'amber' },
+      { label: 'Open Source', color: 'red' },
+    ],
   },
 };
 
