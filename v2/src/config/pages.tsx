@@ -3,6 +3,7 @@
  * Centralized configuration for copy, links, and settings
  */
 
+import Logo from '@visual/logo';
 import { FaUserLock } from 'react-icons/fa';
 import { GiStrong, GiThrustBend } from 'react-icons/gi';
 import { LuImage, LuImageUp } from 'react-icons/lu';
@@ -16,13 +17,15 @@ export const siteConfig = {
   url: 'https://forestfire.example.com',
   author: {
     name: 'Obuli Sai Naren',
+    nickname: 'osnaren',
+    labsName: 'osLabs',
     email: '66naren@gmail.com',
     twitter: '@osnaren',
     github: 'https://github.com/osnaren',
   },
   social: {
     github: 'https://github.com/osnaren/ForestFire',
-    twitter: 'https://twitter.com/osnaren',
+    twitter: 'https://x.com/osnaren',
     linkedin: 'https://linkedin.com/in/osnaren',
   },
 };
@@ -290,65 +293,194 @@ export const aboutConfig = {
 };
 
 export const navConfig = {
+  brand: {
+    name: 'Forest Fire Classifier',
+    shortName: 'FF Classifier',
+    icon: '🔥',
+    logo: <Logo />,
+    href: '/',
+    description: 'AI-powered wildfire detection',
+  },
   main: [
     {
       title: 'Home',
       href: '/',
+      description: 'Main classifier tool',
     },
     {
       title: 'About',
       href: '/about',
+      description: 'Project story & tech stack',
     },
     {
       title: 'Research',
       href: '/research',
+      description: 'Technical details & methodology',
     },
     {
       title: 'API Docs',
       href: '/api-docs',
+      description: 'Developer documentation',
     },
   ],
   mobile: [
     {
       title: 'Home',
       href: '/',
+      description: 'Main classifier tool',
     },
     {
       title: 'About',
       href: '/about',
+      description: 'Project story & tech stack',
     },
     {
       title: 'Research',
       href: '/research',
+      description: 'Technical details & methodology',
     },
     {
       title: 'API Docs',
       href: '/api-docs',
+      description: 'Developer documentation',
     },
   ],
+  cta: {
+    primary: {
+      text: 'Try Classifier',
+      href: '/tool',
+      variant: 'default' as const,
+    },
+    secondary: {
+      text: 'View Docs',
+      href: '/api-docs',
+      variant: 'outline' as const,
+    },
+  },
 };
 
 export const footerConfig = {
+  brand: {
+    name: 'Forest Fire Classifier',
+    description: 'Real-time wildfire detection powered by advanced machine learning. From research to production.',
+    tagline: 'Made with ❤️ in 🇮🇳',
+  },
   links: {
     project: [
-      { text: 'About', href: '/about' },
-      { text: 'Research', href: '/research' },
-      { text: 'API Docs', href: '/api-docs' },
+      { text: 'About', href: '/about', description: 'Project story & tech stack' },
+      { text: 'Research', href: '/research', description: 'Technical details & methodology' },
+      { text: 'API Docs', href: '/api-docs', description: 'Developer documentation' },
     ],
     connect: [
-      { text: 'GitHub', href: siteConfig.social.github },
-      { text: 'Twitter', href: siteConfig.social.twitter },
-      { text: 'LinkedIn', href: siteConfig.social.linkedin },
+      { text: 'GitHub', href: siteConfig.social.github, external: true },
+      { text: 'Twitter', href: siteConfig.social.twitter, external: true },
+      { text: 'LinkedIn', href: siteConfig.social.linkedin, external: true },
+    ],
+    resources: [
+      { text: 'Live Wildfire Map', href: '/map', description: 'Real-time wildfire tracking' },
+      { text: 'Download Model', href: '/model', description: 'TensorFlow.js model files', comingSoon: true },
+      { text: 'Research Paper', href: '#', description: 'Academic publication', comingSoon: true },
     ],
   },
   model: {
     status: 'Active',
     version: 'v2.1',
     lastUpdated: '2024-01-15',
+    accuracy: '94.2%',
+  },
+  performance: {
+    uptime: '99.9%',
+    responseTime: '< 500ms',
+    requests: '10k+',
   },
   copyright: {
-    text: 'Built with ❤️ by',
-    name: siteConfig.author.name,
+    text: 'Built by 🏗️',
+    name: siteConfig.author.labsName,
     year: new Date().getFullYear(),
+    additionalText: '- with Next.js, TensorFlow.js, and lots of ☕.',
   },
+};
+
+export const mapConfig = {
+  hero: {
+    title: 'Live Wildfire Map',
+    description:
+      'Real-time tracking of active wildfires around the world. Stay informed about current fire activity and weather conditions.',
+    badge: {
+      text: 'Live Data',
+      color: 'red',
+    },
+  },
+  features: [
+    {
+      title: 'Real-time Updates',
+      description: 'Live data from NASA FIRMS and other satellite sources',
+      icon: '🛰️',
+    },
+    {
+      title: 'Weather Integration',
+      description: 'Current weather conditions and fire danger ratings',
+      icon: '🌡️',
+    },
+    {
+      title: 'Historical Data',
+      description: 'View fire patterns and trends over time',
+      icon: '📊',
+    },
+  ],
+};
+
+export const researchConfig = {
+  hero: {
+    title: 'Research & Methodology',
+    description:
+      'Deep dive into the technical details, model architecture, and scientific approach behind our wildfire detection system.',
+  },
+  methodology: {
+    title: 'Our Approach',
+    sections: [
+      {
+        title: 'Data Collection',
+        description: 'Curated dataset from NASA FIRMS, Kaggle, and proprietary sources',
+        details: 'Over 15,000 labeled images across 4 classes',
+      },
+      {
+        title: 'Model Architecture',
+        description: 'Optimized CNN based on MobileNetV2 for browser deployment',
+        details: 'Custom layers for improved accuracy and speed',
+      },
+      {
+        title: 'Training Process',
+        description: 'Transfer learning with data augmentation and careful validation',
+        details: '94.2% accuracy on validation set',
+      },
+    ],
+  },
+  metrics: {
+    title: 'Performance Metrics',
+    items: [
+      { label: 'Overall Accuracy', value: '94.2%', description: 'Validation set performance' },
+      { label: 'Fire Detection', value: '96.1%', description: 'Precision for fire class' },
+      { label: 'Smoke Detection', value: '91.8%', description: 'Precision for smoke class' },
+      { label: 'Model Size', value: '4.2MB', description: 'Optimized for web deployment' },
+    ],
+  },
+};
+
+export const toolConfig = {
+  title: 'Forest Fire Classifier',
+  description: 'Upload an image to detect wildfire activity using our AI model',
+  maxFileSize: '4MB',
+  supportedFormats: ['JPG', 'PNG', 'WebP'],
+  classes: [
+    { name: 'Fire', color: 'red', description: 'Active flames detected' },
+    { name: 'Smoke', color: 'gray', description: 'Smoke without visible flames' },
+    { name: 'SmokeFire', color: 'orange', description: 'Both smoke and fire present' },
+    { name: 'No Fire', color: 'green', description: 'No fire or smoke detected' },
+  ],
+  tips: [
+    'Use clear, well-lit images for best results',
+    'Forest or vegetation images work best',
+    'Avoid heavily filtered or processed images',
+  ],
 };

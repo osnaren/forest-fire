@@ -89,7 +89,7 @@ const SponsorFAB: React.FC = () => {
 
   return (
     <>
-      <div ref={fabRef} className="fixed right-6 bottom-16 z-50 flex flex-col items-center gap-3">
+      <div ref={fabRef} className="fixed right-6 bottom-4 z-50 flex flex-col items-center gap-3">
         <AnimatePresence>
           {isOpen && (
             <motion.div

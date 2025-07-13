@@ -1,130 +1,217 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { PulsingDot } from '@/components/ui/interactive-elements';
-import { footerConfig } from '@/config/pages';
+import { footerConfig, navConfig } from '@/config/pages';
+import { cn } from '@/lib/utils';
+import { ExternalLink } from 'lucide-react';
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+
+const socialIcons = {
+  github: FaGithub,
+  twitter: FaXTwitter,
+  linkedin: FaLinkedin,
+} as const;
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-charcoal-900/90 border-t border-gray-800/50 backdrop-blur-sm">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {/* Logo and description */}
+    <footer
+      className={cn(
+        'border-border/50 bg-background/80 relative border-t backdrop-blur-md',
+        'before:absolute before:inset-0 before:-z-10',
+        'before:from-background/60 before:to-muted/30 before:bg-gradient-to-br'
+      )}
+    >
+      <div className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-8">
+          {/* Brand Section */}
           <motion.div
-            className="space-y-4"
+            className="space-y-6 lg:col-span-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <Link href="/" className="group flex items-center space-x-2">
+            {/* Enhanced Logo */}
+            <Link href={navConfig.brand.href} className="group flex items-center space-x-3">
               <motion.div
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/25"
+                className={cn(
+                  'flex h-10 w-10 items-center justify-center rounded-xl',
+                  'ring-offset-background shadow-lg ring-2 shadow-emerald-500/25 ring-emerald-500/20 ring-offset-2'
+                )}
                 whileHover={{
-                  scale: 1.1,
-                  boxShadow: '0 10px 25px rgba(16, 185, 129, 0.4)',
+                  scale: 1.05,
+                  rotate: 5,
+                  boxShadow: '0 20px 40px rgba(16, 185, 129, 0.3)',
                 }}
-                transition={{ duration: 0.2 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               >
-                <span className="text-sm font-bold text-white">🔥</span>
+                {navConfig.brand.logo}
               </motion.div>
-              <span className="font-display text-lg font-bold text-white transition-colors group-hover:text-emerald-400">
-                Forest Fire Classifier
-              </span>
+              <div>
+                <motion.span
+                  className={cn(
+                    'font-display block text-xl font-bold',
+                    'from-foreground to-foreground/80 bg-gradient-to-r bg-clip-text text-transparent',
+                    'transition-all duration-200 group-hover:from-emerald-500 group-hover:to-emerald-600'
+                  )}
+                  whileHover={{ x: 2 }}
+                >
+                  {footerConfig.brand.name}
+                </motion.span>
+              </div>
             </Link>
-            <p className="max-w-sm text-sm text-gray-400">
-              Real-time wildfire detection powered by advanced machine learning. From research to production.
-            </p>
-            <div className="flex items-center space-x-2 text-xs text-gray-500">
-              <PulsingDot size="sm" color="emerald" />
-              <span>Model v1.0</span>
-              <span>•</span>
-              <Link href="/about#model" className="transition-colors hover:text-emerald-400">
-                Learn more
-              </Link>
+
+            {/* Description */}
+            <p className="text-muted-foreground max-w-md leading-relaxed">{footerConfig.brand.description}</p>
+
+            {/* Model Status */}
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-2">
+                <PulsingDot size="sm" color="emerald" />
+                <span className="text-muted-foreground text-sm">
+                  Model {footerConfig.model.version} • {footerConfig.model.accuracy} accuracy
+                </span>
+              </div>
+              <Badge variant="secondary" className="text-xs">
+                {footerConfig.model.status}
+              </Badge>
+            </div>
+
+            {/* Performance Metrics */}
+            <div className="border-border/50 bg-muted/30 grid grid-cols-3 gap-4 rounded-xl border p-4">
+              <div className="text-center">
+                <div className="text-lg font-bold text-emerald-500">{footerConfig.performance.uptime}</div>
+                <div className="text-muted-foreground text-xs">Uptime</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-amber-500">{footerConfig.performance.responseTime}</div>
+                <div className="text-muted-foreground text-xs">Response</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-blue-500">{footerConfig.performance.requests}</div>
+                <div className="text-muted-foreground text-xs">Requests</div>
+              </div>
             </div>
           </motion.div>
 
-          {/* Navigation links */}
+          {/* Project Links */}
           <motion.div
-            className="space-y-4"
+            className="space-y-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-sm font-semibold text-white">Navigation</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <FooterLink href="/">Home</FooterLink>
-              </li>
-              <li>
-                <FooterLink href="/about">About</FooterLink>
-              </li>
-              <li>
-                <FooterLink href="/research">Research</FooterLink>
-              </li>
-              <li>
-                <FooterLink href="/map">Live Wildfire Map</FooterLink>
-              </li>
-              <li>
-                <FooterLink href="/api-docs">API Documentation</FooterLink>
-              </li>
+            <h3 className="text-foreground text-sm font-semibold tracking-wider uppercase">Project</h3>
+            <ul className="space-y-3">
+              {footerConfig.links.project.map((link) => (
+                <li key={link.href}>
+                  <FooterLink href={link.href} description={link.description}>
+                    {link.text}
+                  </FooterLink>
+                </li>
+              ))}
             </ul>
           </motion.div>
 
-          {/* Resources */}
+          {/* Resources & Connect */}
           <motion.div
-            className="space-y-4"
+            className="space-y-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-sm font-semibold text-white">Resources</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <ComingSoonLink>Research Paper</ComingSoonLink>
-              </li>
-              <li>
-                <ComingSoonLink>Kaggle Dataset</ComingSoonLink>
-              </li>
-              <li>
-                <ComingSoonLink>GitHub Repository</ComingSoonLink>
-              </li>
-              <li>
-                <div className="flex items-center gap-2">
-                  <PulsingDot size="sm" color="amber" />
-                  <FooterLink href="/api-docs">API Documentation</FooterLink>
-                </div>
-              </li>
-            </ul>
+            {/* Resources */}
+            <div className="space-y-4">
+              <h3 className="text-foreground text-sm font-semibold tracking-wider uppercase">Resources</h3>
+              <ul className="space-y-3">
+                {footerConfig.links.resources.map((link) => (
+                  <li key={link.text}>
+                    {link.comingSoon ? (
+                      <ComingSoonLink description={link.description}>{link.text}</ComingSoonLink>
+                    ) : (
+                      <FooterLink href={link.href} description={link.description}>
+                        {link.text}
+                      </FooterLink>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Social Links */}
+            <div className="space-y-4">
+              <h3 className="text-foreground text-sm font-semibold tracking-wider uppercase">Connect</h3>
+              <div className="flex gap-2">
+                {footerConfig.links.connect.map((link) => {
+                  const IconComponent = socialIcons[link.text.toLowerCase() as keyof typeof socialIcons];
+                  return (
+                    <motion.div key={link.href} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <Button asChild variant="ghost" size="sm" className="h-9 w-9 p-0">
+                        <Link
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cn('text-muted-foreground', 'transition-colors duration-200')}
+                        >
+                          {IconComponent && <IconComponent className="h-4 w-4" />}
+                          <span className="sr-only">{link.text}</span>
+                        </Link>
+                      </Button>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
           </motion.div>
         </div>
 
-        {/* Bottom section */}
+        {/* Bottom Section */}
         <motion.div
-          className="mt-8 flex flex-col items-center justify-between border-t border-gray-800/50 pt-8 sm:flex-row"
+          className={cn(
+            'mt-12 flex flex-col items-center justify-between gap-4',
+            'border-border/50 border-t pt-8',
+            'sm:flex-row sm:gap-0'
+          )}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-sm text-gray-400">
-            © {footerConfig.copyright.year} {footerConfig.copyright.text} {footerConfig.copyright.name}. Built with
-            Next.js, TensorFlow.js, and lots of ☕.
-          </p>
-          <div className="mt-4 flex items-center gap-2 sm:mt-0">
-            <span className="text-xs text-gray-500">Made with</span>
+          {/* Copyright */}
+          <div className="flex flex-col items-center gap-2 text-center sm:items-start sm:text-left">
+            <p className="text-muted-foreground text-sm">
+              © {currentYear} {footerConfig.copyright.text}{' '}
+              <span className="text-foreground font-medium">{footerConfig.copyright.name}</span>
+            </p>
+            <p className="text-muted-foreground/80 text-xs">{footerConfig.copyright.additionalText}</p>
+          </div>
+
+          {/* Tagline */}
+          <div className="flex items-center gap-2">
+            <span className="text-muted-foreground text-sm">{footerConfig.brand.tagline.split(' ❤️ ')[0]}</span>
             <motion.span
               className="text-red-500"
               animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                repeatDelay: 3,
+              }}
             >
               ❤️
             </motion.span>
-            <span className="text-xs text-gray-500">for environmental protection</span>
+            <span className="text-muted-foreground text-sm">{footerConfig.brand.tagline.split(' ❤️ ')[1]}</span>
           </div>
         </motion.div>
       </div>
@@ -132,19 +219,44 @@ export default function Footer() {
   );
 }
 
-function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+function FooterLink({
+  href,
+  children,
+  description,
+}: {
+  href: string;
+  children: React.ReactNode;
+  description?: string;
+}) {
   return (
-    <Link href={href} className="group flex items-center gap-1 text-gray-400 transition-colors hover:text-emerald-400">
-      <span className="transition-transform duration-200 group-hover:translate-x-1">{children}</span>
-    </Link>
+    <motion.div whileHover={{ x: 2 }} transition={{ duration: 0.2 }}>
+      <Link
+        href={href}
+        className={cn(
+          'group flex items-start gap-2 text-sm transition-colors duration-200',
+          'text-muted-foreground cursor-pointer hover:text-emerald-500'
+        )}
+      >
+        <div className="flex flex-col">
+          <span className="font-medium">{children}</span>
+          {description && <span className="text-muted-foreground/70 mt-0.5 text-xs">{description}</span>}
+        </div>
+        <ExternalLink className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
+      </Link>
+    </motion.div>
   );
 }
 
-function ComingSoonLink({ children }: { children: React.ReactNode }) {
+function ComingSoonLink({ children, description }: { children: React.ReactNode; description?: string }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className="cursor-not-allowed text-gray-500">{children}</span>
-      <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-xs text-amber-400">Coming Soon</span>
+    <div className="flex items-start justify-between gap-2">
+      <div className="flex flex-col">
+        <span className="text-muted-foreground/60 cursor-not-allowed text-sm font-medium">{children}</span>
+        {description && <span className="text-muted-foreground/50 mt-0.5 text-xs">{description}</span>}
+      </div>
+      <Badge variant="outline" className="border-amber-500/20 bg-amber-500/10 text-xs text-amber-600">
+        Coming Soon
+      </Badge>
     </div>
   );
 }

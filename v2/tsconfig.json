@@ -39,7 +39,8 @@
       "@ui/*": ["./src/components/ui/*"],
       "@utility/*": ["./src/components/utility/*"],
       "@utils": ["./src/utils/index.ts"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@visual/*": ["./src/components/visual/*"]
     }
   },
   "include": [
