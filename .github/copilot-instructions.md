@@ -1,147 +1,39 @@
-# Forest Fire Classifier Development Guide
+# Forest Fire Copilot Guide
 
-## Project Architecture
+## Overview
 
-This is a **dual-version AI-powered wildfire detection system**:
+- Primary app lives in `v2/` (Next.js 14 App Router, TypeScript, Tailwind, TensorFlow.js). `v1/` is read-only legacy.
+- Server and client share a MobileNet TF.js model; keep `public/model/` artifacts in sync when swapping models.
 
-- **v1/**: Legacy vanilla JS/HTML prototype with TeachableMachine.js
-- **v2/**: Production Next.js 14 app with server-side TensorFlow.js inference
+## Server + ML workflow
 
-**Focus on v2** for all new development - it's the actively maintained codebase.
+- `src/lib/server/predict.ts` loads the model once (cached `model` + `modelLoadingPromise`) and exposes `runPrediction(Buffer)`, which resizes to 224px, normalizes to [-1, 1], and returns probabilities in the `CLASS_NAMES` order from `src/lib/types`.
+- Wrap every handler with `withErrorHandling` from `src/lib/server/errors.ts` and respond via `CommonErrors.*` so rate-limit and model failures surface consistent JSON.
+- Throttle early: `src/lib/server/ratelimit.ts` enforces 10 requests / 30 s using Upstash via `@vercel/kv`. Derive the IP from `x-forwarded-for` and forward `X-RateLimit-*` headers like the existing predict route.
+- Follow `src/app/api/predict/route.ts` as the canonical upload flow—accept `multipart/form-data` with `image`, cap size at 4 MB, require `image/*`, round to four decimals, sort results descending, and include timestamp metadata.
+- Health checks (`src/app/api/health/route.ts`) ensure `model.json` and `weights.bin` exist with `fs.access`; reuse this pattern for any diagnostics endpoints.
 
-## Core ML Pipeline (v2)
+## Config & content
 
-The ML workflow follows a specific pattern:
+- Centralize copy and icon choices in `src/config/pages.tsx` (objects like `homeConfig`, `aboutConfig`). Extend those configs before hardcoding strings in UI modules.
+- Page modules under `src/modules/**` stitch sections (e.g., `HeroSection`, `StatsSection`) and are expected to read from the config layer.
 
-1. **Model Loading**: Singleton pattern in `src/lib/server/predict.ts` - model loads once and caches
-2. **Image Processing**: Sharp for server-side preprocessing (224x224 RGB normalization)
-3. **Inference**: Dual-mode - browser WebGL (`@tensorflow/tfjs`) + Node.js backend (`@tensorflow/tfjs-node`)
-4. **Output**: 4-class classification: `Fire`, `No Fire`, `Smoke`, `SmokeFire`
+## UI patterns
 
-**Key Files**:
+- UI kit resides in `src/components/ui/` and is built on Tailwind + `motion/react` primitives (`AnimatedGroup`, `FloatingElement`, `AnimatedGradientText`, `GlowingButton`). Match new interactions to existing presets rather than importing alternative animation libs.
+- Use the TS path aliases from `tsconfig.json` (`@/components`, `@/lib/utils`, etc.) and the `cn` helper (`src/lib/utils.ts`) for class merging.
 
-- `src/lib/server/predict.ts` - Core ML logic
-- `src/app/api/predict/route.ts` - API endpoint with rate limiting
-- `public/model/` - TensorFlow.js model artifacts
+## State & utilities
 
-## API Architecture Patterns
+- Global prediction state is handled via Zustand in `src/store/index.ts` (`usePredictionStore`, `useUIStore`). Invoke the provided setters so devtools action labels stay meaningful.
+- Formatting helpers in `src/lib/prediction-utils.ts` (probability labels, class colors/variants) should be reused when presenting model output.
 
-### Error Handling
+## Workflows
 
-Use centralized error patterns from `src/lib/server/errors.ts`:
+- NPM scripts: `npm run dev`, `npm run build`, `npm run lint`, `npm run lint:fix`, `npm run type-check`; Husky + lint-staged run these checks on commit.
+- Environment prep: copy `v2/env.example` to `.env.local`, supply `KV_REST_API_URL` and `KV_REST_API_TOKEN`, and ship updated model binaries to `public/model/`.
+- Validate ML changes via `GET /api/health` followed by `POST /api/predict` (multipart `image` field) to confirm preprocessing and rate-limits behave as expected.
 
-```typescript
-// Always use CommonErrors, never raw NextResponse.json
-return CommonErrors.badRequest("Invalid file type");
-return CommonErrors.tooManyRequests("Rate limit exceeded");
-```
+## Legacy v1
 
-### Rate Limiting
-
-**Upstash Redis** integration is required:
-
-```typescript
-// In API routes, always check rate limits first
-const { success, remaining } = await ratelimit.limit(ip);
-if (!success) return CommonErrors.tooManyRequests();
-```
-
-### Validation
-
-Use **Zod** for request validation and **Sharp** for image validation:
-
-```typescript
-// File size: 4MB max, image/* mime types only
-if (file.size > MAX_FILE_SIZE) return CommonErrors.payloadTooLarge();
-```
-
-## UI Component System
-
-### Component Architecture
-
-- **Base UI**: `src/components/ui/` - Radix UI + custom variants
-- **Animation Library**: `motion` (not framer-motion) for all animations
-- **Styling**: Tailwind with custom CSS variables in `src/styles/`
-
-### Animation Patterns
-
-Use consistent animation presets from `AnimatedGroup`:
-
-```tsx
-<AnimatedGroup preset="blur-slide" className="space-y-8">
-  <FloatingElement duration={4} yOffset={10} intensity={0.5}>
-    // Content with subtle floating motion
-  </FloatingElement>
-</AnimatedGroup>
-```
-
-### Component Naming Convention
-
-- **Enhanced**: `EnhancedCard`, `EnhancedButton` - Cards/buttons with motion
-- **Interactive**: `GlowingButton`, `PulsingDot` - Elements with hover effects
-- **Animated**: `AnimatedGradientText` - Text with built-in animations
-
-## Configuration Management
-
-Content is centralized in `src/config/pages.ts`:
-
-```typescript
-// Never hardcode copy - always use config
-{homeConfig.hero.title.main}
-{homeConfig.features.items.map(...)}
-```
-
-Page-specific configs follow the pattern: `homeConfig`, `aboutConfig`, etc.
-
-## Development Workflows
-
-### Local Development
-
-```bash
-cd v2/
-npm run dev          # Next.js dev server
-npm run type-check   # TypeScript validation
-npm run lint:fix     # ESLint + Prettier
-```
-
-### Environment Setup
-
-Copy `env.example` to `.env.local` and configure:
-
-- `UPSTASH_REDIS_*` - Required for rate limiting
-- Model files must exist in `public/model/`
-
-### Testing ML Changes
-
-1. Update model files in `public/model/`
-2. Test locally via `/api/health` endpoint
-3. Validate with `/api/predict` using form-data
-
-## Code Quality Standards
-
-- **TypeScript**: Strict mode enabled, no `any` types
-- **Linting**: ESLint with accessibility rules (`eslint-plugin-jsx-a11y`)
-- **Formatting**: Prettier with consistent config
-- **Git Hooks**: Husky + lint-staged for pre-commit validation
-
-## Performance Considerations
-
-- **Model Loading**: Lazy-loaded, cached singleton pattern
-- **Image Processing**: Stream-based with Sharp (no memory buffering large files)
-- **Rate Limiting**: Redis-backed with IP-based tracking
-- **Bundle Size**: Dynamic imports for heavy ML dependencies
-
-## Legacy v1 Context
-
-The v1/ directory contains the original college prototype:
-
-- Teachable Machine integration
-- Client-side only inference
-- Custom SCSS animations
-- **Do not modify v1** - maintained for historical reference only
-
-When migrating v1 patterns to v2, convert:
-
-- Custom CSS animations → `motion` library
-- Vanilla JS → React hooks
-- Global styles → Tailwind utilities
+- `v1/` holds the Teachable Machine prototype; leave untouched unless explicitly asked, and reimplement ideas in the v2 stack when needed.
