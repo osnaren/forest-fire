@@ -363,7 +363,7 @@ export const footerConfig = {
   brand: {
     name: 'Forest Fire Classifier',
     description: 'Real-time wildfire detection powered by advanced machine learning. From research to production.',
-    tagline: 'Made with ❤️ in 🇮🇳',
+    tagline: 'Made with 🧡🤍💚 in 🇮🇳',
   },
   links: {
     project: [

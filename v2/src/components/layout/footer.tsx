@@ -198,7 +198,7 @@ export default function Footer() {
 
           {/* Tagline */}
           <div className="flex items-center gap-2">
-            <span className="text-muted-foreground text-sm">{footerConfig.brand.tagline.split(' ❤️ ')[0]}</span>
+            <span className="text-muted-foreground text-sm">{footerConfig.brand.tagline.split(' 🧡🤍💚 ')[0]}</span>
             <motion.span
               className="text-red-500"
               animate={{ scale: [1, 1.2, 1] }}
@@ -209,9 +209,11 @@ export default function Footer() {
                 repeatDelay: 3,
               }}
             >
-              ❤️
+              🧡🤍💚
             </motion.span>
-            <span className="text-muted-foreground text-sm">{footerConfig.brand.tagline.split(' ❤️ ')[1]}</span>
+            <span className="text-muted-foreground font-emoji text-sm">
+              {footerConfig.brand.tagline.split(' 🧡🤍💚 ')[1]}
+            </span>
           </div>
         </motion.div>
       </div>
