@@ -1,80 +1,133 @@
-# FOREST FIRE PREDICTION
+# Forest Fire Prediction (Legacy v1)
 
-## _Using Deep Learning_
+[![Static Site](https://img.shields.io/badge/Experience-Legacy%20Demo-0ea5e9?style=for-the-badge&logo=html5)](https://osnaren.github.io/ForestFire/)
+[![Tech Stack](https://img.shields.io/badge/Stack-HTML%20%7C%20CSS%20%7C%20JS%20%7C%20TensorFlow.js-6366f1?style=for-the-badge&logo=javascript)](#tech-stack)
+[![Status](https://img.shields.io/badge/Status-Archived-orange?style=for-the-badge&logo=github)](#project-snapshot)
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
----
-
-## Table of contents
-
-> * [Title](#forest-fire-prediction)
->   * [Table of contents](#table-of-contents)
->   * [Abstract](#abstract)
->   * [Built With](#built-with)
->   * [Proposed Method](#proposed-method)
->     * [Modules of the Project](#modules-of-the-project)
->     * [CNN Models Used](#cnn-models-used)
->   * [Results](#results)
->   * [Conclusion](#conclusion)
-
-## Abstract
-
-Forest fires are a major environmental issue, creating economic and ecological damage as well as endangering human lives. Forest fires or wildfires are spontaneously occurring fires in forests, bushes and plains and can occasionally be controlled. Uncontrolled wildfires are most often associated with dry hot summers, set off by lightning or human error.
-By cause, it is classified into –
-
-* Natural or Controlled forest fire.
-* Forest fires caused by heat generated in the litter and other biomes in summer through the carelessness of people (human neglect).
-* Forest fires purposely caused by local inhabitants.
-
-Predicting such an environmental issue becomes a critical concern to mitigate this threat. Several technologies and new methods have been proposed to predict and detect forest fires, the widely used one is WSN.
-
-The conventional fire detection methods have had an accuracy ranging between 80% to 91%. Hence, to detect fire automatically, more accurately and preferably, in its early stages a deep learning image recognition method, based on convolutional neural networks is proposed. Here, a lightweight Deep neural network MobileNet is used to classify the images of forest fires into “Fire & No Fire”. With the help of MobileNet, we have achieved an accuracy of 98% on the Fire images dataset. It presents good accuracy in estimating the fire when compared with other approaches in the literature.
+The original proof-of-concept web app that inspired the modern Forest Fire Classifier v2. This version runs entirely in the browser using TensorFlow.js and Teachable Machine exports, showcasing how lightweight models can deliver meaningful wildfire insights with no backend infrastructure.
 
 ---
 
-## Built With
+## Table of Contents
 
-| Built | Using |
-| ----------- | ----------- |
-| Operating System | Windows 10 |
-| Back-end | TensorFlow |
-| Tool | Teachable Machine |
-| Deployment | HTML/CSS/JS |
+1. [Project Snapshot](#project-snapshot)
+2. [Key Features](#key-features)
+3. [Tech Stack](#tech-stack)
+4. [How It Works](#how-it-works)
+5. [Usage](#usage)
+6. [Performance & Results](#performance--results)
+7. [Accessibility & UX Highlights](#accessibility--ux-highlights)
+8. [Roadmap & Migration](#roadmap--migration)
+9. [License](#license)
 
 ---
 
-## Proposed Method
->
-> In the proposed system, forest fire images were given as input. Fire images are manually separated, equalized, enhanced, and augmented as a part of the data pre-processing procedures. At last, the pre-processed data is fed into different models with different parameters to decide the favourable model that is well suited to help detect the wildfire before it is too late to avoid the damages.
+## Project Snapshot
 
-### Modules of the Project
-<!--![Modules](/img/CNN_Flow.png)-->
-<img src="./images/CNN_Flow.png" alt="Logo" width="537" height="400">
+- **Live Demo:** [osnaren.github.io/ForestFire](https://osnaren.github.io/ForestFire/)
+- **Dataset:** [Forest Fire C4 (Kaggle)](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4) — licensed under CC BY-NC-SA 4.0
+- **Model:** MobileNet (Teachable Machine export)
+- **Accuracy:** ~98.5% on curated validation set
+- **Supports:** Desktop & mobile browsers (Chrome, Firefox, Safari, Edge)
 
-### CNN Models Used
+> ⚠️ **Legacy Notice:** v1 remains available for historical reference. New features and production support live in [Forest Fire Classifier v2](../v2/README.md).
 
-CNN is a neural network that has one or more convolutional layers and are used mainly for image processing, classification, segmentation and also for other auto correlated data. Architectures of CNN like :
-**VGG16, MobileNet and MobileNet via Teachable Machine** are tested and compared.
+---
 
-1. VGG16
-    : The learning rate for this model is 0.0003 and Adam Optimizer has been used. The obtained accuracy is around 89%.
-2. MOBILENET
-    : The model has been set with the learning rate 0.0003 and run for 20 epochs. The accuracy obtained was around 82%
-3. MOBILENET _via_ Teachable Machine
-    : The model was tweaked with different learning rates to attain the best results.
-    LR=[0.0003, 0.0001, 0.001, 0.01] _&_ 20 t0 200 epochs have been run.
+## Key Features
 
-## Results
+### 🔥 AI-Powered Image Classification
 
-Accuracy is treated as one of the most important parameters for analyzing the proposed work. It can be calculated easily by dividing the number of correct predictions by the number of total predictions.
-> The best Accuracy was seen in the MobileNet model trained via Teachable Machine.
-**98.5%**
+- On-device predictions for "Fire" vs "No Fire"
+- Lightweight MobileNet backbone with augmentation-driven training
 
-## Conclusion
+### 🛡️ Safety & Reliability
 
-Various models and different methods of implementations have been done and dusted. It is shown that the proposed method using MobileNet has a high recognition rate and yields an average accuracy of around 98%. This can be extensively used to detect forest fires and prevent devastating consequences.
+- Client-side validation for file size (≤10 MB) and MIME type
+- Graceful error states with clear guidance for users
 
-Furthermore, the model can be made to detect forest fires in real time with the help of satellite imagery providers and other image sources that works in real time. In addition to that the model can be improved to perform detection from videos.
+### ⚡ Performance Boosts
 
-[linkedin-shield]: https://img.shields.io/badge/ForestFire-Page-brightgreen?style=for-the-badge&logo=html5
-[linkedin-url]: https://osnaren.github.io/ForestFire/
+- Lazy-loads the TensorFlow model and caches assets for faster repeat usage
+- GPU-friendly animations with efficient memory cleanup to avoid leaks
+
+### ♿ Accessible by Design
+
+- Keyboard navigable interface with ARIA labels
+- High-contrast and reduced-motion support for inclusive experiences
+
+---
+
+## Tech Stack
+
+| Layer | Tools |
+| --- | --- |
+| Framework | Vanilla HTML5, CSS3, JavaScript (ES6+) |
+| AI Runtime | TensorFlow.js, Teachable Machine export |
+| Styling | Custom CSS modules (`css/*.css`) |
+| Build & Deploy | Static hosting (GitHub Pages) |
+
+---
+
+## How It Works
+
+1. **Preprocessing:** Dataset images are equalized, enhanced, and augmented to boost robustness.
+2. **Model Training:** VGG16 and MobileNet variants were benchmarked; MobileNet via Teachable Machine delivered the best accuracy with learning rates ranging from 0.0001–0.001 over 20–200 epochs.
+3. **Inference:** The exported model runs directly in the browser, delivering sub-2 s predictions without sending data to a server.
+
+![CNN workflow](./images/CNN_Flow.png)
+
+---
+
+## Usage
+
+### Quick Start
+
+1. Open [the live demo](https://osnaren.github.io/ForestFire/) or launch `index.html` via a local static server.
+2. Upload a JPEG/PNG/WebP image (≤10 MB).
+3. Review the animated probability bars and textual verdict.
+
+### Local Development
+
+```bash
+# from the v1/ directory
+python -m http.server 8000
+# or
+npm install --global serve
+serve .
+```
+
+> Tip: Running through a local server ensures model files load correctly across browsers.
+
+---
+
+## Performance & Results
+
+- **Validation Accuracy:** 98.5% (MobileNet via Teachable Machine)
+- **First Contentful Paint:** < 1.5 s (modern browsers)
+- **Prediction Latency:** ≈1–2 s on mid-range hardware
+
+Benchmarking informed the shift to v2, where we added server-side inference and richer analytics.
+
+---
+
+## Accessibility & UX Highlights
+
+- Comprehensive ARIA roles and focus outlines for screen readers
+- Reduced-motion mode detection to tone down animations automatically
+- Toast notifications and inline guidance for upload errors or network issues
+- Responsive layout tuned for touch gestures and small screens
+
+---
+
+## Roadmap & Migration
+
+- ✅ Maintain v1 as a reference implementation
+- 🔄 Encourage new contributions in [Forest Fire Classifier v2](../v2/README.md)
+- 🚀 Future ideas include PWA support, batch inference, and WebAssembly optimizations—explored further in v2.
+
+---
+
+## License
+
+This project is released under the **Forest Fire Proprietary License**. No copying, distribution, modification, or commercial use is permitted without prior written permission. See the [LICENSE](../LICENSE) file for the full terms.
