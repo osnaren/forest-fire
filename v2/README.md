@@ -1,328 +1,159 @@
 # Forest Fire Classifier v2
 
-🔥 **Professional-grade forest fire detection using AI in the browser and server**
-
-[![CI](https://github.com/your-username/ForestFire/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/ForestFire/actions/workflows/ci.yml)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
-[![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-FF6F00?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/js)
-
-## 🌟 Overview
-
-Forest Fire Classifier v2 is a complete overhaul of the original college prototype, delivering **near-instant wildfire detection** from images in the browser using a MobileNet TensorFlow.js model. It also exposes a secure, rate-limited public API for server-side inference.
-
-### 🚀 Key Features
-
-- **🔥 AI-Powered Detection**: MobileNet-based model classifying Fire, No Fire, Smoke, and SmokeFire
-- **⚡ Dual Inference**: Client-side (WebGL) and server-side (Node.js) prediction capabilities
-- **🛡️ Production Ready**: Rate limiting, error handling, monitoring, and security
-- **🎨 Modern Stack**: Next.js 14 App Router, TypeScript, Tailwind CSS
-- **📱 Responsive Design**: Mobile-first design with accessibility support
-- **🔒 Secure API**: Rate-limited endpoints with proper error handling
-- **📊 Live Monitoring**: Health checks and performance metrics
-
-## 🏗️ Architecture
-
-```txt
-├── 📁 src/
-│   ├── 📁 app/
-│   │   ├── 📁 api/
-│   │   │   ├── 📁 health/     # Health check endpoint
-│   │   │   └── 📁 predict/    # ML prediction API
-│   │   ├── layout.tsx         # Root layout
-│   │   └── page.tsx          # Landing page
-│   └── 📁 lib/
-│       ├── 📁 server/
-│       │   ├── predict.ts     # TensorFlow.js model server
-│       │   ├── ratelimit.ts   # Upstash rate limiting
-│       │   └── errors.ts      # Centralized error handling
-│       └── types.ts          # Shared TypeScript types
-├── 📁 public/
-│   └── 📁 model/             # TensorFlow.js model files
-└── 📋 Configuration files
-```
-
-## 🛠️ Tech Stack
-
-### Core Technologies
-
-- **[Next.js 14](https://nextjs.org/)** - React framework with App Router
-- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
-- **[TensorFlow.js](https://www.tensorflow.org/js)** - Machine learning in JavaScript
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-
-### AI & ML
-
-- **[@tensorflow/tfjs](https://www.npmjs.com/package/@tensorflow/tfjs)** - Core TensorFlow.js
-- **[@tensorflow/tfjs-node](https://www.npmjs.com/package/@tensorflow/tfjs-node)** - Node.js backend
-- **[Sharp](https://sharp.pixelplumbing.com/)** - High-performance image processing
-
-### Backend & Infrastructure
-
-- **[@upstash/ratelimit](https://www.npmjs.com/package/@upstash/ratelimit)** - Serverless rate limiting
-- **[@vercel/kv](https://www.npmjs.com/package/@vercel/kv)** - Key-value storage
-- **[Zod](https://zod.dev/)** - Runtime type validation
-
-### Development Tools
-
-- **[ESLint](https://eslint.org/)** - Code linting with accessibility rules
-- **[Prettier](https://prettier.io/)** - Code formatting
-- **[Husky](https://typicode.github.io/husky/)** - Git hooks
-- **[lint-staged](https://github.com/okonet/lint-staged)** - Pre-commit linting
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Node.js** 18+ and npm/yarn
-- **Upstash Redis** instance (for rate limiting)
-
-### Installation
-
-1. **Clone and navigate**
-
-   ```bash
-   git clone https://github.com/your-username/ForestFire.git
-   cd ForestFire/v2
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Environment setup**
-
-   ```bash
-   cp env.example .env.local
-   ```
-
-4. **Configure environment variables**
-
-   ```env
-   # Vercel KV (Upstash Redis)
-   KV_REST_API_URL=your_upstash_url
-   KV_REST_API_TOKEN=your_upstash_token
-
-   # Public variables
-   NEXT_PUBLIC_SITE_URL=http://localhost:3000
-   NEXT_PUBLIC_FIRE_MODEL_PATH=/model/model.json
-   ```
-
-5. **Start development server**
-
-   ```bash
-   npm run dev
-   ```
-
-6. **Open your browser**
-
-   ```url
-   http://localhost:3000
-   ```
-
-## 📡 API Documentation
-
-### `POST /api/predict`
-
-Analyze an image for fire/smoke detection.
-
-**Request:**
-
-- Method: `POST`
-- Content-Type: `multipart/form-data`
-- Body: Form data with `image` field (max 4MB)
-
-**Response:**
-
-```json
-{
-  "results": [
-    {
-      "className": "Fire",
-      "probability": 0.8734
-    },
-    {
-      "className": "Smoke",
-      "probability": 0.1021
-    },
-    {
-      "className": "SmokeFire",
-      "probability": 0.0142
-    },
-    {
-      "className": "No Fire",
-      "probability": 0.0103
-    }
-  ],
-  "processingTime": "2024-01-15T10:30:45.123Z"
-}
-```
-
-**Rate Limits:**
-
-- 10 requests per 30 seconds per IP
-
-**cURL Example:**
-
-```bash
-curl -X POST http://localhost:3000/api/predict \
-  -F "image=@/path/to/your/image.jpg"
-```
-
-### `GET /api/health`
-
-Check API and model availability.
-
-**Response:**
-
-```json
-{
-  "status": "ok",
-  "model": "available",
-  "timestamp": "2024-01-15T10:30:45.123Z"
-}
-```
-
-## 🧪 Development
-
-### Available Scripts
-
-```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-
-# Code Quality
-npm run lint         # Run ESLint
-npm run lint:fix     # Fix ESLint issues
-npm run type-check   # TypeScript type checking
-npm run format       # Format code with Prettier
-
-# Testing
-npm test            # Run tests (placeholder)
-```
-
-### Git Workflow
-
-The project uses pre-commit hooks to ensure code quality:
-
-```bash
-git add .
-git commit -m "feat: add new feature"
-# Automatically runs: lint-staged → ESLint → Prettier
-```
-
-### Project Structure Guidelines
-
-- **Components**: Reusable UI components in `src/components/`
-- **Pages**: App Router pages in `src/app/`
-- **API Routes**: Server endpoints in `src/app/api/`
-- **Utilities**: Helper functions in `src/lib/`
-- **Types**: TypeScript definitions in `src/lib/types.ts`
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-1. **Connect your GitHub repository to Vercel**
-
-2. **Set environment variables in Vercel dashboard:**
-   - `KV_REST_API_URL`
-   - `KV_REST_API_TOKEN`
-   - `NEXT_PUBLIC_SITE_URL`
-
-3. **Deploy automatically on push to main**
-
-### Manual Deployment
-
-```bash
-npm run build
-npm start
-```
-
-## 🔧 Configuration
-
-### Rate Limiting
-
-Configured in `src/lib/server/ratelimit.ts`:
-
-- **Limit**: 10 requests per 30 seconds
-- **Storage**: Upstash Redis via Vercel KV
-- **Strategy**: Sliding window
-
-### Model Configuration
-
-- **Format**: TensorFlow.js LayersModel
-- **Input**: 224x224 RGB images
-- **Preprocessing**: Resize → Normalize [-1, 1]
-- **Output**: 4-class probability distribution
-
-### Security Features
-
-- **Rate limiting** on all API endpoints
-- **File type validation** for uploads
-- **File size limits** (4MB max)
-- **Error sanitization** to prevent information leakage
-- **CORS protection** via Next.js defaults
-
-## 📊 Monitoring & Analytics
-
-### Health Checks
-
-- `GET /api/health` - Service and model availability
-- Automatic model file validation
-- Timestamp tracking for debugging
-
-### Performance Metrics
-
-- Server-side prediction timing
-- Memory management for TensorFlow.js tensors
-- Request/response logging
-
-### Error Tracking
-
-- Centralized error handling in `src/lib/server/errors.ts`
-- Structured error responses with codes and timestamps
-- Console logging for debugging
-
-## 🤝 Contributing
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit changes**: `git commit -m 'feat: add amazing feature'`
-4. **Push to branch**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
-
-### Code Standards
-
-- **TypeScript**: Strict mode enabled
-- **ESLint**: Next.js + accessibility rules
-- **Prettier**: Consistent code formatting
-- **Conventional Commits**: Standardized commit messages
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](../LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **TensorFlow.js** team for the ML framework
-- **Vercel** for the deployment platform
-- **Upstash** for serverless Redis
-- **Sharp** for image processing capabilities
+[![Production](https://img.shields.io/badge/Live-Demo-ef4444?style=for-the-badge&logo=vercel)](https://fire.osnaren.com)
+[![API](https://img.shields.io/badge/API-Docs-0ea5e9?style=for-the-badge&logo=swagger)](https://fire.osnaren.com/api-docs)
+[![Next.js](https://img.shields.io/badge/Built%20with-Next.js%2014-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Dataset](https://img.shields.io/badge/Dataset-Forest%20Fire%20C4-22c55e?style=for-the-badge&logo=kaggle)](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4)
+
+Modern wildfire intelligence for the web: instant image classification, public API access, and polished UX powered by Next.js 14 and TensorFlow.js.
 
 ---
 
-**🔗 Links:**
+## Contents
 
-- [Live Demo](https://fire.osnaren.com)
-- [Legacy v1](https://v1.fire.osnaren.com)
-- [Documentation](https://github.com/your-username/ForestFire/wiki)
-- [Issues](https://github.com/your-username/ForestFire/issues)
+1. [Highlights](#highlights)
+2. [Live Experience](#live-experience)
+3. [Model & Data](#model--data)
+4. [Architecture Overview](#architecture-overview)
+5. [Quick Start](#quick-start)
+6. [API Snapshot](#api-snapshot)
+7. [User Experience](#user-experience)
+8. [Roadmap](#roadmap)
+9. [Contributing](#contributing)
+10. [License](#license)
 
 ---
 
-Built with ❤️ for wildfire detection and prevention.
+## Highlights
+
+- 🔥 **Real-time inference** for Fire, Smoke, Smoke+Fire, and No Fire classes
+- ☁️ **Client + server flexibility**: WebGL model in the browser plus secure Node.js inference
+- 🛡️ **Production hardening**: Rate limiting, structured errors, health checks, and ML observability
+- 🎨 **Immersive interface**: Tailwind-powered design with motion presets and accessibility baked in
+
+---
+
+## Live Experience
+
+- **Classifier**: [fire.osnaren.com](https://fire.osnaren.com)
+- **API Explorer**: [fire.osnaren.com/api-docs](https://fire.osnaren.com/api-docs)
+- **Legacy Prototype (v1)**: [v1.fire.osnaren.com](https://v1.fire.osnaren.com)
+
+Looking for the original Teachable Machine demo? See [`v1/README.md`](../v1/README.md).
+
+---
+
+## Model & Data
+
+- **Dataset**: [Forest Fire C4 on Kaggle](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4) — released under **CC BY-NC-SA 4.0**. You're free to explore or adapt the dataset for non-commercial research with attribution and share-alike terms.
+- **Model**: MobileNet backbone distilled for 224×224 RGB inputs, exported for both browser and Node.js execution.
+- **Classes**: `Fire`, `Smoke`, `SmokeFire`, `No Fire`.
+- **Preprocessing**: Resize → Crop → Normalize to [-1, 1]. Server-side paths reuse Sharp for deterministic results.
+
+---
+
+## Architecture Overview
+
+```text
+App Router (Next.js 14)
+├── src/app
+│   ├── page.tsx, layout.tsx       # Landing experience
+│   ├── api/predict/route.ts       # Multipart upload → TensorFlow scoring → JSON
+│   └── api/health/route.ts        # Model availability heartbeat
+├── src/lib
+│   ├── server/predict.ts          # Cached model loader + preprocessing
+│   ├── server/ratelimit.ts        # Upstash (Vercel KV) sliding window guard
+│   └── prediction-utils.ts        # Formatting helpers for UI
+├── src/modules/home               # Hero, stats, features, CTA sections
+└── public/model                   # TensorFlow.js model.json + weights
+```
+
+Key characteristics:
+
+- **Single model, shared runtime** between browser (`@tensorflow/tfjs`) and API (`@tensorflow/tfjs-node`).
+- **Predict endpoint** enforces MIME type, size (≤4 MB), and rate limits (10 requests / 30 s per IP).
+- **Health endpoint** verifies model artifacts before surfacing "ok" status.
+
+---
+
+## Quick Start
+
+```bash
+# 1. Clone & enter the Next.js app
+git clone https://github.com/your-username/ForestFire.git
+cd ForestFire/v2
+
+# 2. Install dependencies
+npm install
+
+# 3. Configure environment
+cp env.example .env.local
+# → provide KV_REST_API_URL and KV_REST_API_TOKEN from Upstash
+
+# 4. Run locally
+npm run dev
+
+# 5. Visit the app
+open http://localhost:3000
+```
+
+> Tip: Keep `public/model/` in sync whenever you retrain. The API and client both load from this directory.
+
+---
+
+## API Snapshot
+
+| Endpoint | Method | Description |
+| --- | --- | --- |
+| `/api/predict` | POST | Accepts `multipart/form-data` with an `image` field (≤4 MB). Returns sorted class probabilities and timestamps. Rate limits apply. |
+| `/api/health` | GET | Confirms model files are present and returns current status timestamp. |
+
+Example request:
+
+```bash
+curl -X POST https://fire.osnaren.com/api/predict \
+  -H "Accept: application/json" \
+  -F "image=@sample.jpg"
+```
+
+---
+
+## User Experience
+
+- **Animations** powered by reusable motion presets (`AnimatedGroup`, `GlowingButton`, `FloatingElement`).
+- **State management** via Zustand stores with consistent devtools labels.
+- **Accessibility** includes keyboard-friendly navigation, reduced-motion fallbacks, and high-contrast accents.
+- **Sponsor CTA** and map integrations provide paths for community support and situational awareness.
+
+---
+
+## Roadmap
+
+- ✅ Serverless inference with Upstash-backed rate limits
+- ✅ Unified configuration layer in `src/config/pages.tsx`
+- 🔄 Expand automated testing for API and UI flows
+- 🔄 Explore PWA support and offline inference bundles
+
+Have ideas? Open an issue or start a discussion!
+
+---
+
+## Contributing
+
+We welcome insights, especially around model evaluation and wildfire datasets.
+
+1. Fork the repo and create a topic branch.
+2. Run `npm run lint` and `npm run type-check` before pushing.
+3. Share reproducible steps, screenshots, or sample inputs with your PR.
+
+---
+
+## License
+
+Code and model assets are released under the **Forest Fire Proprietary License**. Redistribution, modification, or commercial usage is prohibited without prior written permission. See the [LICENSE](../LICENSE) file for complete terms.
+
+The referenced dataset — [Forest Fire C4](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4) — is available separately under **CC BY-NC-SA 4.0**; please respect its attribution and non-commercial requirements when using it.
+
+---
+
+Built with purpose for faster wildfire response. Stay safe out there. 🌲🔥
