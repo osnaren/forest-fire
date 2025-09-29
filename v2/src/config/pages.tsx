@@ -14,7 +14,7 @@ export const siteConfig = {
   name: 'Forest Fire Classifier',
   version: 'v2',
   description: 'Professional-grade wildfire detection powered by advanced machine learning',
-  url: 'https://forestfire.example.com',
+  url: 'https://fire.osnaren.com',
   author: {
     name: 'Obuli Sai Naren',
     nickname: 'osnaren',
