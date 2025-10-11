@@ -1,7 +1,7 @@
 import { homeConfig } from '@/config/pages';
 import { generateSEOMetadata } from '@/lib/seo';
-import type { Metadata } from 'next';
 import { HomePage } from '@/modules/home';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = generateSEOMetadata({
   title: 'Home',

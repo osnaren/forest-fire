@@ -18,7 +18,9 @@ export function ApiOverview() {
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
-          <h4 className="mb-2 font-semibold text-accent">{apiDocsConfig.endpoint.method} {apiDocsConfig.endpoint.path}</h4>
+          <h4 className="text-accent mb-2 font-semibold">
+            {apiDocsConfig.endpoint.method} {apiDocsConfig.endpoint.path}
+          </h4>
           <p className="text-muted-foreground mb-4 text-sm">
             Upload an image to get fire, smoke, and no-fire probability predictions.
           </p>

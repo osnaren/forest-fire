@@ -144,7 +144,7 @@ export function UploadArea({
                     variant={modeLocked ? 'secondary' : 'outline'}
                     size="icon"
                     className={cn(
-                      'h-8 w-8 rounded-full border border-border/60 transition-all',
+                      'border-border/60 h-8 w-8 rounded-full border transition-all',
                       modeLocked && 'border-emerald-500/60 bg-emerald-500/10 text-emerald-300'
                     )}
                     onClick={onToggleLock}
@@ -177,20 +177,15 @@ export function UploadArea({
                           strokeLinejoin="round"
                         />
                       )}
-                      <rect
-                        x="5"
-                        y="11"
-                        width="14"
-                        height="10"
-                        rx="2"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      />
+                      <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />
                     </svg>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent sideOffset={6} className="max-w-xs text-xs">
-                  {lockReason ?? (modeLocked ? 'Unlock to switch between single and batch modes.' : 'Lock the current mode to avoid accidental switches.')}
+                  {lockReason ??
+                    (modeLocked
+                      ? 'Unlock to switch between single and batch modes.'
+                      : 'Lock the current mode to avoid accidental switches.')}
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

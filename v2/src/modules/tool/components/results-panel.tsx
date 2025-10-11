@@ -4,8 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { cn } from '@/lib/utils';
 import { formatProbability } from '@/lib/prediction-utils';
+import { cn } from '@/lib/utils';
 
 import { toolConfig } from '@/config/pages';
 import type { UploadItem, UploadMode } from '../types';
@@ -48,12 +48,12 @@ function renderBreakdown(results: UploadItem['results']) {
     <div className="flex flex-col gap-3">
       {sorted.map((result) => (
         <div key={result.className} className="space-y-2">
-          <div className="flex items-center justify-between text-sm font-medium text-foreground/90">
+          <div className="text-foreground/90 flex items-center justify-between text-sm font-medium">
             <span>{CLASS_LABEL[result.className] ?? result.className}</span>
             <span>{formatProbability(result.probability)}</span>
           </div>
           <Progress value={result.probability * 100} variant={CLASS_VARIANT[result.className] ?? 'default'} />
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             {toolConfig.classes.find((cls) => cls.name === result.className)?.description}
           </p>
         </div>
@@ -103,19 +103,19 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
     return (
       <Card className="border-border/60 bg-card/80 shadow-lg">
         <CardHeader className="gap-2">
-          <CardTitle className="flex items-center gap-3 text-lg text-foreground">
+          <CardTitle className="text-foreground flex items-center gap-3 text-lg">
             <Badge variant="outline" className={cn('border-emerald-500/40 bg-emerald-500/10 text-emerald-300')}>
-              {top ? CLASS_LABEL[top.className] ?? top.className : 'Prediction'}
+              {top ? (CLASS_LABEL[top.className] ?? top.className) : 'Prediction'}
             </Badge>
-            {top ? <span className="text-sm text-muted-foreground">Confidence {formatProbability(top.probability)}</span> : null}
+            {top ? (
+              <span className="text-muted-foreground text-sm">Confidence {formatProbability(top.probability)}</span>
+            ) : null}
           </CardTitle>
           {item.durationMs ? (
-            <p className="text-xs text-muted-foreground">Processed in {item.durationMs.toFixed(0)}ms</p>
+            <p className="text-muted-foreground text-xs">Processed in {item.durationMs.toFixed(0)}ms</p>
           ) : null}
         </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          {renderBreakdown(item.results)}
-        </CardContent>
+        <CardContent className="flex flex-col gap-4">{renderBreakdown(item.results)}</CardContent>
       </Card>
     );
   }
@@ -132,7 +132,9 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
               <CardHeader>
                 <CardTitle className="text-sm font-semibold text-red-200">{item.file.name}</CardTitle>
               </CardHeader>
-              <CardContent className="text-xs text-red-200/80">{item.error ?? 'Unable to process this image.'}</CardContent>
+              <CardContent className="text-xs text-red-200/80">
+                {item.error ?? 'Unable to process this image.'}
+              </CardContent>
             </Card>
           );
         }
@@ -146,23 +148,24 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
             <CardHeader className="flex flex-col gap-2">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex flex-col gap-1">
-                  <CardTitle className="text-base text-foreground/90">{item.file.name}</CardTitle>
-                  <p className="text-sm text-muted-foreground">
-                    Top result: <span className="font-semibold text-foreground">{CLASS_LABEL[top.className] ?? top.className}</span>{' '}
+                  <CardTitle className="text-foreground/90 text-base">{item.file.name}</CardTitle>
+                  <p className="text-muted-foreground text-sm">
+                    Top result:{' '}
+                    <span className="text-foreground font-semibold">{CLASS_LABEL[top.className] ?? top.className}</span>{' '}
                     ({formatProbability(top.probability)})
                   </p>
                   {item.durationMs ? (
-                    <p className="text-xs text-muted-foreground/80">Processed in {item.durationMs.toFixed(0)}ms</p>
+                    <p className="text-muted-foreground/80 text-xs">Processed in {item.durationMs.toFixed(0)}ms</p>
                   ) : null}
                 </div>
                 <Badge
                   variant="outline"
                   className={cn(
-                    'self-start border-border/50 bg-transparent text-xs font-medium',
+                    'border-border/50 self-start bg-transparent text-xs font-medium',
                     top ? `text-foreground` : 'text-muted-foreground'
                   )}
                 >
-                  {top ? CLASS_LABEL[top.className] ?? top.className : 'Completed'}
+                  {top ? (CLASS_LABEL[top.className] ?? top.className) : 'Completed'}
                 </Badge>
               </div>
               <div className="flex items-center gap-2">
@@ -176,7 +179,9 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
                 </Button>
               </div>
             </CardHeader>
-            {isExpanded ? <CardContent className="flex flex-col gap-4">{renderBreakdown(item.results)}</CardContent> : null}
+            {isExpanded ? (
+              <CardContent className="flex flex-col gap-4">{renderBreakdown(item.results)}</CardContent>
+            ) : null}
           </Card>
         );
       })}

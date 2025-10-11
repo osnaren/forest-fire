@@ -1,8 +1,8 @@
 import { Footer, Navbar } from '@/components/layout';
 import SponsorFAB from '@/components/sponsor/SponsorFAB';
 import { siteConfig } from '@/config/pages';
-import { generateSEOMetadata } from '@/lib/seo';
 import ThemeProvider from '@/hooks/use-theme';
+import { generateSEOMetadata } from '@/lib/seo';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Toaster } from 'react-hot-toast';
@@ -12,10 +12,7 @@ const baseMetadata = generateSEOMetadata();
 
 export const metadata: Metadata = {
   ...baseMetadata,
-  authors: [
-    { name: siteConfig.author.name, url: siteConfig.author.github },
-    { name: 'Forest Fire Classifier Team' },
-  ],
+  authors: [{ name: siteConfig.author.name, url: siteConfig.author.github }, { name: 'Forest Fire Classifier Team' }],
   manifest: '/manifest.json',
   icons: {
     icon: [

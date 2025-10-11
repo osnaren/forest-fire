@@ -66,7 +66,10 @@ export function PreviewGrid({ items, disabled, onRemove }: PreviewGridProps) {
         const meta = statusMeta[item.status];
 
         return (
-          <Card key={item.id} className="group border-border/60 bg-card/80 relative overflow-hidden transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+          <Card
+            key={item.id}
+            className="group border-border/60 bg-card/80 relative overflow-hidden transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+          >
             <CardContent className="flex flex-col gap-4 p-0">
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
@@ -102,12 +105,12 @@ export function PreviewGrid({ items, disabled, onRemove }: PreviewGridProps) {
                   </svg>
                 </Button>
                 {item.status === 'uploading' ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-sm">
+                  <div className="bg-background/60 absolute inset-0 flex items-center justify-center backdrop-blur-sm">
                     <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
                   </div>
                 ) : null}
                 {item.status === 'success' ? (
-                  <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1 text-[11px] font-medium text-emerald-200 backdrop-blur-sm">
+                  <div className="absolute right-3 bottom-3 flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1 text-[11px] font-medium text-emerald-200 backdrop-blur-sm">
                     <svg
                       width="14"
                       height="14"
@@ -116,7 +119,13 @@ export function PreviewGrid({ items, disabled, onRemove }: PreviewGridProps) {
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-3.5 w-3.5"
                     >
-                      <path d="M5 12.5 9.5 17 19 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      <path
+                        d="M5 12.5 9.5 17 19 7.5"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                     Ready
                   </div>

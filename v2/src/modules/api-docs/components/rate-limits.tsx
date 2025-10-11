@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { apiDocsConfig } from '@/config/api-docs';
 
 export function RateLimits() {
@@ -13,22 +13,22 @@ export function RateLimits() {
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-4">
             <div>
-              <h4 className="mb-2 font-semibold text-accent">Free Tier Limits</h4>
+              <h4 className="text-accent mb-2 font-semibold">Free Tier Limits</h4>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Requests per window</span>
+                  <span className="text-muted-foreground text-sm">Requests per window</span>
                   <Badge variant="secondary">{apiDocsConfig.rateLimits.limits.requests} requests</Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Time window</span>
+                  <span className="text-muted-foreground text-sm">Time window</span>
                   <Badge variant="secondary">{apiDocsConfig.rateLimits.limits.window}</Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Max file size</span>
+                  <span className="text-muted-foreground text-sm">Max file size</span>
                   <Badge variant="secondary">{apiDocsConfig.rateLimits.limits.maxFileSize}</Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Rate limiting</span>
+                  <span className="text-muted-foreground text-sm">Rate limiting</span>
                   <Badge variant="outline">{apiDocsConfig.rateLimits.limits.algorithm}</Badge>
                 </div>
               </div>
@@ -37,10 +37,10 @@ export function RateLimits() {
 
           <div className="space-y-4">
             <div>
-              <h4 className="mb-2 font-semibold text-accent">Response Headers</h4>
+              <h4 className="text-accent mb-2 font-semibold">Response Headers</h4>
               <div className="space-y-2">
                 {apiDocsConfig.rateLimits.headers.map((header, index) => (
-                  <div key={index} className="rounded-lg bg-muted/50 p-3">
+                  <div key={index} className="bg-muted/50 rounded-lg p-3">
                     <code className="text-sm">
                       <div className="text-primary">{header.name}:</div>
                       <div className="text-muted-foreground ml-2">{header.description}</div>
@@ -57,7 +57,7 @@ export function RateLimits() {
             <div className="text-amber-500">⚠️</div>
             <div className="space-y-1">
               <h5 className="font-semibold text-amber-600 dark:text-amber-400">Rate Limit Best Practices</h5>
-              <ul className="text-sm text-amber-700 dark:text-amber-300 space-y-1">
+              <ul className="space-y-1 text-sm text-amber-700 dark:text-amber-300">
                 {apiDocsConfig.rateLimits.bestPractices.map((practice, index) => (
                   <li key={index}>• {practice}</li>
                 ))}

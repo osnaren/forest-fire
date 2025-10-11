@@ -62,14 +62,15 @@ export function ToolStepper({ steps, activeStep }: ToolStepperProps) {
                 className={cn(
                   'flex h-10 w-10 items-center justify-center rounded-full border text-base font-semibold transition-all duration-300',
                   state === 'complete' && 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400',
-                  state === 'current' && 'border-emerald-400 bg-emerald-400/20 text-emerald-200 shadow-inner shadow-emerald-400/20 scale-105',
+                  state === 'current' &&
+                    'scale-105 border-emerald-400 bg-emerald-400/20 text-emerald-200 shadow-inner shadow-emerald-400/20',
                   state === 'upcoming' && 'border-border text-muted-foreground'
                 )}
               >
                 {index + 1}
               </div>
               <div className="flex flex-col gap-1">
-                <p className="text-foreground/90 text-sm font-semibold leading-tight">{step.title}</p>
+                <p className="text-foreground/90 text-sm leading-tight font-semibold">{step.title}</p>
                 <p className="text-muted-foreground text-xs leading-relaxed">{step.description}</p>
               </div>
             </div>

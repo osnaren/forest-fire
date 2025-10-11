@@ -1,6 +1,5 @@
 'use client';
 
-import { BackgroundEffect } from '@/components/ui';
 import { CTASection, FeaturesSection, HeroSection, StatsSection } from './index';
 
 export function HomePage() {

@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loading } from '@/components/ui/loading';
 import { toolConfig } from '@/config/pages';
-import { cn } from '@/lib/utils';
 import type { PredictionResponse } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 import { PreviewGrid } from './components/preview-grid';
 import { ResultsPanel } from './components/results-panel';
@@ -77,8 +77,8 @@ export function ToolPage() {
   const lockReason = autoModeLock
     ? 'Uploads in progress — finish or reset to change modes.'
     : modeLocked
-    ? 'Mode locked to prevent accidental switching.'
-    : null;
+      ? 'Mode locked to prevent accidental switching.'
+      : null;
 
   const helperText = useMemo(() => {
     if (isProcessing) {

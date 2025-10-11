@@ -75,7 +75,7 @@ export function TypewriterText({ text, className, delay = 0, speed = 50 }: Typew
 
   useEffect(() => {
     if (!isMounted) return;
-    
+
     const timer = setTimeout(() => {
       setIsStarted(true);
     }, delay);
@@ -103,10 +103,10 @@ export function TypewriterText({ text, className, delay = 0, speed = 50 }: Typew
     <span className={cn('relative will-change-contents', className)}>
       {displayedText}
       {isStarted && displayedText.length < text.length && (
-        <motion.span 
-          animate={{ opacity: [0, 1, 0] }} 
-          transition={{ duration: 0.8, repeat: Infinity }} 
-          className="ml-1 text-primary"
+        <motion.span
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 0.8, repeat: Infinity }}
+          className="text-primary ml-1"
         >
           |
         </motion.span>
@@ -272,8 +272,8 @@ export function HoverCard({ children, className, glowColorVar = 'primary', rotat
       <motion.div
         className="absolute inset-0 rounded-lg"
         animate={{
-          boxShadow: isHovered 
-            ? `0 20px 40px hsl(var(--${glowColorVar}) / 0.25)` 
+          boxShadow: isHovered
+            ? `0 20px 40px hsl(var(--${glowColorVar}) / 0.25)`
             : `0 5px 15px hsl(var(--${glowColorVar}) / 0.1)`,
         }}
         transition={{ duration: 0.3 }}

@@ -9,7 +9,8 @@ export const apiDocsConfig = {
   /* -------------------------------------------------- */
   hero: {
     title: 'API Documentation',
-    subtitle: 'Integrate wildfire detection capabilities into your applications with our RESTful API. Simple, fast, and reliable machine learning inference.',
+    subtitle:
+      'Integrate wildfire detection capabilities into your applications with our RESTful API. Simple, fast, and reliable machine learning inference.',
     features: [
       { label: 'Real-time predictions', color: 'green-500' },
       { label: '4-class classification', color: 'blue-500' },
@@ -41,7 +42,7 @@ export const apiDocsConfig = {
       'Content-Type': 'multipart/form-data',
       'File parameter': 'image',
       'Max size': '4MB',
-      'Formats': 'JPEG, PNG, WebP, GIF',
+      Formats: 'JPEG, PNG, WebP, GIF',
       'Rate limit': '10 req / 30 sec',
     },
   },
@@ -56,11 +57,11 @@ export const apiDocsConfig = {
     confidenceRange: '0.0 to 1.0 (floating point)',
     timestampFormat: 'ISO 8601 format',
     details: {
-      'Format': 'JSON',
+      Format: 'JSON',
       'Result order': 'By confidence (desc)',
-      'Classes': 'Fire, No Fire, Smoke, SmokeFire',
-      'Confidence': '0.0 to 1.0 (floating point)',
-      'Timestamp': 'ISO 8601 format',
+      Classes: 'Fire, No Fire, Smoke, SmokeFire',
+      Confidence: '0.0 to 1.0 (floating point)',
+      Timestamp: 'ISO 8601 format',
     },
     example: {
       results: [
@@ -78,7 +79,7 @@ export const apiDocsConfig = {
         },
         {
           className: 'No Fire',
-          probability: 0.0090,
+          probability: 0.009,
         },
       ],
       processingTime: '2025-07-14T10:30:45.123Z',
@@ -164,15 +165,10 @@ export const apiDocsConfig = {
       title: 'Bad Request',
       description: 'Invalid image format or missing file',
       color: 'destructive',
-      examples: [
-        'No image file provided',
-        'Invalid form data format',
-        'Unsupported file type',
-        'Corrupted image file',
-      ],
+      examples: ['No image file provided', 'Invalid form data format', 'Unsupported file type', 'Corrupted image file'],
       handlingTips: [
         'Validate file type client-side before upload',
-        'Check that you\'re sending proper multipart/form-data',
+        "Check that you're sending proper multipart/form-data",
         'Ensure the file key is "image" in the form data',
       ],
       response: {
@@ -186,11 +182,7 @@ export const apiDocsConfig = {
       title: 'Payload Too Large',
       description: 'Image file exceeds 4MB limit',
       color: 'secondary',
-      examples: [
-        'File size > 4MB',
-        'Uncompressed image data',
-        'High resolution images',
-      ],
+      examples: ['File size > 4MB', 'Uncompressed image data', 'High resolution images'],
       handlingTips: [
         'Compress images before uploading',
         'Check file size client-side (max 4MB)',
@@ -207,11 +199,7 @@ export const apiDocsConfig = {
       title: 'Too Many Requests',
       description: 'Rate limit exceeded',
       color: 'outline',
-      examples: [
-        'More than 10 requests in 30 seconds',
-        'Sliding window rate limit hit',
-        'Need to wait for reset',
-      ],
+      examples: ['More than 10 requests in 30 seconds', 'Sliding window rate limit hit', 'Need to wait for reset'],
       handlingTips: [
         'Implement exponential backoff retry logic',
         'Monitor X-RateLimit-Remaining header',
@@ -234,12 +222,7 @@ export const apiDocsConfig = {
       title: 'Internal Server Error',
       description: 'Model inference error',
       color: 'destructive',
-      examples: [
-        'Model loading failure',
-        'Image preprocessing error',
-        'TensorFlow inference error',
-        'Server overload',
-      ],
+      examples: ['Model loading failure', 'Image preprocessing error', 'TensorFlow inference error', 'Server overload'],
       handlingTips: [
         'Retry with exponential backoff',
         'Report the issue if persistent',
@@ -272,11 +255,7 @@ export const apiDocsConfig = {
       title: 'Click "Try It!" to test the API with the sample image',
       subtitle: 'The request will send the test image to the API and show the real response',
     },
-    troubleshooting: [
-      'Check your network connection',
-      'Verify API endpoint is running',
-      'Try again in a few moments',
-    ],
+    troubleshooting: ['Check your network connection', 'Verify API endpoint is running', 'Try again in a few moments'],
   },
 
   /* -------------------------------------------------- */

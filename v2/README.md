@@ -103,10 +103,10 @@ open http://localhost:3000
 
 ## API Snapshot
 
-| Endpoint | Method | Description |
-| --- | --- | --- |
-| `/api/predict` | POST | Accepts `multipart/form-data` with an `image` field (≤4 MB). Returns sorted class probabilities and timestamps. Rate limits apply. |
-| `/api/health` | GET | Confirms model files are present and returns current status timestamp. |
+| Endpoint       | Method | Description                                                                                                                        |
+| -------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `/api/predict` | POST   | Accepts `multipart/form-data` with an `image` field (≤4 MB). Returns sorted class probabilities and timestamps. Rate limits apply. |
+| `/api/health`  | GET    | Confirms model files are present and returns current status timestamp.                                                             |
 
 Example request:
 
