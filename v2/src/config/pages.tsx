@@ -472,6 +472,21 @@ export const toolConfig = {
   description: 'Upload an image to detect wildfire activity using our AI model',
   maxFileSize: '4MB',
   supportedFormats: ['JPG', 'PNG', 'WebP'],
+  maxBulkFiles: 6,
+  steps: [
+    {
+      title: 'Upload',
+      description: 'Choose single or multiple images to analyze',
+    },
+    {
+      title: 'Review & Submit',
+      description: 'Verify selections and start the predictions',
+    },
+    {
+      title: 'Results',
+      description: 'Inspect confidence scores and insights',
+    },
+  ],
   classes: [
     { name: 'Fire', color: 'red', description: 'Active flames detected' },
     { name: 'Smoke', color: 'gray', description: 'Smoke without visible flames' },
@@ -483,4 +498,5 @@ export const toolConfig = {
     'Forest or vegetation images work best',
     'Avoid heavily filtered or processed images',
   ],
+  bulkLimitNotice: 'You can upload up to 6 images at a time. Larger batches may trigger rate limits.',
 };
