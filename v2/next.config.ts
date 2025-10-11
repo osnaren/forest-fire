@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import path from 'path';
 
 const nextConfig: NextConfig = {
   // External packages to be bundled natively (moved from experimental in Next.js 15)
@@ -73,6 +74,34 @@ const nextConfig: NextConfig = {
   eslint: {
     // Don't fail build on lint errors in dev
     ignoreDuringBuilds: process.env.NODE_ENV === 'development',
+  },
+
+  // Turbopack configuration: mirrors critical webpack behavior for dev (Turbopack) and prevents server-only modules from being bundled into client code.
+  turbopack: {
+    // Ensure the project root is explicit and absolute (helps monorepos / nonstandard layouts).
+    root: path.join(__dirname),
+
+    // Prevent server-only native modules from being resolved into browser bundles.
+    // - Map '@tensorflow/tfjs-node' to the browser-friendly '@tensorflow/tfjs'.
+    // - Map 'sharp' and node built-ins to a small browser shim to avoid bundling native code into client builds.
+    resolveAlias: {
+      '@tensorflow/tfjs-node': { browser: '@tensorflow/tfjs' },
+      sharp: { browser: path.join(__dirname, 'src', 'lib', 'shims', 'empty-browser-shim.ts') },
+      fs: { browser: path.join(__dirname, 'src', 'lib', 'shims', 'empty-browser-shim.ts') },
+      path: { browser: path.join(__dirname, 'src', 'lib', 'shims', 'empty-browser-shim.ts') },
+      crypto: { browser: path.join(__dirname, 'src', 'lib', 'shims', 'empty-browser-shim.ts') },
+    },
+
+    // Add loader rules that you rely on in the codebase (SVGR is safe and commonly used).
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+
+    // Make sure common extensions are resolved in the same order that the rest of the toolchain expects.
+    resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
   },
 };
 
