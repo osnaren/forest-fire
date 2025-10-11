@@ -1,11 +1,20 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { generateSEOMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Research - Forest Fire Classifier v2',
+export const metadata: Metadata = generateSEOMetadata({
+  title: 'Research',
   description: 'Explore the research, datasets, and methodologies behind our wildfire detection system.',
-};
+  pathname: '/research',
+  type: 'article',
+  keywords: [
+    'wildfire detection research',
+    'forest fire datasets',
+    'machine learning methodology',
+    'convolutional neural networks wildfire',
+  ],
+});
 
 export default function ResearchPage() {
   return (

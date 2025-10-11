@@ -1,48 +1,40 @@
 import { Footer, Navbar } from '@/components/layout';
 import SponsorFAB from '@/components/sponsor/SponsorFAB';
+import { siteConfig } from '@/config/pages';
+import { generateSEOMetadata } from '@/lib/seo';
 import ThemeProvider from '@/hooks/use-theme';
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { Toaster } from 'react-hot-toast';
 import './index.css';
 
+const baseMetadata = generateSEOMetadata();
+
 export const metadata: Metadata = {
-  title: 'Forest Fire Classifier v2',
-  description:
-    'Professional-grade wildfire detection powered by advanced machine learning. Real-time forest fire classification from images.',
-  keywords: ['wildfire', 'forest fire', 'machine learning', 'tensorflow', 'detection', 'classification'],
-  authors: [{ name: 'Obuli Sai Naren', url: 'https://osnaren.com' }],
-  creator: 'Forest Fire Classifier',
-  publisher: 'Forest Fire Classifier',
-  openGraph: {
-    title: 'Forest Fire Classifier v2',
-    description: 'Professional-grade wildfire detection powered by advanced machine learning.',
-    type: 'website',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Forest Fire Classifier v2',
-    description: 'Professional-grade wildfire detection powered by advanced machine learning.',
-  },
+  ...baseMetadata,
+  authors: [
+    { name: siteConfig.author.name, url: siteConfig.author.github },
+    { name: 'Forest Fire Classifier Team' },
+  ],
   manifest: '/manifest.json',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any', type: 'image/x-icon' },
-      { url: '/icon1.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon1.png', sizes: '512x512', type: 'image/png' },
+      { url: '/favicon/web-app-manifest-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon/web-app-manifest-512x512.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+    apple: [{ url: '/favicon/web-app-manifest-192x192.png', sizes: '180x180', type: 'image/png' }],
     shortcut: '/favicon.ico',
-  },
-  robots: {
-    index: true,
-    follow: true,
   },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
+    { media: '(prefers-color-scheme: light)', color: '#f8fafc' },
+  ],
 };
 
 export default function RootLayout({
@@ -52,6 +44,37 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Script id="ld-json-organisation" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: siteConfig.name,
+          url: siteConfig.url,
+          logo: `${siteConfig.url}/favicon/web-app-manifest-512x512.png`,
+          sameAs: [siteConfig.social.github, siteConfig.social.twitter, siteConfig.social.linkedin],
+          contactPoint: [
+            {
+              '@type': 'ContactPoint',
+              email: siteConfig.author.email,
+              contactType: 'technical support',
+              availableLanguage: ['English'],
+            },
+          ],
+        })}
+      </Script>
+      <Script id="ld-json-website" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: siteConfig.name,
+          url: siteConfig.url,
+          publisher: {
+            '@type': 'Organization',
+            name: siteConfig.author.labsName,
+            url: siteConfig.url,
+          },
+        })}
+      </Script>
       <body className="font-sans antialiased">
         <ThemeProvider defaultTheme="dark" storageKey="forest-fire-theme">
           <div className="relative flex min-h-screen flex-col">

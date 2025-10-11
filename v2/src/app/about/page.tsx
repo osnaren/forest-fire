@@ -5,14 +5,23 @@ import { BackgroundEffect, FloatingElement, PulsingDot } from '@/components/ui/i
 import { ModernBadge } from '@/components/ui/modern-badge';
 import { AnimatedGradientText } from '@/components/ui/modern-effects';
 import { Timeline } from '@/components/ui/timeline';
-import { aboutConfig, siteConfig } from '@/config/pages';
+import { aboutConfig } from '@/config/pages';
+import { generateSEOMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-export const metadata: Metadata = {
-  title: `About - ${siteConfig.name}`,
+export const metadata: Metadata = generateSEOMetadata({
+  title: 'About',
   description: aboutConfig.hero.description,
-};
+  pathname: '/about',
+  type: 'article',
+  keywords: [
+    'forest fire project story',
+    'wildfire detection research',
+    'environmental technology case study',
+    'about forest fire classifier',
+  ],
+});
 
 export default function AboutPage() {
   return (

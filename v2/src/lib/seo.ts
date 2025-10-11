@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+import { siteConfig } from '@/config/pages';
+
 export interface SEOProps {
   title?: string;
   description?: string;
@@ -7,17 +9,32 @@ export interface SEOProps {
   image?: string;
   url?: string;
   type?: 'website' | 'article';
+  pathname?: string;
+  noIndex?: boolean;
 }
 
 const defaultMetadata = {
-  title: 'Forest Fire Classifier v2',
-  description:
-    'Professional-grade wildfire detection powered by advanced machine learning. Real-time forest fire classification from images.',
-  keywords: ['wildfire', 'forest fire', 'machine learning', 'tensorflow', 'detection', 'classification'],
-  image: '/og-image.jpg',
-  url: 'https://fire.osnaren.com',
+  title: `${siteConfig.name} ${siteConfig.version}`,
+  description: siteConfig.description,
+  keywords: ['wildfire detection', 'forest fire', 'machine learning', 'tensorflow', 'environmental monitoring'],
+  image: '/logo/logo.png',
+  url: siteConfig.url,
   type: 'website' as const,
 };
+
+const metadataBase = new URL(siteConfig.url);
+
+function toAbsoluteUrl(target?: string) {
+  if (!target) {
+    return metadataBase.toString();
+  }
+
+  try {
+    return new URL(target, metadataBase).toString();
+  } catch {
+    return metadataBase.toString();
+  }
+}
 
 export function generateSEOMetadata({
   title,
@@ -26,14 +43,17 @@ export function generateSEOMetadata({
   image,
   url,
   type = 'website',
+  pathname,
+  noIndex,
 }: SEOProps = {}): Metadata {
   const seoTitle = title ? `${title} - ${defaultMetadata.title}` : defaultMetadata.title;
   const seoDescription = description || defaultMetadata.description;
   const seoKeywords = keywords || defaultMetadata.keywords;
-  const seoImage = image || defaultMetadata.image;
-  const seoUrl = url || defaultMetadata.url;
+  const seoImage = toAbsoluteUrl(image || defaultMetadata.image);
+  const canonicalUrl = toAbsoluteUrl(url || pathname || defaultMetadata.url);
 
   return {
+    metadataBase,
     title: seoTitle,
     description: seoDescription,
     keywords: seoKeywords,
@@ -41,15 +61,20 @@ export function generateSEOMetadata({
     creator: 'Forest Fire Classifier',
     publisher: 'Forest Fire Classifier',
     robots: {
-      index: true,
-      follow: true,
+      index: !noIndex,
+      follow: !noIndex,
+    },
+    applicationName: siteConfig.name,
+    category: 'Technology',
+    alternates: {
+      canonical: canonicalUrl,
     },
     openGraph: {
       title: seoTitle,
       description: seoDescription,
       type,
       locale: 'en_US',
-      url: seoUrl,
+      url: canonicalUrl,
       siteName: defaultMetadata.title,
       images: [
         {
@@ -65,10 +90,8 @@ export function generateSEOMetadata({
       title: seoTitle,
       description: seoDescription,
       images: [seoImage],
-      creator: '@forestfireclassifier',
-    },
-    alternates: {
-      canonical: seoUrl,
+      creator: siteConfig.author.twitter,
+      site: siteConfig.author.twitter,
     },
   };
 }

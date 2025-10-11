@@ -1,10 +1,18 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { generateSEOMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Live Wildfire Map - Forest Fire Classifier v2',
+export const metadata: Metadata = generateSEOMetadata({
+  title: 'Live Wildfire Map',
   description: 'Real-time global wildfire monitoring and detection map powered by NASA FIRMS data.',
-};
+  pathname: '/map',
+  keywords: [
+    'live wildfire map',
+    'nasa firms integration',
+    'forest fire hotspots',
+    'global wildfire monitoring',
+  ],
+});
 
 export default function MapPage() {
   return (
