@@ -86,10 +86,10 @@ const nextConfig: NextConfig = {
     // - Map 'sharp' and node built-ins to a small browser shim to avoid bundling native code into client builds.
     resolveAlias: {
       '@tensorflow/tfjs-node': { browser: '@tensorflow/tfjs' },
-      sharp: { browser: path.join(__dirname, 'src', 'lib', 'shims', 'empty-browser-shim.ts') },
-      fs: { browser: path.join(__dirname, 'src', 'lib', 'shims', 'empty-browser-shim.ts') },
-      path: { browser: path.join(__dirname, 'src', 'lib', 'shims', 'empty-browser-shim.ts') },
-      crypto: { browser: path.join(__dirname, 'src', 'lib', 'shims', 'empty-browser-shim.ts') },
+      sharp: { browser: './src/lib/shims/empty-browser-shim.ts' },
+      fs: { browser: './src/lib/shims/empty-browser-shim.ts' },
+      path: { browser: './src/lib/shims/empty-browser-shim.ts' },
+      crypto: { browser: './src/lib/shims/empty-browser-shim.ts' },
     },
 
     // Add loader rules that you rely on in the codebase (SVGR is safe and commonly used).
