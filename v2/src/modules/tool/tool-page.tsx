@@ -2,18 +2,36 @@
 
 import { useMemo, useRef, useState } from 'react';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Loading } from '@/components/ui/loading';
 import { toolConfig } from '@/config/pages';
-import type { PredictionResponse } from '@/lib/types';
+import { predictFile } from '@/lib/client/predict';
 import { cn } from '@/lib/utils';
+import { toast } from 'react-hot-toast';
 
 import { PreviewGrid } from './components/preview-grid';
 import { ResultsPanel } from './components/results-panel';
 import { ToolStepper } from './components/tool-stepper';
 import { UploadArea } from './components/upload-area';
 import type { UploadItem, UploadMode } from './types';
+
+type ToolStep = 'upload' | 'review' | 'results';
+
+const STEP_INDEX: Record<ToolStep, number> = {
+  upload: 0,
+  review: 1,
+  results: 2,
+};
 
 const MAX_FILE_SIZE_BYTES = 4 * 1024 * 1024;
 
@@ -30,7 +48,7 @@ function createUploadItem(file: File, previewUrl: string): UploadItem {
     id: generateId(),
     file,
     previewUrl,
-    status: 'idle',
+    status: 'ready',
   };
 }
 
@@ -46,57 +64,71 @@ function normalizeError(error: unknown): string {
   return 'An unexpected error occurred. Please try again.';
 }
 
-function sanitizeResults(results: PredictionResponse['results']) {
-  return results?.map((result) => ({
-    ...result,
-    probability: Math.min(Math.max(result.probability, 0), 1),
-  }));
-}
-
 export function ToolPage() {
   const [mode, setMode] = useState<UploadMode>('single');
+  const [step, setStep] = useState<ToolStep>('upload');
   const [uploads, setUploads] = useState<UploadItem[]>([]);
+  const [modeChangeTarget, setModeChangeTarget] = useState<UploadMode | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [statusBanner, setStatusBanner] = useState<{
     tone: 'info' | 'success' | 'warning' | 'error';
     message: string;
   } | null>(null);
-  const [modeLocked, setModeLocked] = useState(false);
   const previewRegistry = useRef(new Set<string>());
+  const addMoreInputRef = useRef<HTMLInputElement | null>(null);
+  const predictionToastRef = useRef<string | null>(null);
+
+  const predictionMode = toolConfig.predictionMode ?? 'client';
+  const inferenceLabel = predictionMode === 'client' ? 'On-device inference' : 'Server inference';
+  const inferenceDescription =
+    predictionMode === 'client'
+      ? 'Runs entirely in your browser for maximum privacy.'
+      : 'Uploads securely to the server for accelerated processing.';
+  const inferenceBadgeClass =
+    predictionMode === 'client' ? 'border-emerald-500/40 text-emerald-300' : 'border-sky-500/40 text-sky-300';
 
   const maxFiles = mode === 'single' ? 1 : (toolConfig.maxBulkFiles ?? 6);
-
-  const hasResults = uploads.some((item) => item.status === 'success' || item.status === 'error');
-  const activeStep = uploads.length === 0 ? 0 : hasResults ? 2 : 1;
-  const completedCount = uploads.filter((item) => item.status === 'success').length;
-  const uploadingCount = uploads.filter((item) => item.status === 'uploading').length;
-
-  const canSubmit = uploads.length > 0 && uploads.every((item) => item.status !== 'uploading') && !isProcessing;
-  const autoModeLock = isProcessing || uploadingCount > 0;
-  const isModeLocked = autoModeLock || modeLocked;
-  const lockReason = autoModeLock
-    ? 'Uploads in progress — finish or reset to change modes.'
-    : modeLocked
-      ? 'Mode locked to prevent accidental switching.'
+  const readyCount = uploads.filter((item) => item.status === 'ready').length;
+  const successCount = uploads.filter((item) => item.status === 'success').length;
+  const errorCount = uploads.filter((item) => item.status === 'error').length;
+  const activeStep = STEP_INDEX[step];
+  const isModeLocked = isProcessing || uploads.length > 0;
+  const lockReason = isProcessing
+    ? 'Predictions are running. Please wait until they finish before switching modes.'
+    : uploads.length > 0
+      ? 'Switching modes will clear your current selection.'
       : null;
 
   const helperText = useMemo(() => {
+    if (step === 'upload') {
+      return 'Drop your forest imagery or browse files to begin analysis.';
+    }
+
+    if (step === 'review') {
+      const inferenceHint = predictionMode === 'client' ? 'on-device predictions' : 'server-side predictions';
+      return readyCount > 1
+        ? `${readyCount} images queued. Remove any outliers before running ${inferenceHint}.`
+        : `Review the selected image before running ${inferenceHint}.`;
+    }
+
     if (isProcessing) {
-      const total = uploads.length;
-      const inProgress = uploadingCount;
-      return `Processing ${completedCount}/${total} completed${inProgress ? ` · ${inProgress} in progress` : ''}`;
+      return predictionMode === 'client'
+        ? 'Crunching probabilities with the on-device model…'
+        : 'Analyzing images via the secure server pipeline…';
     }
 
-    if (uploads.length && !hasResults) {
-      return 'Ready to submit your selected images.';
+    if (successCount > 0 && errorCount > 0) {
+      return `Some images failed (${errorCount}). Review results and retry if needed.`;
     }
 
-    if (hasResults) {
-      return 'Review the predictions below or upload more images to run new checks.';
+    if (successCount > 0) {
+      return 'Results ready. Explore the confidence breakdowns below.';
     }
 
-    return 'Start by adding images of forested areas or wildfire scenes to analyze them.';
-  }, [completedCount, hasResults, isProcessing, uploadingCount, uploads]);
+    return 'No successful predictions. Try uploading different imagery.';
+  }, [errorCount, isProcessing, predictionMode, readyCount, step, successCount]);
+
+  const canSubmit = step === 'review' && uploads.length > 0 && !isProcessing;
 
   const revokePreview = (url: string) => {
     if (!url) {
@@ -109,31 +141,57 @@ export function ToolPage() {
     }
   };
 
-  const resetStatuses = () => {
-    setUploads((prev) => prev.map((item) => ({ ...item, status: 'idle', error: undefined, results: undefined })));
+  const clearUploads = () => {
+    setUploads((prev) => {
+      prev.forEach((item) => revokePreview(item.previewUrl));
+      return [];
+    });
+    previewRegistry.current.clear();
   };
 
   const handleModeChange = (nextMode: UploadMode) => {
-    if (nextMode === mode || isModeLocked) {
+    if (nextMode === mode) {
       return;
     }
-
     setMode(nextMode);
     setStatusBanner(null);
-
-    if (nextMode === 'single' && uploads.length > 1) {
-      const [first, ...rest] = uploads;
-      rest.forEach((item) => revokePreview(item.previewUrl));
-      setUploads(first ? [first] : []);
+    if (uploads.length === 0) {
+      setStep('upload');
     }
   };
 
-  const handleClear = () => {
-    uploads.forEach((item) => revokePreview(item.previewUrl));
-    previewRegistry.current.clear();
-    setUploads([]);
+  const handleLockedModeChange = (nextMode: UploadMode) => {
+    if (nextMode === mode) {
+      return;
+    }
+    setModeChangeTarget(nextMode);
+  };
+
+  const handleConfirmModeSwitch = () => {
+    if (!modeChangeTarget) {
+      return;
+    }
+    clearUploads();
+    setMode(modeChangeTarget);
+    setStep('upload');
     setStatusBanner(null);
-    setModeLocked(false);
+    setModeChangeTarget(null);
+    setIsProcessing(false);
+  };
+
+  const handleCancelModeSwitch = () => {
+    setModeChangeTarget(null);
+  };
+
+  const handleClear = () => {
+    const hadUploads = uploads.length > 0;
+    clearUploads();
+    setStatusBanner(null);
+    setIsProcessing(false);
+    setStep('upload');
+    if (hadUploads) {
+      toast('Selection cleared', { icon: '🧹' });
+    }
   };
 
   const handleRemove = (id: string) => {
@@ -142,7 +200,12 @@ export function ToolPage() {
       if (target) {
         revokePreview(target.previewUrl);
       }
-      return prev.filter((item) => item.id !== id);
+      const next = prev.filter((item) => item.id !== id);
+      if (next.length === 0) {
+        setStep('upload');
+        setStatusBanner(null);
+      }
+      return next;
     });
   };
 
@@ -151,74 +214,83 @@ export function ToolPage() {
       return;
     }
 
-    const existingCount = uploads.length;
-    const availableSlots = Math.max(maxFiles - existingCount, 0);
+    const errors: string[] = [];
+    const accepted: UploadItem[] = [];
 
-    if (availableSlots <= 0) {
+    const currentUploads = mode === 'single' ? [] : uploads;
+    const existingKeys = new Set(
+      currentUploads.map((item) => `${item.file.name}-${item.file.size}-${item.file.lastModified}`)
+    );
+    let remainingSlots = mode === 'single' ? 1 : Math.max(maxFiles - currentUploads.length, 0);
+
+    if (remainingSlots <= 0) {
       setStatusBanner({
         tone: 'warning',
-        message: `You already selected the maximum of ${maxFiles} image${maxFiles > 1 ? 's' : ''}. Remove an image to add a new one.`,
+        message: `You already selected the maximum of ${maxFiles} image${maxFiles > 1 ? 's' : ''}. Remove an image before adding more.`,
       });
+      toast.error('Upload limit reached. Remove an image before adding more.');
       return;
     }
 
-    const accepted: UploadItem[] = [];
-    const errors: string[] = [];
+    for (const file of files) {
+      if (remainingSlots <= 0) {
+        break;
+      }
 
-    const dedupeKey = (file: File) => `${file.name}-${file.size}-${file.lastModified}`;
-    const existingKeys = new Set(uploads.map((item) => dedupeKey(item.file)));
-
-    files.forEach((file) => {
       if (!file.type.startsWith('image/')) {
         errors.push(`${file.name} is not an image and was skipped.`);
-        return;
+        continue;
       }
 
       if (file.size > MAX_FILE_SIZE_BYTES) {
         errors.push(`${file.name} exceeds the ${toolConfig.maxFileSize} limit.`);
-        return;
+        continue;
       }
 
-      const key = dedupeKey(file);
+      const key = `${file.name}-${file.size}-${file.lastModified}`;
       if (existingKeys.has(key)) {
         errors.push(`${file.name} is already in the queue.`);
-        return;
-      }
-
-      if (accepted.length >= availableSlots) {
-        return;
+        continue;
       }
 
       const previewUrl = URL.createObjectURL(file);
       previewRegistry.current.add(previewUrl);
       accepted.push(createUploadItem(file, previewUrl));
-    });
+      existingKeys.add(key);
+      remainingSlots -= 1;
 
-    if (accepted.length === availableSlots && files.length > accepted.length) {
-      errors.push(
-        `Only the first ${availableSlots} image${availableSlots > 1 ? 's were' : ' was'} added due to the batch limit.`
-      );
+      if (mode === 'single') {
+        break;
+      }
     }
 
     if (accepted.length === 0) {
-      setStatusBanner({ tone: 'error', message: errors.join(' ') });
+      if (errors.length) {
+        setStatusBanner({ tone: 'error', message: errors.join(' ') });
+        toast.error(errors[0]);
+      }
       return;
     }
 
     if (mode === 'single') {
-      uploads.forEach((item) => revokePreview(item.previewUrl));
+      clearUploads();
       previewRegistry.current = new Set(accepted.map((item) => item.previewUrl));
-      setUploads(accepted.slice(0, 1));
+      setUploads(accepted);
     } else {
       setUploads((prev) => [...prev, ...accepted]);
     }
 
+    toast.success(`${accepted.length} image${accepted.length > 1 ? 's' : ''} added to the queue.`);
+
+    setStep('review');
+
     if (errors.length) {
       setStatusBanner({ tone: 'warning', message: errors.join(' ') });
+      toast.error(errors[0]);
     } else {
       setStatusBanner({
         tone: 'info',
-        message: `${accepted.length} image${accepted.length > 1 ? 's' : ''} ready for analysis in ${mode} mode.`,
+        message: `${accepted.length} image${accepted.length > 1 ? 's' : ''} ready for analysis.`,
       });
     }
   };
@@ -228,44 +300,46 @@ export function ToolPage() {
       return;
     }
 
-    setStatusBanner({ tone: 'info', message: 'Starting predictions… hang tight.' });
-    setIsProcessing(true);
-    resetStatuses();
+    if (predictionToastRef.current) {
+      toast.dismiss(predictionToastRef.current);
+      predictionToastRef.current = null;
+    }
 
-    let successCount = 0;
-    let errorCount = 0;
+    const runningMessage =
+      predictionMode === 'client' ? 'Running predictions locally…' : 'Uploading securely for server-side predictions…';
+    setStatusBanner({ tone: 'info', message: runningMessage });
+    predictionToastRef.current = toast.loading(
+      predictionMode === 'client' ? 'Running on-device predictions…' : 'Running predictions on the server…'
+    );
+    setIsProcessing(true);
+    setStep('results');
+
+    let success = 0;
+    let failure = 0;
 
     for (const item of uploads) {
-      const start = performance.now();
+      const startTime = performance.now();
 
       setUploads((prev) =>
-        prev.map((entry) => (entry.id === item.id ? { ...entry, status: 'uploading', error: undefined } : entry))
+        prev.map((entry) =>
+          entry.id === item.id
+            ? {
+                ...entry,
+                status: 'uploading',
+                error: undefined,
+                results: undefined,
+                durationMs: undefined,
+                processedAt: undefined,
+              }
+            : entry
+        )
       );
 
-      const formData = new FormData();
-      formData.append('image', item.file);
-
       try {
-        const response = await fetch('/api/predict', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (!response.ok) {
-          let message = response.statusText;
-          try {
-            const errorBody = await response.json();
-            message = errorBody?.error ?? message;
-          } catch (error) {
-            const fallback = normalizeError(error);
-            message = fallback;
-          }
-          throw new Error(message);
-        }
-
-        const data = (await response.json()) as PredictionResponse;
-        const duration = performance.now() - start;
-        successCount += 1;
+        const results = await predictFile(item.file, predictionMode as 'client' | 'server');
+        const duration = performance.now() - startTime;
+        const timestamp = new Date().toISOString();
+        success += 1;
 
         setUploads((prev) =>
           prev.map((entry) =>
@@ -273,23 +347,22 @@ export function ToolPage() {
               ? {
                   ...entry,
                   status: 'success',
-                  results: sanitizeResults(data.results),
+                  results,
                   durationMs: duration,
-                  processedAt: data.processingTime,
+                  processedAt: timestamp,
                 }
               : entry
           )
         );
       } catch (error) {
-        const message = normalizeError(error);
-        errorCount += 1;
+        failure += 1;
         setUploads((prev) =>
           prev.map((entry) =>
             entry.id === item.id
               ? {
                   ...entry,
                   status: 'error',
-                  error: message,
+                  error: normalizeError(error),
                 }
               : entry
           )
@@ -299,27 +372,48 @@ export function ToolPage() {
 
     setIsProcessing(false);
 
-    if (errorCount && successCount) {
+    const settleToast = (variant: 'success' | 'error' | 'warning', message: string) => {
+      if (predictionToastRef.current) {
+        const toastId = predictionToastRef.current;
+        if (variant === 'success') {
+          toast.success(message, { id: toastId });
+        } else if (variant === 'error') {
+          toast.error(message, { id: toastId });
+        } else {
+          toast(message, { id: toastId, icon: '⚠️' });
+        }
+        predictionToastRef.current = null;
+        return;
+      }
+
+      if (variant === 'success') {
+        toast.success(message);
+      } else if (variant === 'error') {
+        toast.error(message);
+      } else {
+        toast(message, { icon: '⚠️' });
+      }
+    };
+
+    if (failure && success) {
       setStatusBanner({
         tone: 'warning',
-        message: `${successCount} predictions succeeded, ${errorCount} failed. Review results below.`,
+        message: `${success} predictions succeeded, ${failure} failed. Review the details below.`,
       });
+      settleToast('warning', 'Some predictions failed. Review the results below.');
       return;
     }
 
-    if (errorCount) {
-      setStatusBanner({ tone: 'error', message: 'All predictions failed. Please try again with different images.' });
+    if (failure) {
+      const failureMessage = 'All predictions failed. Try different imagery and run again.';
+      setStatusBanner({ tone: 'error', message: failureMessage });
+      settleToast('error', failureMessage);
       return;
     }
 
-    setStatusBanner({ tone: 'success', message: 'Predictions complete! Explore the confidence breakdowns below.' });
-  };
-
-  const handleToggleModeLock = () => {
-    if (autoModeLock) {
-      return;
-    }
-    setModeLocked((prev) => !prev);
+    const successMessage = 'Predictions complete! Confidence scores are ready below.';
+    setStatusBanner({ tone: 'success', message: successMessage });
+    settleToast('success', 'Predictions complete!');
   };
 
   return (
@@ -336,31 +430,73 @@ export function ToolPage() {
 
           <ToolStepper steps={toolConfig.steps} activeStep={activeStep} />
 
-          <UploadArea
-            mode={mode}
-            maxBulkFiles={toolConfig.maxBulkFiles}
-            maxFileSizeLabel={toolConfig.maxFileSize}
-            supportedFormats={toolConfig.supportedFormats}
-            tips={toolConfig.tips}
-            bulkLimitNotice={toolConfig.bulkLimitNotice}
-            totalFiles={uploads.length}
-            disabled={isProcessing}
-            modeLocked={isModeLocked}
-            lockReason={lockReason}
-            autoLocked={autoModeLock}
-            onToggleLock={handleToggleModeLock}
-            onModeChange={handleModeChange}
-            onFilesAdded={handleFilesAdded}
-            onClear={handleClear}
-          />
+          {step === 'upload' ? (
+            <UploadArea
+              mode={mode}
+              maxBulkFiles={toolConfig.maxBulkFiles}
+              maxFileSizeLabel={toolConfig.maxFileSize}
+              supportedFormats={toolConfig.supportedFormats}
+              tips={toolConfig.tips}
+              bulkLimitNotice={toolConfig.bulkLimitNotice}
+              totalFiles={uploads.length}
+              disabled={isProcessing}
+              locked={isModeLocked}
+              lockReason={lockReason}
+              onModeChange={handleModeChange}
+              onLockedModeChange={handleLockedModeChange}
+              onFilesAdded={handleFilesAdded}
+              onClear={handleClear}
+            />
+          ) : null}
 
-          <PreviewGrid items={uploads} onRemove={handleRemove} disabled={isProcessing} />
+          {step === 'review' ? (
+            <PreviewGrid
+              items={uploads}
+              onRemove={handleRemove}
+              disabled={isProcessing}
+              onAddMore={handleFilesAdded}
+              mode={mode}
+              maxFiles={maxFiles}
+            />
+          ) : null}
+
+          {/* Hidden input to support the 'Add more' button in the workflow card */}
+          <input
+            ref={addMoreInputRef}
+            type="file"
+            accept="image/*"
+            multiple={mode === 'bulk'}
+            className="hidden"
+            onChange={(e) => {
+              const files = Array.from(e.target.files ?? []);
+              if (files.length) handleFilesAdded(files);
+              e.currentTarget.value = '';
+            }}
+            disabled={isProcessing || uploads.length >= maxFiles}
+          />
 
           <Card className="border-border/60 bg-card/80">
             <CardContent className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="text-muted-foreground flex flex-col gap-1 text-sm">
-                <span className="text-foreground/90 font-medium">Workflow status</span>
-                <span>{helperText}</span>
+              <div className="text-muted-foreground flex flex-col gap-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="text-foreground/90 font-medium">Workflow status</span>
+                  <div className="ml-2 flex items-center gap-2">
+                    <Badge variant="outline" className="text-xs">
+                      Ready: {readyCount}
+                    </Badge>
+                    <Badge variant="outline" className="text-xs text-emerald-300">
+                      Success: {successCount}
+                    </Badge>
+                    <Badge variant="outline" className="text-xs text-red-300">
+                      Failed: {errorCount}
+                    </Badge>
+                    <Badge variant="outline" className={cn('text-xs', inferenceBadgeClass)}>
+                      {inferenceLabel}
+                    </Badge>
+                  </div>
+                </div>
+                <div>{helperText}</div>
+                <div className="text-muted-foreground/80 text-xs">{inferenceDescription}</div>
                 {statusBanner ? (
                   <span
                     className={cn(
@@ -375,22 +511,70 @@ export function ToolPage() {
                   </span>
                 ) : null}
               </div>
-              <div className="flex items-center gap-3">
-                <Button variant="outline" size="sm" onClick={handleClear} disabled={!uploads.length || isProcessing}>
+              <div className="flex flex-wrap items-center gap-3">
+                {mode === 'bulk' && step === 'review' && uploads.length < maxFiles ? (
+                  <Button variant="ghost" size="sm" onClick={() => addMoreInputRef.current?.click()}>
+                    Add more
+                  </Button>
+                ) : null}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleClear}
+                  disabled={isProcessing || uploads.length === 0}
+                >
                   Reset
                 </Button>
                 <Button onClick={handleSubmit} disabled={!canSubmit} size="sm">
-                  {isProcessing ? 'Processing…' : mode === 'single' ? 'Analyze image' : 'Analyze batch'}
+                  {mode === 'single' ? 'Analyze image' : 'Analyze batch'}
                 </Button>
               </div>
             </CardContent>
           </Card>
 
-          {isProcessing ? <Loading className="py-6" text="Running model predictions" /> : null}
+          {isProcessing ? (
+            <Loading
+              className="py-6"
+              text={
+                predictionMode === 'client' ? 'Running on-device model predictions' : 'Processing images on the server'
+              }
+            />
+          ) : null}
 
-          <ResultsPanel mode={mode} items={uploads} />
+          {step === 'results' ? <ResultsPanel mode={mode} items={uploads} /> : null}
+
+          {step === 'results' && !isProcessing ? (
+            <div className="flex flex-wrap gap-3">
+              <Button variant="secondary" size="sm" onClick={() => setStep('review')} disabled={uploads.length === 0}>
+                Adjust selection
+              </Button>
+              <Button size="sm" onClick={handleClear}>
+                Start new analysis
+              </Button>
+            </div>
+          ) : null}
         </div>
       </section>
+
+      <Dialog open={modeChangeTarget !== null} onOpenChange={(open) => (!open ? handleCancelModeSwitch() : undefined)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Switch upload mode?</DialogTitle>
+            <DialogDescription>
+              Switching to the {modeChangeTarget === 'single' ? 'single image' : 'batch upload'} flow clears your
+              current selection. Continue?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="mt-4 flex justify-end gap-2 sm:flex-row">
+            <Button variant="ghost" onClick={handleCancelModeSwitch}>
+              Stay in {mode === 'single' ? 'single' : 'batch'} mode
+            </Button>
+            <Button variant="destructive" onClick={handleConfirmModeSwitch}>
+              Switch mode
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }

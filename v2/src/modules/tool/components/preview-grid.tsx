@@ -1,21 +1,25 @@
 import Image from 'next/image';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-import type { UploadItem } from '../types';
+import type { UploadItem, UploadMode } from '../types';
 
 interface PreviewGridProps {
   items: UploadItem[];
   disabled?: boolean;
   onRemove: (id: string) => void;
+  onAddMore?: (files: File[]) => void;
+  mode?: UploadMode;
+  maxFiles?: number;
+  compact?: boolean;
 }
 
 const statusMeta = {
-  idle: {
+  ready: {
     label: 'Ready to submit',
     badge: 'border-emerald-500/60 bg-emerald-500/10 text-emerald-300',
   },
@@ -43,7 +47,25 @@ function formatFileSize(bytes: number): string {
   return `${bytes} B`;
 }
 
-export function PreviewGrid({ items, disabled, onRemove }: PreviewGridProps) {
+export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFiles, compact }: PreviewGridProps) {
+  const addInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleAddMoreClick = useCallback(() => {
+    addInputRef.current?.click();
+  }, []);
+
+  const handleMoreSelected = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(event.target.files ?? []);
+      if (files.length) {
+        // forward to parent, parent will enforce limits
+        onAddMore?.(files);
+      }
+      event.target.value = '';
+    },
+    [onAddMore]
+  );
+
   const hasItems = items.length > 0;
 
   const columnClass = useMemo(() => {
@@ -59,11 +81,57 @@ export function PreviewGrid({ items, disabled, onRemove }: PreviewGridProps) {
   if (!hasItems) {
     return null;
   }
-
   return (
     <div className={cn('grid gap-4', columnClass)}>
       {items.map((item) => {
         const meta = statusMeta[item.status];
+        if (compact) {
+          return (
+            <Card key={item.id} className="group border-border/60 bg-card/80">
+              <CardContent className="flex items-center gap-3 p-3">
+                <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md">
+                  <Image
+                    src={item.previewUrl}
+                    alt={item.file.name}
+                    width={48}
+                    height={48}
+                    unoptimized
+                    className="object-cover"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium" title={item.file.name}>
+                    {item.file.name}
+                  </p>
+                  <p className="text-muted-foreground text-xs">{formatFileSize(item.file.size)}</p>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <Badge variant="outline" className={cn('text-[11px] font-medium', meta.badge)}>
+                    {meta.label}
+                  </Badge>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => onRemove(item.id)}
+                    disabled={disabled || item.status === 'uploading'}
+                  >
+                    <span className="sr-only">Remove image</span>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                    >
+                      <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        }
 
         return (
           <Card
@@ -71,13 +139,13 @@ export function PreviewGrid({ items, disabled, onRemove }: PreviewGridProps) {
             className="group border-border/60 bg-card/80 relative overflow-hidden transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-lg"
           >
             <CardContent className="flex flex-col gap-4 p-0">
-              <div className="relative h-48 w-full overflow-hidden">
+              <div className="relative w-full overflow-hidden pt-[100%]">
                 <Image
+                  fill
                   src={item.previewUrl}
                   alt={item.file.name}
-                  fill
                   unoptimized
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  className="absolute inset-0 object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                   sizes="(min-width: 768px) 33vw, 100vw"
                 />
                 <div className="absolute top-3 left-3 flex items-center gap-2">
@@ -145,6 +213,53 @@ export function PreviewGrid({ items, disabled, onRemove }: PreviewGridProps) {
           </Card>
         );
       })}
+
+      {/* Add more placeholder for bulk mode when space remains */}
+      {onAddMore && mode === 'bulk' && typeof maxFiles === 'number' && items.length < maxFiles ? (
+        <Card className="group border-border/50 bg-card/60 flex items-center justify-center border-dashed">
+          <CardContent className="flex w-full items-center justify-center p-6">
+            <div className="flex flex-col items-center gap-2">
+              <button
+                type="button"
+                onClick={handleAddMoreClick}
+                disabled={disabled}
+                className={cn(
+                  'inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm',
+                  disabled ? 'pointer-events-none opacity-60' : 'border-border/60'
+                )}
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                >
+                  <path
+                    d="M12 5V19M5 12H19"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                Add more ({maxFiles - items.length} slots)
+              </button>
+              <p className="text-muted-foreground text-xs">You can add up to {maxFiles} images.</p>
+            </div>
+            <input
+              ref={addInputRef}
+              type="file"
+              className="hidden"
+              accept="image/*"
+              multiple
+              onChange={handleMoreSelected}
+              disabled={disabled}
+            />
+          </CardContent>
+        </Card>
+      ) : null}
     </div>
   );
 }

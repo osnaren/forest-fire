@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
 import type { UploadMode } from '../types';
@@ -18,11 +17,10 @@ interface UploadAreaProps {
   bulkLimitNotice?: string;
   totalFiles: number;
   disabled?: boolean;
-  modeLocked: boolean;
-  autoLocked?: boolean;
+  locked: boolean;
   lockReason?: string | null;
-  onToggleLock: () => void;
   onModeChange: (mode: UploadMode) => void;
+  onLockedModeChange?: (mode: UploadMode) => void;
   onFilesAdded: (files: File[]) => void;
   onClear: () => void;
 }
@@ -58,11 +56,10 @@ export function UploadArea({
   bulkLimitNotice,
   totalFiles,
   disabled,
-  modeLocked,
-  autoLocked = false,
+  locked,
   lockReason,
-  onToggleLock,
   onModeChange,
+  onLockedModeChange,
   onFilesAdded,
   onClear,
 }: UploadAreaProps) {
@@ -125,6 +122,23 @@ export function UploadArea({
     inputRef.current?.click();
   }, []);
 
+  const handleModeTabChange = useCallback(
+    (value: string) => {
+      const nextMode = value as UploadMode;
+      if (nextMode === mode) {
+        return;
+      }
+
+      if (locked) {
+        onLockedModeChange?.(nextMode);
+        return;
+      }
+
+      onModeChange(nextMode);
+    },
+    [locked, mode, onLockedModeChange, onModeChange]
+  );
+
   return (
     <Card className="border-border/60 bg-card/70 shadow-lg">
       <CardHeader className="border-border/60 flex flex-col gap-4 border-b pb-6">
@@ -137,72 +151,26 @@ export function UploadArea({
             <Badge variant="outline" className="text-muted-foreground text-xs">
               {maxFileSizeLabel} each
             </Badge>
-            <TooltipProvider>
-              <Tooltip delayDuration={80}>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={modeLocked ? 'secondary' : 'outline'}
-                    size="icon"
-                    className={cn(
-                      'border-border/60 h-8 w-8 rounded-full border transition-all',
-                      modeLocked && 'border-emerald-500/60 bg-emerald-500/10 text-emerald-300'
-                    )}
-                    onClick={onToggleLock}
-                    disabled={autoLocked}
-                    aria-pressed={modeLocked}
-                    aria-label={modeLocked ? 'Unlock upload mode selection' : 'Lock upload mode selection'}
-                  >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                    >
-                      {modeLocked ? (
-                        <path
-                          d="M17 11H7V9a5 5 0 0 1 10 0v2Zm-5 4v-2"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      ) : (
-                        <path
-                          d="M12 17v-2m5-4H7V9a5 5 0 1 1 10 0v2Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      )}
-                      <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />
-                    </svg>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent sideOffset={6} className="max-w-xs text-xs">
-                  {lockReason ??
-                    (modeLocked
-                      ? 'Unlock to switch between single and batch modes.'
-                      : 'Lock the current mode to avoid accidental switches.')}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
           </div>
         </div>
-        <Tabs value={mode} onValueChange={(value) => onModeChange(value as UploadMode)} className="w-full">
+        <Tabs value={mode} onValueChange={handleModeTabChange} className="w-full">
           <TabsList className="w-full">
-            <TabsTrigger value="single" disabled={modeLocked}>
+            <TabsTrigger value="single">
               Single image
             </TabsTrigger>
-            <TabsTrigger value="bulk" disabled={modeLocked}>
+            <TabsTrigger value="bulk">
               Batch upload
             </TabsTrigger>
           </TabsList>
           <TabsContent value="single" />
           <TabsContent value="bulk" />
         </Tabs>
+        {locked && lockReason ? (
+          <p className="text-muted-foreground/80 text-xs">
+            {lockReason}
+            {onLockedModeChange ? ' You can still switch modes after confirming.' : ''}
+          </p>
+        ) : null}
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <div

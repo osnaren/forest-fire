@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
+import Image from 'next/image';
+import { useMemo } from 'react';
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { formatProbability } from '@/lib/prediction-utils';
@@ -68,9 +69,7 @@ function getTopResult(results: UploadItem['results']) {
 }
 
 export function ResultsPanel({ mode, items }: ResultsPanelProps) {
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-
-  const actionableItems = useMemo(() => items.filter((item) => item.status !== 'idle'), [items]);
+  const actionableItems = useMemo(() => items.filter((item) => item.status !== 'ready'), [items]);
 
   if (!actionableItems.length) {
     return null;
@@ -115,7 +114,32 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
             <p className="text-muted-foreground text-xs">Processed in {item.durationMs.toFixed(0)}ms</p>
           ) : null}
         </CardHeader>
-        <CardContent className="flex flex-col gap-4">{renderBreakdown(item.results)}</CardContent>
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex items-center gap-4">
+            <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md">
+              <Image
+                src={item.previewUrl}
+                alt={item.file.name}
+                width={64}
+                height={64}
+                unoptimized
+                className="object-cover"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-sm font-medium text-foreground/90">{item.file.name}</span>
+              {item.durationMs ? (
+                <span className="text-xs text-muted-foreground">Processed in {item.durationMs.toFixed(0)}ms</span>
+              ) : null}
+            </div>
+          </div>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="breakdown">
+              <AccordionTrigger className="px-0">View confidence breakdown</AccordionTrigger>
+              <AccordionContent>{renderBreakdown(item.results)}</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </CardContent>
       </Card>
     );
   }
@@ -124,7 +148,6 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
     <div className="flex flex-col gap-4">
       {actionableItems.map((item) => {
         const top = getTopResult(item.results);
-        const isExpanded = expanded[item.id] ?? false;
 
         if (item.status === 'error' || item.error) {
           return (
@@ -147,16 +170,30 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
           <Card key={item.id} className="border-border/60 bg-card/80 shadow-lg">
             <CardHeader className="flex flex-col gap-2">
               <div className="flex items-start justify-between gap-3">
-                <div className="flex flex-col gap-1">
-                  <CardTitle className="text-foreground/90 text-base">{item.file.name}</CardTitle>
-                  <p className="text-muted-foreground text-sm">
-                    Top result:{' '}
-                    <span className="text-foreground font-semibold">{CLASS_LABEL[top.className] ?? top.className}</span>{' '}
-                    ({formatProbability(top.probability)})
-                  </p>
-                  {item.durationMs ? (
-                    <p className="text-muted-foreground/80 text-xs">Processed in {item.durationMs.toFixed(0)}ms</p>
-                  ) : null}
+                <div className="flex items-center gap-3">
+                  <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md">
+                    <Image
+                      src={item.previewUrl}
+                      alt={item.file.name}
+                      width={48}
+                      height={48}
+                      unoptimized
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <CardTitle className="text-foreground/90 text-base">{item.file.name}</CardTitle>
+                    <p className="text-muted-foreground text-sm">
+                      Top result:{' '}
+                      <span className="text-foreground font-semibold">
+                        {CLASS_LABEL[top.className] ?? top.className}
+                      </span>{' '}
+                      ({formatProbability(top.probability)})
+                    </p>
+                    {item.durationMs ? (
+                      <p className="text-muted-foreground/80 text-xs">Processed in {item.durationMs.toFixed(0)}ms</p>
+                    ) : null}
+                  </div>
                 </div>
                 <Badge
                   variant="outline"
@@ -168,20 +205,15 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
                   {top ? (CLASS_LABEL[top.className] ?? top.className) : 'Completed'}
                 </Badge>
               </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="px-2 text-xs"
-                  onClick={() => setExpanded((prev) => ({ ...prev, [item.id]: !isExpanded }))}
-                >
-                  {isExpanded ? 'Hide breakdown' : 'View breakdown'}
-                </Button>
-              </div>
             </CardHeader>
-            {isExpanded ? (
-              <CardContent className="flex flex-col gap-4">{renderBreakdown(item.results)}</CardContent>
-            ) : null}
+            <CardContent className="flex flex-col gap-4">
+              <Accordion type="single" collapsible>
+                <AccordionItem value={`breakdown-${item.id}`}>
+                  <AccordionTrigger className="px-0">View confidence breakdown</AccordionTrigger>
+                  <AccordionContent>{renderBreakdown(item.results)}</AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
           </Card>
         );
       })}

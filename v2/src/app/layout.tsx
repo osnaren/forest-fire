@@ -41,37 +41,39 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Script id="ld-json-organisation" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'Organization',
-          name: siteConfig.name,
-          url: siteConfig.url,
-          logo: `${siteConfig.url}/favicon/web-app-manifest-512x512.png`,
-          sameAs: [siteConfig.social.github, siteConfig.social.twitter, siteConfig.social.linkedin],
-          contactPoint: [
-            {
-              '@type': 'ContactPoint',
-              email: siteConfig.author.email,
-              contactType: 'technical support',
-              availableLanguage: ['English'],
-            },
-          ],
-        })}
-      </Script>
-      <Script id="ld-json-website" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
-          name: siteConfig.name,
-          url: siteConfig.url,
-          publisher: {
+      <head>
+        <Script id="ld-json-organisation" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
             '@type': 'Organization',
-            name: siteConfig.author.labsName,
+            name: siteConfig.name,
             url: siteConfig.url,
-          },
-        })}
-      </Script>
+            logo: `${siteConfig.url}/favicon/web-app-manifest-512x512.png`,
+            sameAs: [siteConfig.social.github, siteConfig.social.twitter, siteConfig.social.linkedin],
+            contactPoint: [
+              {
+                '@type': 'ContactPoint',
+                email: siteConfig.author.email,
+                contactType: 'technical support',
+                availableLanguage: ['English'],
+              },
+            ],
+          })}
+        </Script>
+        <Script id="ld-json-website" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: siteConfig.name,
+            url: siteConfig.url,
+            publisher: {
+              '@type': 'Organization',
+              name: siteConfig.author.labsName,
+              url: siteConfig.url,
+            },
+          })}
+        </Script>
+      </head>
       <body className="font-sans antialiased">
         <ThemeProvider defaultTheme="dark" storageKey="forest-fire-theme">
           <div className="relative flex min-h-screen flex-col">

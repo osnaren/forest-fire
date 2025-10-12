@@ -1,10 +1,19 @@
-import * as tf from '@tensorflow/tfjs-node';
+import * as tf from '@tensorflow/tfjs';
+import { promises as fs } from 'fs';
 import path from 'path';
 import sharp from 'sharp';
 
 // --- Constants ---
-const MODEL_PATH = `file://${path.join(process.cwd(), 'public/model/model.json')}`;
+const MODEL_JSON_PATH = path.join(process.cwd(), 'public', 'model', 'model.json');
+const MODEL_DIR = path.dirname(MODEL_JSON_PATH);
 const IMAGE_SIZE = 224;
+
+async function ensureBackend() {
+  await tf.ready();
+  if (tf.getBackend() !== 'cpu') {
+    await tf.setBackend('cpu');
+  }
+}
 
 // --- Model Loading ---
 let model: tf.LayersModel | null = null;
@@ -25,9 +34,52 @@ async function loadModel(): Promise<tf.LayersModel> {
   }
 
   modelLoadingPromise = (async () => {
-    console.log('Loading model from:', MODEL_PATH);
+    console.log('Loading model from:', MODEL_JSON_PATH);
     try {
-      const loadedModel = await tf.loadLayersModel(MODEL_PATH);
+      await ensureBackend();
+      const modelJSONRaw = await fs.readFile(MODEL_JSON_PATH, 'utf-8');
+      const modelJSON = JSON.parse(modelJSONRaw) as {
+        modelTopology: tf.io.ModelArtifacts['modelTopology'];
+        weightsManifest: Array<{
+          paths: string[];
+          weights: tf.io.WeightsManifestEntry[];
+        }>;
+        format?: string;
+        generatedBy?: string;
+        convertedBy?: string;
+        trainingConfig?: unknown;
+        signature?: unknown;
+        userDefinedMetadata?: unknown;
+      };
+
+      const shardBuffers: Buffer[] = [];
+      for (const group of modelJSON.weightsManifest) {
+        for (const relativePath of group.paths) {
+          const shardPath = path.join(MODEL_DIR, relativePath);
+          const buffer = await fs.readFile(shardPath);
+          shardBuffers.push(buffer);
+        }
+      }
+
+      const weightsBuffer = Buffer.concat(shardBuffers);
+
+      const artifacts: tf.io.ModelArtifacts = {
+        format: modelJSON.format,
+        generatedBy: modelJSON.generatedBy,
+        convertedBy: modelJSON.convertedBy,
+        modelTopology: modelJSON.modelTopology,
+        trainingConfig: modelJSON.trainingConfig as tf.io.ModelArtifacts['trainingConfig'],
+        signature: modelJSON.signature as tf.io.ModelArtifacts['signature'],
+        userDefinedMetadata: modelJSON.userDefinedMetadata as tf.io.ModelArtifacts['userDefinedMetadata'],
+        weightSpecs: modelJSON.weightsManifest.flatMap((group) => group.weights),
+        weightData: weightsBuffer.buffer.slice(
+          weightsBuffer.byteOffset,
+          weightsBuffer.byteOffset + weightsBuffer.byteLength
+        ),
+      };
+
+      const handler = tf.io.fromMemory(artifacts);
+      const loadedModel = await tf.loadLayersModel(handler);
       console.log('Model loaded successfully.');
       console.log('Model input shape:', loadedModel.inputs[0].shape);
       console.log('Model output shape:', loadedModel.outputs[0].shape);
@@ -59,35 +111,19 @@ export async function runPrediction(imageBuffer: Buffer): Promise<number[]> {
     throw new Error('Model not loaded');
   }
 
-  // 1. Decode and resize the image using Sharp.
-  let processedImageBuffer: Buffer;
-  try {
-    processedImageBuffer = await sharp(imageBuffer)
-      .resize(IMAGE_SIZE, IMAGE_SIZE)
-      .toFormat('jpeg') // Convert to a consistent format
-      .toBuffer();
-  } catch (error) {
-    throw new Error(`Image processing failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-  }
-
   let tensor: tf.Tensor | null = null;
   let prediction: tf.Tensor | null = null;
 
   try {
-    tensor = tf.tidy(() => {
-      // 2. Decode the image buffer into a tensor
-      const decodedImage = tf.node.decodeImage(processedImageBuffer, 3);
-      const resizedImage = tf.image.resizeBilinear(decodedImage, [IMAGE_SIZE, IMAGE_SIZE]);
+    const { data } = await sharp(imageBuffer)
+      .resize(IMAGE_SIZE, IMAGE_SIZE, { fit: 'cover' })
+      .removeAlpha()
+      .raw()
+      .toBuffer({ resolveWithObject: true });
 
-      // 3. Normalize the image from [0, 255] to [-1, 1]
-      // This is a common requirement for MobileNet-based models.
-      const normalized = resizedImage.toFloat().sub(127.5).div(127.5);
+    const floatData = Float32Array.from(data, (value) => value / 127.5 - 1);
+    tensor = tf.tensor4d(floatData, [1, IMAGE_SIZE, IMAGE_SIZE, 3]);
 
-      // 4. Add a batch dimension
-      return normalized.expandDims(0);
-    });
-
-    // 5. Run prediction
     prediction = loadedModel.predict(tensor) as tf.Tensor;
     const probabilities = await prediction.data();
 
@@ -99,7 +135,6 @@ export async function runPrediction(imageBuffer: Buffer): Promise<number[]> {
     console.error('Prediction error:', error);
     throw new Error(`Prediction failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
   } finally {
-    // 6. Clean up tensors
     if (tensor) tensor.dispose();
     if (prediction) prediction.dispose();
   }

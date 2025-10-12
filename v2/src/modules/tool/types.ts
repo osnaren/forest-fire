@@ -2,7 +2,7 @@ import type { PredictionResponse } from '@/lib/types';
 
 export type UploadMode = 'single' | 'bulk';
 
-export type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
+export type UploadStatus = 'ready' | 'uploading' | 'success' | 'error';
 
 export interface UploadItem {
   id: string;

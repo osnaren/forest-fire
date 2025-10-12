@@ -470,6 +470,7 @@ export const researchConfig = {
 export const toolConfig = {
   title: 'Forest Fire Classifier',
   description: 'Upload an image to detect wildfire activity using our AI model',
+  predictionMode: 'server',
   maxFileSize: '4MB',
   supportedFormats: ['JPG', 'PNG', 'WebP'],
   maxBulkFiles: 6,
