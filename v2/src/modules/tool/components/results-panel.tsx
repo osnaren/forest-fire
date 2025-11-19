@@ -116,7 +116,7 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
-            <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md">
               <Image
                 src={item.previewUrl}
                 alt={item.file.name}
@@ -127,9 +127,9 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-sm font-medium text-foreground/90">{item.file.name}</span>
+              <span className="text-foreground/90 text-sm font-medium">{item.file.name}</span>
               {item.durationMs ? (
-                <span className="text-xs text-muted-foreground">Processed in {item.durationMs.toFixed(0)}ms</span>
+                <span className="text-muted-foreground text-xs">Processed in {item.durationMs.toFixed(0)}ms</span>
               ) : null}
             </div>
           </div>
@@ -171,7 +171,7 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
             <CardHeader className="flex flex-col gap-2">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md">
+                  <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-md">
                     <Image
                       src={item.previewUrl}
                       alt={item.file.name}

@@ -16,8 +16,14 @@ async function ensureBackend() {
 }
 
 // --- Model Loading ---
-let model: tf.LayersModel | null = null;
-let modelLoadingPromise: Promise<tf.LayersModel> | null = null;
+// Use a global variable to cache the model across hot reloads in development
+const globalForModel = global as unknown as {
+  tfModel: tf.LayersModel | null;
+  tfModelLoadingPromise: Promise<tf.LayersModel> | null;
+};
+
+let model: tf.LayersModel | null = globalForModel.tfModel || null;
+let modelLoadingPromise: Promise<tf.LayersModel> | null = globalForModel.tfModelLoadingPromise || null;
 
 /**
  * Loads and caches the TensorFlow.js model.
@@ -37,6 +43,13 @@ async function loadModel(): Promise<tf.LayersModel> {
     console.log('Loading model from:', MODEL_JSON_PATH);
     try {
       await ensureBackend();
+
+      // Clear existing variables to prevent "Variable already registered" errors during hot reload
+      // This is a brute-force approach but necessary when the module is re-evaluated but tfjs state persists
+      // If we are here, it means we are loading the model from scratch (or reloading it).
+      // Any existing variables in the global tf state are likely from a previous (failed or stale) load.
+      tf.disposeVariables();
+
       const modelJSONRaw = await fs.readFile(MODEL_JSON_PATH, 'utf-8');
       const modelJSON = JSON.parse(modelJSONRaw) as {
         modelTopology: tf.io.ModelArtifacts['modelTopology'];
@@ -83,13 +96,25 @@ async function loadModel(): Promise<tf.LayersModel> {
       console.log('Model loaded successfully.');
       console.log('Model input shape:', loadedModel.inputs[0].shape);
       console.log('Model output shape:', loadedModel.outputs[0].shape);
+
+      if (process.env.NODE_ENV !== 'production') {
+        globalForModel.tfModel = loadedModel;
+      }
+
       return loadedModel;
     } catch (error) {
       console.error('Failed to load model:', error);
       modelLoadingPromise = null; // Reset promise on failure
+      if (process.env.NODE_ENV !== 'production') {
+        globalForModel.tfModelLoadingPromise = null;
+      }
       throw new Error(`Model loading failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   })();
+
+  if (process.env.NODE_ENV !== 'production') {
+    globalForModel.tfModelLoadingPromise = modelLoadingPromise;
+  }
 
   model = await modelLoadingPromise;
   return model;

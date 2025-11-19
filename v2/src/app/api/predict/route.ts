@@ -9,7 +9,21 @@ const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 MB
 async function handlePrediction(request: Request) {
   // 1. Rate limit the request
   const ip = request.headers.get('x-forwarded-for') ?? '127.0.0.1';
-  const { success, limit, remaining, reset } = await ratelimit.limit(ip);
+
+  let success = true;
+  let limit = 10;
+  let remaining = 10;
+  let reset = Date.now() + 30000;
+
+  try {
+    const result = await ratelimit.limit(ip);
+    success = result.success;
+    limit = result.limit;
+    remaining = result.remaining;
+    reset = result.reset;
+  } catch (error) {
+    console.warn('Rate limiting failed, failing open:', error);
+  }
 
   if (!success) {
     return CommonErrors.tooManyRequests('Rate limit exceeded. Please try again later.');

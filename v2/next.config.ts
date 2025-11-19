@@ -70,12 +70,6 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: process.env.NODE_ENV === 'development',
   },
 
-  // ESLint configuration
-  eslint: {
-    // Don't fail build on lint errors in dev
-    ignoreDuringBuilds: process.env.NODE_ENV === 'development',
-  },
-
   // Turbopack configuration: mirrors critical webpack behavior for dev (Turbopack) and prevents server-only modules from being bundled into client code.
   turbopack: {
     // Ensure the project root is explicit and absolute (helps monorepos / nonstandard layouts).

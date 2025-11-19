@@ -89,7 +89,7 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
           return (
             <Card key={item.id} className="group border-border/60 bg-card/80">
               <CardContent className="flex items-center gap-3 p-3">
-                <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md">
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-md">
                   <Image
                     src={item.previewUrl}
                     alt={item.file.name}
