@@ -56,7 +56,7 @@ export const CodeBlock = ({ language, filename, code, highlightLines = [], tabs 
               <button
                 key={index}
                 onClick={() => setActiveTab(index)}
-                className={`px-3 !py-2 font-sans text-xs transition-colors ${
+                className={`px-3 py-2! font-sans text-xs transition-colors ${
                   activeTab === index ? 'text-white' : 'text-zinc-400 hover:text-zinc-200'
                 }`}
               >
@@ -77,28 +77,30 @@ export const CodeBlock = ({ language, filename, code, highlightLines = [], tabs 
           </div>
         )}
       </div>
-      <SyntaxHighlighter
-        language={activeLanguage}
-        style={atomDark}
-        customStyle={{
-          margin: 0,
-          padding: 0,
-          background: 'transparent',
-          fontSize: '0.875rem', // text-sm equivalent
-        }}
-        wrapLines={true}
-        showLineNumbers={true}
-        lineProps={(lineNumber) => ({
-          style: {
-            backgroundColor: activeHighlightLines.includes(lineNumber) ? 'rgba(255,255,255,0.1)' : 'transparent',
-            display: 'block',
-            width: '100%',
-          },
-        })}
-        PreTag="div"
-      >
-        {String(activeCode)}
-      </SyntaxHighlighter>
+      <div className="overflow-x-auto">
+        <SyntaxHighlighter
+          language={activeLanguage}
+          style={atomDark}
+          customStyle={{
+            margin: 0,
+            padding: 0,
+            background: 'transparent',
+            fontSize: '0.875rem', // text-sm equivalent
+          }}
+          wrapLines={true}
+          showLineNumbers={true}
+          lineProps={(lineNumber) => ({
+            style: {
+              backgroundColor: activeHighlightLines.includes(lineNumber) ? 'rgba(255,255,255,0.1)' : 'transparent',
+              display: 'block',
+              width: '100%',
+            },
+          })}
+          PreTag="div"
+        >
+          {String(activeCode)}
+        </SyntaxHighlighter>
+      </div>
     </div>
   );
 };

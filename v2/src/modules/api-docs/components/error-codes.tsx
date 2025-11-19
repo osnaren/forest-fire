@@ -6,62 +6,73 @@ import { apiDocsConfig } from '@/config/api-docs';
 
 export function ErrorCodes() {
   return (
-    <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+    <Card className="border-border/50 bg-card/60 backdrop-blur">
       <CardHeader>
         <CardTitle className="text-primary">Error Codes</CardTitle>
-        <CardDescription>Common error responses and their meanings</CardDescription>
+        <CardDescription>Common responses, failure modes, and mitigation strategies</CardDescription>
       </CardHeader>
       <CardContent>
-        <Tabs defaultValue="400" className="w-full">
-          <TabsList className="mb-6 w-full justify-start">
-            {apiDocsConfig.errorCodes.map((error) => (
-              <TabsTrigger key={error.code} value={error.code} className="flex items-center gap-2">
-                <Badge variant={error.color as any} className="font-mono text-[10px]">
-                  {error.code}
-                </Badge>
-                <span>{error.title}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <Tabs defaultValue="400" className="w-full space-y-6">
+          <div className="scrollbar-hide overflow-x-auto pb-2">
+            <TabsList className="flex w-max gap-2 bg-transparent p-0">
+              {apiDocsConfig.errorCodes.map((error) => (
+                <TabsTrigger
+                  key={error.code}
+                  value={error.code}
+                  className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:border-primary/20 flex items-center gap-2 rounded-full border border-transparent px-4 py-2 transition-all duration-300 hover:bg-muted/50"
+                >
+                  <Badge variant={error.color as any} className="font-mono text-[10px]">
+                    {error.code}
+                  </Badge>
+                  <span className="text-sm font-medium">{error.title}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
           {apiDocsConfig.errorCodes.map((error) => (
             <TabsContent key={error.code} value={error.code} className="space-y-4">
               <div className="flex flex-col gap-4 md:flex-row">
                 <div className="flex-1 space-y-4">
-                  <div className="border-border/50 bg-card/30 rounded-lg border p-4">
-                    <h4 className="text-foreground mb-2 font-semibold">{error.title}</h4>
+                  <div className="rounded-2xl border border-border/60 bg-card/50 p-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-lg font-semibold text-foreground">{error.title}</h4>
+                      <Badge variant="outline" className="font-mono text-[11px]">
+                        HTTP {error.code}
+                      </Badge>
+                    </div>
                     <p className="text-muted-foreground text-sm">{error.description}</p>
 
-                    <div className="mt-4">
-                      <h5 className="text-muted-foreground mb-2 text-sm font-medium">Common causes:</h5>
+                    <div className="mt-4 space-y-2">
+                      <h5 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Common causes</h5>
                       <ul className="text-muted-foreground space-y-1 text-sm">
-                        {error.examples.map((example, idx) => (
-                          <li key={idx}>• {example}</li>
+                        {error.examples.map((example) => (
+                          <li key={example}>• {example}</li>
                         ))}
                       </ul>
                     </div>
                   </div>
 
                   <div
-                    className={`rounded-lg border p-4 ${
+                    className={`rounded-2xl border p-4 ${
                       error.code === '429'
-                        ? 'border-amber-500/20 bg-amber-500/5'
+                        ? 'border-amber-500/30 bg-amber-500/10'
                         : error.code === '500'
-                          ? 'border-red-500/20 bg-red-500/5'
-                          : 'border-border/50 bg-card/20'
+                          ? 'border-red-500/30 bg-red-500/10'
+                          : 'border-border/60 bg-card/40'
                     }`}
                   >
-                    <h5 className="mb-2 text-sm font-medium">How to handle:</h5>
-                    <ul className="text-muted-foreground space-y-1 text-xs">
-                      {error.handlingTips.map((tip, tipIndex) => (
-                        <li key={tipIndex}>• {tip}</li>
+                    <h5 className="mb-2 text-sm font-medium">How to handle</h5>
+                    <ul className="space-y-1 text-xs text-foreground/80">
+                      {error.handlingTips.map((tip) => (
+                        <li key={tip}>• {tip}</li>
                       ))}
                     </ul>
                   </div>
                 </div>
 
                 <div className="space-y-3 md:w-1/2">
-                  <h4 className="text-sm font-semibold">Response Example</h4>
+                  <h4 className="text-sm font-semibold">Response example</h4>
                   <CodeBlock
                     language="json"
                     filename={`${error.code}_response.json`}
@@ -73,19 +84,19 @@ export function ErrorCodes() {
           ))}
         </Tabs>
 
-        <div className="mt-6 rounded-lg border border-blue-500/20 bg-blue-500/5 p-4">
-          <div className="flex items-start space-x-3">
-            <div className="text-blue-500">💡</div>
-            <div className="space-y-1">
-              <h5 className="font-semibold text-blue-600 dark:text-blue-400">Error Handling Tips</h5>
-              <ul className="space-y-1 text-sm text-blue-700 dark:text-blue-300">
-                <li>• Always check the response status code</li>
-                <li>• Parse error messages for detailed information</li>
-                <li>• Implement retry logic with exponential backoff for 429/500 errors</li>
-                <li>• Validate files client-side before uploading</li>
-                <li>• Monitor rate limit headers to prevent 429 errors</li>
-              </ul>
+        <div className="mt-6 rounded-2xl border border-blue-500/30 bg-blue-500/10 p-5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div>
+              <h5 className="font-semibold text-blue-900 dark:text-blue-200">{apiDocsConfig.generalTips.title}</h5>
+              <p className="text-blue-900/80 text-xs dark:text-blue-200/80">
+                Build resilient clients by treating every non-200 response explicitly.
+              </p>
             </div>
+            <ul className="space-y-1 text-sm text-blue-900 dark:text-blue-100">
+              {apiDocsConfig.generalTips.items.map((tip) => (
+                <li key={tip}>• {tip}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </CardContent>
