@@ -469,7 +469,7 @@ export const researchConfig = {
 
 export const toolConfig = {
   title: 'Forest Fire Classifier',
-  description: 'Upload an image to detect wildfire activity using our AI model',
+  description: 'Upload forest imagery to detect potential wildfire activity using advanced AI.',
   predictionMode: 'server',
   maxFileSize: '4MB',
   supportedFormats: ['JPG', 'PNG', 'WebP'],
@@ -477,15 +477,15 @@ export const toolConfig = {
   steps: [
     {
       title: 'Upload',
-      description: 'Choose single or multiple images to analyze',
+      description: 'Select imagery for analysis',
     },
     {
       title: 'Review & Submit',
-      description: 'Verify selections and start the predictions',
+      description: 'Review selection and start analysis',
     },
     {
       title: 'Results',
-      description: 'Inspect confidence scores and insights',
+      description: 'View analysis results',
     },
   ],
   classes: [

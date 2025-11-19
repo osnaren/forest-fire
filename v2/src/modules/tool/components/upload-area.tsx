@@ -1,4 +1,5 @@
 import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
+import { motion } from 'motion/react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -140,8 +141,8 @@ export function UploadArea({
   );
 
   return (
-    <Card className="border-border/60 bg-card/70 shadow-lg">
-      <CardHeader className="border-border/60 flex flex-col gap-4 border-b pb-6">
+    <Card className="border-border/60 bg-card/70 shadow-lg overflow-hidden">
+      <CardHeader className="border-border/60 flex flex-col gap-4 border-b pb-6 bg-muted/5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <CardTitle className="text-foreground/90 text-lg font-semibold">Upload images</CardTitle>
           <div className="flex items-center gap-2">
@@ -154,7 +155,7 @@ export function UploadArea({
           </div>
         </div>
         <Tabs value={mode} onValueChange={handleModeTabChange} className="w-full">
-          <TabsList className="w-full">
+          <TabsList className="w-full grid grid-cols-2">
             <TabsTrigger value="single">
               Single image
             </TabsTrigger>
@@ -166,22 +167,31 @@ export function UploadArea({
           <TabsContent value="bulk" />
         </Tabs>
         {locked && lockReason ? (
-          <p className="text-muted-foreground/80 text-xs">
+          <motion.p 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            className="text-muted-foreground/80 text-xs"
+          >
             {lockReason}
             {onLockedModeChange ? ' You can still switch modes after confirming.' : ''}
-          </p>
+          </motion.p>
         ) : null}
       </CardHeader>
-      <CardContent className="flex flex-col gap-6">
-        <div
+      <CardContent className="flex flex-col gap-6 pt-6">
+        <motion.div
           role="presentation"
           onClick={handleClick}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
+          animate={{
+            borderColor: isDragActive ? 'var(--color-emerald-400)' : 'var(--color-border)',
+            backgroundColor: isDragActive ? 'rgba(52, 211, 153, 0.1)' : 'rgba(0, 0, 0, 0.02)',
+            scale: isDragActive ? 1.01 : 1,
+          }}
+          transition={{ duration: 0.2 }}
           className={cn(
-            'border-border/70 bg-muted/10 relative flex min-h-[220px] cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border border-dashed p-8 text-center transition-all',
-            isDragActive && 'border-emerald-400 bg-emerald-400/10 shadow-inner',
+            'border-border/70 relative flex min-h-[220px] cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed p-8 text-center transition-all',
             disabled && 'pointer-events-none opacity-60'
           )}
         >
@@ -194,14 +204,17 @@ export function UploadArea({
             onChange={handleSelectFiles}
             disabled={disabled}
           />
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
+          <motion.div 
+            animate={{ scale: isDragActive ? 1.1 : 1, rotate: isDragActive ? 10 : 0 }}
+            className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400"
+          >
             <svg
-              width="24"
-              height="24"
+              width="32"
+              height="32"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-8 w-8"
             >
               <path
                 d="M12 5V19M5 12H19"
@@ -211,9 +224,9 @@ export function UploadArea({
                 strokeLinejoin="round"
               />
             </svg>
-          </div>
-          <div className="space-y-1">
-            <p className="text-foreground/90 text-base font-semibold">
+          </motion.div>
+          <div className="space-y-2">
+            <p className="text-foreground/90 text-lg font-semibold">
               {isDragActive ? 'Drop images to add them' : 'Click or drag & drop your images'}
             </p>
             <p className="text-muted-foreground text-sm">
@@ -223,12 +236,16 @@ export function UploadArea({
               <p className="text-muted-foreground/80 text-xs">{bulkLimitNotice}</p>
             )}
             {totalFiles > 0 && (
-              <p className="text-xs text-emerald-400">
+              <motion.p 
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-sm font-medium text-emerald-400"
+              >
                 {totalFiles} image{totalFiles > 1 ? 's' : ''} selected
-              </p>
+              </motion.p>
             )}
           </div>
-        </div>
+        </motion.div>
         <div className="text-muted-foreground flex flex-wrap items-center justify-between gap-3 text-sm">
           <div className="flex flex-wrap gap-2">
             {tips.map((tip) => (

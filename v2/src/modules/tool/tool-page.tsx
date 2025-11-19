@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,7 @@ import { toast } from 'react-hot-toast';
 
 import { PreviewGrid } from './components/preview-grid';
 import { ResultsPanel } from './components/results-panel';
+import { StepContainer } from './components/step-container';
 import { ToolStepper } from './components/tool-stepper';
 import { UploadArea } from './components/upload-area';
 import type { UploadItem, UploadMode } from './types';
@@ -79,7 +81,7 @@ export function ToolPage() {
   const predictionToastRef = useRef<string | null>(null);
 
   const predictionMode = toolConfig.predictionMode ?? 'client';
-  const inferenceLabel = predictionMode === 'client' ? 'On-device inference' : 'Server inference';
+  const inferenceLabel = predictionMode === 'client' ? 'On-device Analysis' : 'Server-side Analysis';
   const inferenceDescription =
     predictionMode === 'client'
       ? 'Runs entirely in your browser for maximum privacy.'
@@ -94,9 +96,9 @@ export function ToolPage() {
   const activeStep = STEP_INDEX[step];
   const isModeLocked = isProcessing || uploads.length > 0;
   const lockReason = isProcessing
-    ? 'Predictions are running. Please wait until they finish before switching modes.'
+    ? 'Analysis in progress. Please wait until completion before switching modes.'
     : uploads.length > 0
-      ? 'Switching modes will clear your current selection.'
+      ? 'Changing modes will reset your current selection.'
       : null;
 
   const helperText = useMemo(() => {
@@ -105,7 +107,7 @@ export function ToolPage() {
     }
 
     if (step === 'review') {
-      const inferenceHint = predictionMode === 'client' ? 'on-device predictions' : 'server-side predictions';
+      const inferenceHint = predictionMode === 'client' ? 'on-device analysis' : 'server-side analysis';
       return readyCount > 1
         ? `${readyCount} images queued. Remove any outliers before running ${inferenceHint}.`
         : `Review the selected image before running ${inferenceHint}.`;
@@ -113,8 +115,8 @@ export function ToolPage() {
 
     if (isProcessing) {
       return predictionMode === 'client'
-        ? 'Crunching probabilities with the on-device model…'
-        : 'Analyzing images via the secure server pipeline…';
+        ? 'Analyzing imagery with on-device model…'
+        : 'Processing imagery via secure server analysis…';
     }
 
     if (successCount > 0 && errorCount > 0) {
@@ -122,10 +124,10 @@ export function ToolPage() {
     }
 
     if (successCount > 0) {
-      return 'Results ready. Explore the confidence breakdowns below.';
+      return 'Analysis complete. Detailed confidence scores are available below.';
     }
 
-    return 'No successful predictions. Try uploading different imagery.';
+    return 'Analysis incomplete. Please try uploading clearer imagery.';
   }, [errorCount, isProcessing, predictionMode, readyCount, step, successCount]);
 
   const canSubmit = step === 'review' && uploads.length > 0 && !isProcessing;
@@ -306,10 +308,10 @@ export function ToolPage() {
     }
 
     const runningMessage =
-      predictionMode === 'client' ? 'Running predictions locally…' : 'Uploading securely for server-side predictions…';
+      predictionMode === 'client' ? 'Running local analysis…' : 'Uploading for secure server analysis…';
     setStatusBanner({ tone: 'info', message: runningMessage });
     predictionToastRef.current = toast.loading(
-      predictionMode === 'client' ? 'Running on-device predictions…' : 'Running predictions on the server…'
+      predictionMode === 'client' ? 'Running on-device analysis…' : 'Running server analysis…'
     );
     setIsProcessing(true);
     setStep('results');
@@ -398,22 +400,22 @@ export function ToolPage() {
     if (failure && success) {
       setStatusBanner({
         tone: 'warning',
-        message: `${success} predictions succeeded, ${failure} failed. Review the details below.`,
+        message: `${success} analyses succeeded, ${failure} failed. Review the details below.`,
       });
-      settleToast('warning', 'Some predictions failed. Review the results below.');
+      settleToast('warning', 'Some analyses failed. Review the results below.');
       return;
     }
 
     if (failure) {
-      const failureMessage = 'All predictions failed. Try different imagery and run again.';
+      const failureMessage = 'All analyses failed. Try different imagery and run again.';
       setStatusBanner({ tone: 'error', message: failureMessage });
       settleToast('error', failureMessage);
       return;
     }
 
-    const successMessage = 'Predictions complete! Confidence scores are ready below.';
+    const successMessage = 'Analysis complete! Confidence scores are ready below.';
     setStatusBanner({ tone: 'success', message: successMessage });
-    settleToast('success', 'Predictions complete!');
+    settleToast('success', 'Analysis complete!');
   };
 
   return (
@@ -430,35 +432,54 @@ export function ToolPage() {
 
           <ToolStepper steps={toolConfig.steps} activeStep={activeStep} />
 
-          {step === 'upload' ? (
-            <UploadArea
-              mode={mode}
-              maxBulkFiles={toolConfig.maxBulkFiles}
-              maxFileSizeLabel={toolConfig.maxFileSize}
-              supportedFormats={toolConfig.supportedFormats}
-              tips={toolConfig.tips}
-              bulkLimitNotice={toolConfig.bulkLimitNotice}
-              totalFiles={uploads.length}
-              disabled={isProcessing}
-              locked={isModeLocked}
-              lockReason={lockReason}
-              onModeChange={handleModeChange}
-              onLockedModeChange={handleLockedModeChange}
-              onFilesAdded={handleFilesAdded}
-              onClear={handleClear}
-            />
-          ) : null}
+          <StepContainer step={step}>
+            {step === 'upload' ? (
+              <UploadArea
+                mode={mode}
+                maxBulkFiles={toolConfig.maxBulkFiles}
+                maxFileSizeLabel={toolConfig.maxFileSize}
+                supportedFormats={toolConfig.supportedFormats}
+                tips={toolConfig.tips}
+                bulkLimitNotice={toolConfig.bulkLimitNotice}
+                totalFiles={uploads.length}
+                disabled={isProcessing}
+                locked={isModeLocked}
+                lockReason={lockReason}
+                onModeChange={handleModeChange}
+                onLockedModeChange={handleLockedModeChange}
+                onFilesAdded={handleFilesAdded}
+                onClear={handleClear}
+              />
+            ) : null}
 
-          {step === 'review' ? (
-            <PreviewGrid
-              items={uploads}
-              onRemove={handleRemove}
-              disabled={isProcessing}
-              onAddMore={handleFilesAdded}
-              mode={mode}
-              maxFiles={maxFiles}
-            />
-          ) : null}
+            {step === 'review' ? (
+              <PreviewGrid
+                items={uploads}
+                onRemove={handleRemove}
+                disabled={isProcessing}
+                onAddMore={handleFilesAdded}
+                mode={mode}
+                maxFiles={maxFiles}
+              />
+            ) : null}
+
+            {step === 'results' ? (
+              <div className="space-y-8">
+                {isProcessing ? (
+                  <Loading
+                    className="py-12"
+                    text={
+                      predictionMode === 'client'
+                        ? 'Running on-device model predictions'
+                        : 'Processing images on the server'
+                    }
+                  />
+                ) : (
+                  <ResultsPanel mode={mode} items={uploads} />
+                )}
+              </div>
+            ) : null}
+          </StepContainer>
 
           {/* Hidden input to support the 'Add more' button in the workflow card */}
           <input
@@ -475,84 +496,92 @@ export function ToolPage() {
             disabled={isProcessing || uploads.length >= maxFiles}
           />
 
-          <Card className="border-border/60 bg-card/80">
-            <CardContent className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="text-muted-foreground flex flex-col gap-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <span className="text-foreground/90 font-medium">Workflow status</span>
-                  <div className="ml-2 flex items-center gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      Ready: {readyCount}
-                    </Badge>
-                    <Badge variant="outline" className="text-xs text-emerald-300">
-                      Success: {successCount}
-                    </Badge>
-                    <Badge variant="outline" className="text-xs text-red-300">
-                      Failed: {errorCount}
-                    </Badge>
-                    <Badge variant="outline" className={cn('text-xs', inferenceBadgeClass)}>
-                      {inferenceLabel}
-                    </Badge>
-                  </div>
-                </div>
-                <div>{helperText}</div>
-                <div className="text-muted-foreground/80 text-xs">{inferenceDescription}</div>
-                {statusBanner ? (
-                  <span
-                    className={cn(
-                      'text-xs',
-                      statusBanner.tone === 'error' && 'text-red-300',
-                      statusBanner.tone === 'warning' && 'text-amber-300',
-                      statusBanner.tone === 'success' && 'text-emerald-300',
-                      statusBanner.tone === 'info' && 'text-sky-300'
-                    )}
-                  >
-                    {statusBanner.message}
-                  </span>
-                ) : null}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {mode === 'bulk' && step === 'review' && uploads.length < maxFiles ? (
-                  <Button variant="ghost" size="sm" onClick={() => addMoreInputRef.current?.click()}>
-                    Add more
-                  </Button>
-                ) : null}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleClear}
-                  disabled={isProcessing || uploads.length === 0}
-                >
-                  Reset
-                </Button>
-                <Button onClick={handleSubmit} disabled={!canSubmit} size="sm">
-                  {mode === 'single' ? 'Analyze image' : 'Analyze batch'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {isProcessing ? (
-            <Loading
-              className="py-6"
-              text={
-                predictionMode === 'client' ? 'Running on-device model predictions' : 'Processing images on the server'
-              }
-            />
-          ) : null}
-
-          {step === 'results' ? <ResultsPanel mode={mode} items={uploads} /> : null}
-
-          {step === 'results' && !isProcessing ? (
-            <div className="flex flex-wrap gap-3">
-              <Button variant="secondary" size="sm" onClick={() => setStep('review')} disabled={uploads.length === 0}>
-                Adjust selection
-              </Button>
-              <Button size="sm" onClick={handleClear}>
-                Start new analysis
-              </Button>
-            </div>
-          ) : null}
+          <AnimatePresence>
+            {(uploads.length > 0 || step === 'results') && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="sticky bottom-6 z-20"
+              >
+                <Card className="border-border/60 bg-card/95 shadow-xl backdrop-blur supports-backdrop-filter:bg-card/80">
+                  <CardContent className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="text-muted-foreground flex flex-col gap-1 text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="text-foreground/90 font-medium">Status</span>
+                        <div className="flex items-center gap-2">
+                          {readyCount > 0 && (
+                            <Badge variant="outline" className="text-xs">
+                              Ready: {readyCount}
+                            </Badge>
+                          )}
+                          {successCount > 0 && (
+                            <Badge variant="outline" className="text-xs text-emerald-300 border-emerald-500/30 bg-emerald-500/10">
+                              Success: {successCount}
+                            </Badge>
+                          )}
+                          {errorCount > 0 && (
+                            <Badge variant="outline" className="text-xs text-red-300 border-red-500/30 bg-red-500/10">
+                              Failed: {errorCount}
+                            </Badge>
+                          )}
+                          <Badge variant="outline" className={cn('text-xs', inferenceBadgeClass)}>
+                            {inferenceLabel}
+                          </Badge>
+                        </div>
+                      </div>
+                      <div className="text-xs opacity-90">{helperText}</div>
+                      {statusBanner ? (
+                        <span
+                          className={cn(
+                            'text-xs font-medium mt-1',
+                            statusBanner.tone === 'error' && 'text-red-300',
+                            statusBanner.tone === 'warning' && 'text-amber-300',
+                            statusBanner.tone === 'success' && 'text-emerald-300',
+                            statusBanner.tone === 'info' && 'text-sky-300'
+                          )}
+                        >
+                          {statusBanner.message}
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="flex flex-wrap items-center gap-3">
+                      {mode === 'bulk' && step === 'review' && uploads.length < maxFiles ? (
+                        <Button variant="ghost" size="sm" onClick={() => addMoreInputRef.current?.click()}>
+                          Add more
+                        </Button>
+                      ) : null}
+                      
+                      {step === 'results' && !isProcessing ? (
+                        <>
+                          <Button variant="secondary" size="sm" onClick={() => setStep('review')} disabled={uploads.length === 0}>
+                            Adjust selection
+                          </Button>
+                          <Button size="sm" onClick={handleClear}>
+                            New analysis
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleClear}
+                            disabled={isProcessing || uploads.length === 0}
+                          >
+                            Reset
+                          </Button>
+                          <Button onClick={handleSubmit} disabled={!canSubmit} size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                            {mode === 'single' ? 'Analyze image' : 'Analyze batch'}
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
 
