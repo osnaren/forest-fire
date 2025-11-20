@@ -25,15 +25,15 @@ export default function Footer() {
       className={cn(
         'border-border/50 bg-background/80 relative border-t backdrop-blur-md',
         'before:absolute before:inset-0 before:-z-10',
-        'before:from-background/60 before:to-muted/30 before:bg-gradient-to-br'
+        'before:from-background/60 before:to-muted/30 before:bg-linear-to-br'
       )}
     >
       <div className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-8">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {/* Brand Section */}
           <motion.div
-            className="space-y-6 lg:col-span-2"
+            className="space-y-6 md:col-span-2 lg:col-span-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -59,7 +59,7 @@ export default function Footer() {
                 <motion.span
                   className={cn(
                     'font-display block text-xl font-bold',
-                    'from-foreground to-foreground/80 bg-gradient-to-r bg-clip-text text-transparent',
+                    'from-foreground to-foreground/80 bg-linear-to-r bg-clip-text text-transparent',
                     'transition-all duration-200 group-hover:from-emerald-500 group-hover:to-emerald-600'
                   )}
                   whileHover={{ x: 2 }}
@@ -198,7 +198,7 @@ export default function Footer() {
 
           {/* Tagline */}
           <div className="flex items-center gap-2">
-            <span className="text-muted-foreground text-sm">{footerConfig.brand.tagline.split(' 🧡🤍💚 ')[0]}</span>
+            <span className="text-muted-foreground text-sm">{footerConfig.brand.tagline.text}</span>
             <motion.span
               className="text-red-500"
               animate={{ scale: [1, 1.2, 1] }}
@@ -209,11 +209,9 @@ export default function Footer() {
                 repeatDelay: 3,
               }}
             >
-              🧡🤍💚
+              {footerConfig.brand.tagline.emoji}
             </motion.span>
-            <span className="text-muted-foreground font-emoji text-sm">
-              {footerConfig.brand.tagline.split(' 🧡🤍💚 ')[1]}
-            </span>
+            <span className="text-muted-foreground font-emoji text-sm">{footerConfig.brand.tagline.location}</span>
           </div>
         </motion.div>
       </div>

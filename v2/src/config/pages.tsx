@@ -150,7 +150,7 @@ export const homeConfig = {
     },
     secondary: {
       text: 'View API',
-      href: siteConfig.social.github,
+      href: '/api-docs',
       icon: <PiPlugsLight className="size-5" />,
       hoverIcon: <PiPlugsConnectedLight className="size-5" />,
     },
@@ -363,7 +363,11 @@ export const footerConfig = {
   brand: {
     name: 'Forest Fire Classifier',
     description: 'Real-time wildfire detection powered by advanced machine learning. From research to production.',
-    tagline: 'Made with 🧡🤍💚 in 🇮🇳',
+    tagline: {
+      text: 'Made with',
+      emoji: '🧡🤍💚',
+      location: 'in 🇮🇳',
+    },
   },
   links: {
     project: [

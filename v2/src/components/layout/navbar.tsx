@@ -101,7 +101,7 @@ export default function Navbar() {
                 <motion.span
                   className={cn(
                     'font-display text-xl font-bold',
-                    'from-foreground to-foreground/80 bg-gradient-to-r bg-clip-text text-transparent',
+                    'from-foreground to-foreground/80 bg-linear-to-r bg-clip-text text-transparent',
                     'transition-all duration-200 group-hover:from-emerald-500 group-hover:to-emerald-600'
                   )}
                   whileHover={{ x: 2 }}
@@ -142,7 +142,7 @@ export default function Navbar() {
                     asChild
                     size="sm"
                     className={cn(
-                      'bg-gradient-to-r from-emerald-500 to-emerald-600',
+                      'bg-linear-to-r from-emerald-500 to-emerald-600',
                       'hover:from-emerald-600 hover:to-emerald-700',
                       'text-white shadow-lg shadow-emerald-500/25',
                       'transition-all duration-200 hover:shadow-emerald-500/40',
@@ -285,7 +285,7 @@ export default function Navbar() {
                   <Button
                     asChild
                     className={cn(
-                      'w-full bg-gradient-to-r from-emerald-500 to-emerald-600',
+                      'w-full bg-linear-to-r from-emerald-500 to-emerald-600',
                       'hover:from-emerald-600 hover:to-emerald-700',
                       'text-white shadow-lg shadow-emerald-500/25'
                     )}
@@ -335,7 +335,7 @@ function NavLink({
         {/* Active indicator */}
         {isActive && (
           <motion.div
-            className="absolute right-3 -bottom-1 left-3 h-0.5 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500"
+            className="absolute right-3 -bottom-1 left-3 h-0.5 rounded-full bg-linear-to-r from-emerald-400 to-emerald-500"
             layoutId="navbar-active"
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           />
