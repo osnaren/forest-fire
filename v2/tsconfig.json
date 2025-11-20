@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,68 +19,28 @@
         "name": "next"
       }
     ],
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@app/*": [
-        "./src/app/*"
-      ],
-      "@blocks/*": [
-        "./src/blocks/*"
-      ],
-      "@components": [
-        "./src/components/index.ts"
-      ],
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@config/*": [
-        "./src/config/*"
-      ],
-      "@context/*": [
-        "./src/context/*"
-      ],
-      "@hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@layout/*": [
-        "./src/components/layout/*"
-      ],
-      "@lib/*": [
-        "./src/lib/*"
-      ],
-      "@modules/*": [
-        "./src/modules/*"
-      ],
-      "@sections/*": [
-        "./src/sections/*"
-      ],
-      "@src/*": [
-        "./src/*"
-      ],
-      "@styles/*": [
-        "./src/styles/*"
-      ],
-      "@ui/*": [
-        "./src/components/ui/*"
-      ],
-      "@utility/*": [
-        "./src/components/utility/*"
-      ],
-      "@utils": [
-        "./src/utils/index.ts"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ],
-      "@visual/*": [
-        "./src/components/visual/*"
-      ]
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@blocks/*": ["./src/blocks/*"],
+      "@components": ["./src/components/index.ts"],
+      "@components/*": ["./src/components/*"],
+      "@config/*": ["./src/config/*"],
+      "@context/*": ["./src/context/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@layout/*": ["./src/components/layout/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@sections/*": ["./src/sections/*"],
+      "@src/*": ["./src/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@ui/*": ["./src/components/ui/*"],
+      "@utility/*": ["./src/components/utility/*"],
+      "@utils": ["./src/utils/index.ts"],
+      "@utils/*": ["./src/utils/*"],
+      "@visual/*": ["./src/components/visual/*"]
     }
   },
   "include": [
@@ -99,7 +55,5 @@
     "tailwind.config.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

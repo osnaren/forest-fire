@@ -46,25 +46,35 @@ export const apiDocsConfig = {
   /*  OVERVIEW / FLOW                                   */
   /* -------------------------------------------------- */
   overview: {
-    summary: 'Send a single multipart/form-data request and receive a sorted probability array with timestamps and processing metadata.',
+    summary:
+      'Send a single multipart/form-data request and receive a sorted probability array with timestamps and processing metadata.',
     steps: [
       {
         title: '1. Upload an image',
-        description: 'Attach your file under the "image" field. We validate MIME type, size, and basic EXIF metadata before queuing the job.',
+        description:
+          'Attach your file under the "image" field. We validate MIME type, size, and basic EXIF metadata before queuing the job.',
       },
       {
         title: '2. Server-side preprocessing',
-        description: 'Images are resized to 224×224, normalized to [-1, 1], and passed through the shared MobileNet model cache.',
+        description:
+          'Images are resized to 224×224, normalized to [-1, 1], and passed through the shared MobileNet model cache.',
       },
       {
         title: '3. Receive structured output',
-        description: 'Probabilities are rounded to four decimals, sorted in descending order, and returned with processing metadata.',
+        description:
+          'Probabilities are rounded to four decimals, sorted in descending order, and returned with processing metadata.',
       },
     ],
     guarantees: [
-      { label: 'Deterministic ordering', description: 'Results are pre-sorted so the top prediction is always index 0.' },
+      {
+        label: 'Deterministic ordering',
+        description: 'Results are pre-sorted so the top prediction is always index 0.',
+      },
       { label: 'Predictable limits', description: 'Hard 4 MB payload cap with descriptive 413 errors when exceeded.' },
-      { label: 'Rate limit headers', description: 'Each response forwards X-RateLimit-* headers for proactive throttling.' },
+      {
+        label: 'Rate limit headers',
+        description: 'Each response forwards X-RateLimit-* headers for proactive throttling.',
+      },
     ],
   },
 

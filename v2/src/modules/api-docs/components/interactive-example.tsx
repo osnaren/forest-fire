@@ -175,7 +175,7 @@ export function InteractiveExample() {
                   onClick={handleTryIt}
                   disabled={isLoading}
                   size="sm"
-                  className="border border-primary/20 bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                  className="border-primary/20 bg-primary/10 text-primary hover:bg-primary/20 border transition-colors"
                 >
                   {isLoading ? (
                     <>
@@ -261,7 +261,9 @@ export function InteractiveExample() {
                         </Badge>
                         <span className="text-sm font-medium text-green-600">Success</span>
                         <span className="text-muted-foreground ml-auto text-xs">
-                          {'processingTime' in response && response.processingTime && new Date(response.processingTime).toLocaleTimeString()}
+                          {'processingTime' in response &&
+                            response.processingTime &&
+                            new Date(response.processingTime).toLocaleTimeString()}
                         </span>
                       </div>
                       <CodeBlock language="json" filename="response.json" code={JSON.stringify(response, null, 2)} />
@@ -307,9 +309,12 @@ export function InteractiveExample() {
 
                 <dl className="space-y-2">
                   {Object.entries(apiDocsConfig.request.details).map(([key, value]) => (
-                    <div key={key} className="flex flex-col gap-1 text-xs sm:flex-row sm:items-start sm:justify-between">
-                      <dt className="text-muted-foreground font-medium shrink-0">{key}:</dt>
-                      <dd className="wrap-break-word font-mono sm:text-right">{value}</dd>
+                    <div
+                      key={key}
+                      className="flex flex-col gap-1 text-xs sm:flex-row sm:items-start sm:justify-between"
+                    >
+                      <dt className="text-muted-foreground shrink-0 font-medium">{key}:</dt>
+                      <dd className="font-mono wrap-break-word sm:text-right">{value}</dd>
                     </div>
                   ))}
                 </dl>
@@ -323,8 +328,11 @@ export function InteractiveExample() {
 
                 <dl className="space-y-2">
                   {Object.entries(apiDocsConfig.response.details).map(([key, value]) => (
-                    <div key={key} className="flex flex-col gap-1 text-xs sm:flex-row sm:items-start sm:justify-between">
-                      <dt className="text-muted-foreground font-medium shrink-0">{key}:</dt>
+                    <div
+                      key={key}
+                      className="flex flex-col gap-1 text-xs sm:flex-row sm:items-start sm:justify-between"
+                    >
+                      <dt className="text-muted-foreground shrink-0 font-medium">{key}:</dt>
                       <dd className="wrap-break-word sm:text-right">{value}</dd>
                     </div>
                   ))}

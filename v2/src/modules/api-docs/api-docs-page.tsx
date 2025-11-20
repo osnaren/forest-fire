@@ -11,12 +11,12 @@ export function ApiDocsPage() {
           style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 60%)' }}
         />
         <div
-          className="absolute bottom-0 right-0 h-80 w-80 translate-x-1/3 blur-3xl"
+          className="absolute right-0 bottom-0 h-80 w-80 translate-x-1/3 blur-3xl"
           style={{ background: 'conic-gradient(from 180deg at 50% 50%, rgba(236,72,153,0.18), transparent)' }}
         />
       </div>
 
-      <div className="container relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
+      <div className="relative container mx-auto max-w-6xl px-4 py-16 sm:py-20">
         <ApiHero />
 
         <AnimatedGroup preset="blur-slide" className="mt-16 space-y-12">

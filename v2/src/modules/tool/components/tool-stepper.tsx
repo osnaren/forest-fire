@@ -43,7 +43,12 @@ export function ToolStepper({ steps, activeStep }: ToolStepperProps) {
               )}
               initial={false}
               animate={{
-                backgroundColor: state === 'complete' ? 'var(--color-emerald-500)' : state === 'current' ? 'rgba(52, 211, 153, 0.7)' : 'var(--color-muted)',
+                backgroundColor:
+                  state === 'complete'
+                    ? 'var(--color-emerald-500)'
+                    : state === 'current'
+                      ? 'rgba(52, 211, 153, 0.7)'
+                      : 'var(--color-muted)',
               }}
               transition={{ duration: 0.5 }}
             />
@@ -55,10 +60,7 @@ export function ToolStepper({ steps, activeStep }: ToolStepperProps) {
         <div className="flex items-center gap-4 px-2">
           <motion.div
             aria-hidden="true"
-            className={cn(
-              'h-1 flex-1 rounded-full',
-              activeStep > 0 ? 'bg-emerald-500' : 'bg-muted'
-            )}
+            className={cn('h-1 flex-1 rounded-full', activeStep > 0 ? 'bg-emerald-500' : 'bg-muted')}
             animate={{ backgroundColor: activeStep > 0 ? 'var(--color-emerald-500)' : 'var(--color-muted)' }}
           />
 
@@ -78,30 +80,29 @@ export function ToolStepper({ steps, activeStep }: ToolStepperProps) {
 
           <motion.div
             aria-hidden="true"
-            className={cn(
-              'h-1 flex-1 rounded-full',
-              activeStep < steps.length - 1 ? 'bg-muted' : 'bg-emerald-500'
-            )}
-            animate={{ backgroundColor: activeStep < steps.length - 1 ? 'var(--color-muted)' : 'var(--color-emerald-500)' }}
+            className={cn('h-1 flex-1 rounded-full', activeStep < steps.length - 1 ? 'bg-muted' : 'bg-emerald-500')}
+            animate={{
+              backgroundColor: activeStep < steps.length - 1 ? 'var(--color-muted)' : 'var(--color-emerald-500)',
+            }}
           />
         </div>
 
-        <motion.div 
+        <motion.div
           className={cn('border-border/60 bg-card/60 rounded-xl border p-4 backdrop-blur')}
           key={activeStep}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-        > 
+        >
           <div className="flex flex-col gap-1">
-            <p className="text-foreground/90 text-sm font-semibold leading-tight">{steps[activeStep]?.title}</p>
+            <p className="text-foreground/90 text-sm leading-tight font-semibold">{steps[activeStep]?.title}</p>
             <p className="text-muted-foreground text-xs leading-relaxed">{steps[activeStep]?.description}</p>
           </div>
         </motion.div>
       </div>
 
       {/* Desktop / Tablet: full step cards */}
-      <div className="hidden md:grid gap-4 md:grid-cols-3">
+      <div className="hidden gap-4 md:grid md:grid-cols-3">
         {steps.map((step, index) => {
           const state = getStepState(index, activeStep);
 
@@ -115,7 +116,12 @@ export function ToolStepper({ steps, activeStep }: ToolStepperProps) {
               )}
               aria-current={state === 'current'}
               animate={{
-                borderColor: state === 'current' ? 'rgba(16, 185, 129, 0.6)' : state === 'complete' ? 'rgba(16, 185, 129, 0.4)' : 'rgba(var(--color-border), 0.6)',
+                borderColor:
+                  state === 'current'
+                    ? 'rgba(16, 185, 129, 0.6)'
+                    : state === 'complete'
+                      ? 'rgba(16, 185, 129, 0.4)'
+                      : 'rgba(var(--color-border), 0.6)',
                 backgroundColor: state === 'current' ? 'rgba(16, 185, 129, 0.05)' : 'rgba(var(--color-card), 0.6)',
                 scale: state === 'current' ? 1.02 : 1,
               }}
@@ -125,7 +131,8 @@ export function ToolStepper({ steps, activeStep }: ToolStepperProps) {
                 className={cn(
                   'flex h-10 w-10 items-center justify-center rounded-full border text-base font-semibold',
                   state === 'complete' && 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400',
-                  state === 'current' && 'border-emerald-400 bg-emerald-400/20 text-emerald-200 shadow-inner shadow-emerald-400/20',
+                  state === 'current' &&
+                    'border-emerald-400 bg-emerald-400/20 text-emerald-200 shadow-inner shadow-emerald-400/20',
                   state === 'upcoming' && 'border-border text-muted-foreground'
                 )}
                 animate={{
@@ -135,7 +142,7 @@ export function ToolStepper({ steps, activeStep }: ToolStepperProps) {
                 {index + 1}
               </motion.div>
               <div className="flex flex-col gap-1">
-                <p className="text-foreground/90 text-sm font-semibold leading-tight">{step.title}</p>
+                <p className="text-foreground/90 text-sm leading-tight font-semibold">{step.title}</p>
                 <p className="text-muted-foreground text-xs leading-relaxed">{step.description}</p>
               </div>
             </motion.div>

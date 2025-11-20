@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
 
-import { CLASS_NAMES, type PredictionResult, type PredictionResponse, type ErrorResponse } from '@/lib/types';
+import { CLASS_NAMES, type ErrorResponse, type PredictionResponse, type PredictionResult } from '@/lib/types';
 
 let model: tf.LayersModel | null = null;
 let modelPromise: Promise<tf.LayersModel> | null = null;

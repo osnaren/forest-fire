@@ -161,7 +161,14 @@ export function PulsingDot({ className, size = 'md', color = 'emerald' }: Pulsin
   const dotContent = (
     <div className={cn('relative', className)}>
       <div className={cn('rounded-full', PULSING_DOT_SIZES[size], PULSING_DOT_COLORS[color])} />
-      <div className={cn('absolute inset-0 animate-ping rounded-full', PULSING_DOT_SIZES[size], PULSING_DOT_COLORS[color], 'opacity-75')} />
+      <div
+        className={cn(
+          'absolute inset-0 animate-ping rounded-full',
+          PULSING_DOT_SIZES[size],
+          PULSING_DOT_COLORS[color],
+          'opacity-75'
+        )}
+      />
     </div>
   );
 
@@ -184,7 +191,12 @@ export function PulsingDot({ className, size = 'md', color = 'emerald' }: Pulsin
         }}
       />
       <motion.div
-        className={cn('absolute inset-0 rounded-full', PULSING_DOT_SIZES[size], PULSING_DOT_COLORS[color], 'opacity-75')}
+        className={cn(
+          'absolute inset-0 rounded-full',
+          PULSING_DOT_SIZES[size],
+          PULSING_DOT_COLORS[color],
+          'opacity-75'
+        )}
         animate={{
           scale: [1, 1.5, 2],
           opacity: [0.75, 0.5, 0],
@@ -263,25 +275,29 @@ interface BackgroundEffectProps {
 
 export function BackgroundEffect({ className }: BackgroundEffectProps) {
   const [isMounted, setIsMounted] = useState(false);
-  const [particles, setParticles] = useState<Array<{
-    delay: number;
-    duration: number;
-    yOffset: number;
-    intensity: number;
-    left: string;
-    top: string;
-  }>>([]);
+  const [particles, setParticles] = useState<
+    Array<{
+      delay: number;
+      duration: number;
+      yOffset: number;
+      intensity: number;
+      left: string;
+      top: string;
+    }>
+  >([]);
 
   useEffect(() => {
     setIsMounted(true);
-    setParticles([...Array(20)].map((_, i) => ({
-      delay: i * 0.2,
-      duration: 4 + Math.random() * 2,
-      yOffset: 30 + Math.random() * 20,
-      intensity: 0.5 + Math.random() * 0.5,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-    })));
+    setParticles(
+      [...Array(20)].map((_, i) => ({
+        delay: i * 0.2,
+        duration: 4 + Math.random() * 2,
+        yOffset: 30 + Math.random() * 20,
+        intensity: 0.5 + Math.random() * 0.5,
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+      }))
+    );
   }, []);
 
   if (!isMounted) {

@@ -1,6 +1,6 @@
+import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useMemo } from 'react';
-import { motion } from 'motion/react';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
@@ -48,8 +48,8 @@ function renderBreakdown(results: UploadItem['results']) {
   return (
     <div className="flex flex-col gap-3">
       {sorted.map((result, index) => (
-        <motion.div 
-          key={result.className} 
+        <motion.div
+          key={result.className}
           className="space-y-2"
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
@@ -59,17 +59,18 @@ function renderBreakdown(results: UploadItem['results']) {
             <span>{CLASS_LABEL[result.className] ?? result.className}</span>
             <span>{formatProbability(result.probability)}</span>
           </div>
-          <div className="relative h-2 w-full overflow-hidden rounded-full bg-secondary">
+          <div className="bg-secondary relative h-2 w-full overflow-hidden rounded-full">
             <motion.div
-              className={cn("h-full w-full flex-1 transition-all", 
-                CLASS_VARIANT[result.className] === 'fire' && "bg-red-500",
-                CLASS_VARIANT[result.className] === 'smoke' && "bg-orange-500",
-                CLASS_VARIANT[result.className] === 'no-fire' && "bg-emerald-500",
-                CLASS_VARIANT[result.className] === 'default' && "bg-primary"
+              className={cn(
+                'h-full w-full flex-1 transition-all',
+                CLASS_VARIANT[result.className] === 'fire' && 'bg-red-500',
+                CLASS_VARIANT[result.className] === 'smoke' && 'bg-orange-500',
+                CLASS_VARIANT[result.className] === 'no-fire' && 'bg-emerald-500',
+                CLASS_VARIANT[result.className] === 'default' && 'bg-primary'
               )}
               initial={{ width: 0 }}
               animate={{ width: `${result.probability * 100}%` }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 + index * 0.1 }}
+              transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 + index * 0.1 }}
             />
           </div>
           <p className="text-muted-foreground text-xs">
@@ -107,7 +108,9 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-red-200">Analysis failed</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-red-200/90">{item.error ?? 'Unable to process the image.'}</CardContent>
+            <CardContent className="text-sm text-red-200/90">
+              {item.error ?? 'Unable to process the image.'}
+            </CardContent>
           </Card>
         </motion.div>
       );
@@ -121,8 +124,8 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
 
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <Card className="border-border/60 bg-card/80 shadow-lg overflow-hidden">
-          <CardHeader className="gap-2 bg-muted/5 border-b border-border/40">
+        <Card className="border-border/60 bg-card/80 overflow-hidden shadow-lg">
+          <CardHeader className="bg-muted/5 border-border/40 gap-2 border-b">
             <CardTitle className="text-foreground flex items-center gap-3 text-lg">
               <Badge variant="outline" className={cn('border-emerald-500/40 bg-emerald-500/10 text-emerald-300')}>
                 {top ? (CLASS_LABEL[top.className] ?? top.className) : 'Analysis'}
@@ -136,24 +139,16 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
             ) : null}
           </CardHeader>
           <CardContent className="flex flex-col gap-6 p-6">
-            <div className="flex flex-col sm:flex-row items-start gap-6">
-              <div className="relative h-48 w-full sm:w-48 shrink-0 overflow-hidden rounded-lg border border-border/50 shadow-sm">
-                <Image
-                  src={item.previewUrl}
-                  alt={item.file.name}
-                  fill
-                  unoptimized
-                  className="object-cover"
-                />
+            <div className="flex flex-col items-start gap-6 sm:flex-row">
+              <div className="border-border/50 relative h-48 w-full shrink-0 overflow-hidden rounded-lg border shadow-sm sm:w-48">
+                <Image src={item.previewUrl} alt={item.file.name} fill unoptimized className="object-cover" />
               </div>
-              <div className="flex flex-col gap-4 w-full">
+              <div className="flex w-full flex-col gap-4">
                 <div className="flex flex-col gap-1">
                   <span className="text-foreground/90 text-lg font-medium">{item.file.name}</span>
                   <span className="text-muted-foreground text-sm">Analysis complete</span>
                 </div>
-                <div className="w-full">
-                   {renderBreakdown(item.results)}
-                </div>
+                <div className="w-full">{renderBreakdown(item.results)}</div>
               </div>
             </div>
           </CardContent>
@@ -169,9 +164,9 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
 
         if (item.status === 'error' || item.error) {
           return (
-            <motion.div 
+            <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 20 }} 
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
             >
@@ -192,17 +187,17 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
         }
 
         return (
-          <motion.div 
+          <motion.div
             key={item.id}
-            initial={{ opacity: 0, y: 20 }} 
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
           >
-            <Card className="border-border/60 bg-card/80 shadow-lg overflow-hidden">
-              <CardHeader className="flex flex-col gap-2 p-4 bg-muted/5 border-b border-border/40">
+            <Card className="border-border/60 bg-card/80 overflow-hidden shadow-lg">
+              <CardHeader className="bg-muted/5 border-border/40 flex flex-col gap-2 border-b p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-md border border-border/50">
+                    <div className="border-border/50 relative h-12 w-12 shrink-0 overflow-hidden rounded-md border">
                       <Image
                         src={item.previewUrl}
                         alt={item.file.name}
@@ -237,11 +232,11 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
               <CardContent className="flex flex-col gap-4 p-0">
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value={`breakdown-${item.id}`} className="border-none">
-                    <AccordionTrigger className="px-4 py-3 text-sm hover:bg-muted/5 hover:no-underline">View confidence breakdown</AccordionTrigger>
-                    <AccordionContent className="px-4 pb-4 pt-0">
-                      <div className="pt-2">
-                        {renderBreakdown(item.results)}
-                      </div>
+                    <AccordionTrigger className="hover:bg-muted/5 px-4 py-3 text-sm hover:no-underline">
+                      View confidence breakdown
+                    </AccordionTrigger>
+                    <AccordionContent className="px-4 pt-0 pb-4">
+                      <div className="pt-2">{renderBreakdown(item.results)}</div>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>

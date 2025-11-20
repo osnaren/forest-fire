@@ -1,5 +1,5 @@
-import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
 import { motion } from 'motion/react';
+import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -141,8 +141,8 @@ export function UploadArea({
   );
 
   return (
-    <Card className="border-border/60 bg-card/70 shadow-lg overflow-hidden">
-      <CardHeader className="border-border/60 flex flex-col gap-4 border-b pb-6 bg-muted/5">
+    <Card className="border-border/60 bg-card/70 overflow-hidden shadow-lg">
+      <CardHeader className="border-border/60 bg-muted/5 flex flex-col gap-4 border-b pb-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <CardTitle className="text-foreground/90 text-lg font-semibold">Upload images</CardTitle>
           <div className="flex items-center gap-2">
@@ -155,19 +155,15 @@ export function UploadArea({
           </div>
         </div>
         <Tabs value={mode} onValueChange={handleModeTabChange} className="w-full">
-          <TabsList className="w-full grid grid-cols-2">
-            <TabsTrigger value="single">
-              Single image
-            </TabsTrigger>
-            <TabsTrigger value="bulk">
-              Batch upload
-            </TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="single">Single image</TabsTrigger>
+            <TabsTrigger value="bulk">Batch upload</TabsTrigger>
           </TabsList>
           <TabsContent value="single" />
           <TabsContent value="bulk" />
         </Tabs>
         {locked && lockReason ? (
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             className="text-muted-foreground/80 text-xs"
@@ -204,7 +200,7 @@ export function UploadArea({
             onChange={handleSelectFiles}
             disabled={disabled}
           />
-          <motion.div 
+          <motion.div
             animate={{ scale: isDragActive ? 1.1 : 1, rotate: isDragActive ? 10 : 0 }}
             className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400"
           >
@@ -236,7 +232,7 @@ export function UploadArea({
               <p className="text-muted-foreground/80 text-xs">{bulkLimitNotice}</p>
             )}
             {totalFiles > 0 && (
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-sm font-medium text-emerald-400"

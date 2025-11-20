@@ -1,6 +1,6 @@
+import { AnimatePresence, motion } from 'motion/react';
 import Image from 'next/image';
 import { useCallback, useMemo, useRef } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -134,7 +134,12 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-4 w-4"
                         >
-                          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                          <path
+                            d="M18 6L6 18M6 6L18 18"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                          />
                         </svg>
                       </Button>
                     </div>
@@ -153,9 +158,7 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.2 }}
             >
-              <Card
-                className="group border-border/60 bg-card/80 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-emerald-500/30"
-              >
+              <Card className="group border-border/60 bg-card/80 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/30 hover:shadow-xl">
                 <CardContent className="flex flex-col gap-4 p-0">
                   <div className="relative w-full overflow-hidden pt-[100%]">
                     <Image
@@ -166,15 +169,18 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
                       className="absolute inset-0 object-cover transition-transform duration-500 group-hover:scale-110"
                       sizes="(min-width: 768px) 33vw, 100vw"
                     />
-                    <div className="absolute top-3 left-3 flex items-center gap-2 z-10">
-                      <Badge variant="outline" className={cn('text-[11px] font-medium backdrop-blur-md shadow-sm', meta.badge)}>
+                    <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
+                      <Badge
+                        variant="outline"
+                        className={cn('text-[11px] font-medium shadow-sm backdrop-blur-md', meta.badge)}
+                      >
                         {meta.label}
                       </Badge>
                     </div>
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="border-border/60 bg-card/70 absolute top-3 right-3 h-8 w-8 rounded-full border opacity-0 transition-all duration-200 group-hover:opacity-100 hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30 z-10 backdrop-blur-md"
+                      className="border-border/60 bg-card/70 absolute top-3 right-3 z-10 h-8 w-8 rounded-full border opacity-0 backdrop-blur-md transition-all duration-200 group-hover:opacity-100 hover:border-red-500/30 hover:bg-red-500/20 hover:text-red-400"
                       onClick={() => onRemove(item.id)}
                       disabled={disabled || item.status === 'uploading'}
                     >
@@ -191,12 +197,12 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
                       </svg>
                     </Button>
                     {item.status === 'uploading' ? (
-                      <div className="bg-background/60 absolute inset-0 flex items-center justify-center backdrop-blur-sm z-20">
+                      <div className="bg-background/60 absolute inset-0 z-20 flex items-center justify-center backdrop-blur-sm">
                         <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
                       </div>
                     ) : null}
                     {item.status === 'success' ? (
-                      <div className="absolute right-3 bottom-3 flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1 text-[11px] font-medium text-emerald-200 backdrop-blur-md border border-emerald-500/20 shadow-sm z-10">
+                      <div className="absolute right-3 bottom-3 z-10 flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/20 px-3 py-1 text-[11px] font-medium text-emerald-200 shadow-sm backdrop-blur-md">
                         <svg
                           width="14"
                           height="14"
@@ -217,7 +223,7 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
                       </div>
                     ) : null}
                   </div>
-                  <div className="border-border/50 text-muted-foreground flex flex-col gap-1 border-t p-4 text-xs bg-card/40">
+                  <div className="border-border/50 text-muted-foreground bg-card/40 flex flex-col gap-1 border-t p-4 text-xs">
                     <p className="text-foreground/90 truncate font-medium" title={item.file.name}>
                       {item.file.name}
                     </p>
@@ -225,7 +231,7 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
                       <span>{formatFileSize(item.file.size)}</span>
                       {item.durationMs ? <span>{`${item.durationMs.toFixed(0)}ms`}</span> : null}
                     </div>
-                    {item.error ? <p className="text-red-400 font-medium mt-1">{item.error}</p> : null}
+                    {item.error ? <p className="mt-1 font-medium text-red-400">{item.error}</p> : null}
                   </div>
                 </CardContent>
               </Card>
@@ -237,12 +243,15 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
       {/* Add more placeholder for bulk mode when space remains */}
       {onAddMore && mode === 'bulk' && typeof maxFiles === 'number' && items.length < maxFiles ? (
         <motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <Card className="group border-border/50 bg-card/30 flex h-full items-center justify-center border-dashed hover:border-emerald-500/40 hover:bg-emerald-500/5 transition-colors cursor-pointer" onClick={handleAddMoreClick}>
-            <CardContent className="flex w-full h-full items-center justify-center p-6">
+          <Card
+            className="group border-border/50 bg-card/30 flex h-full cursor-pointer items-center justify-center border-dashed transition-colors hover:border-emerald-500/40 hover:bg-emerald-500/5"
+            onClick={handleAddMoreClick}
+          >
+            <CardContent className="flex h-full w-full items-center justify-center p-6">
               <div className="flex flex-col items-center gap-3">
                 <div
                   className={cn(
-                    'inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-card/50 text-muted-foreground transition-colors group-hover:border-emerald-500/40 group-hover:text-emerald-400',
+                    'border-border/60 bg-card/50 text-muted-foreground inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors group-hover:border-emerald-500/40 group-hover:text-emerald-400',
                     disabled ? 'pointer-events-none opacity-60' : ''
                   )}
                 >
@@ -264,8 +273,10 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
                   </svg>
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-medium text-foreground/80 group-hover:text-emerald-400 transition-colors">Add more</p>
-                  <p className="text-muted-foreground text-xs mt-1">{maxFiles - items.length} slots remaining</p>
+                  <p className="text-foreground/80 text-sm font-medium transition-colors group-hover:text-emerald-400">
+                    Add more
+                  </p>
+                  <p className="text-muted-foreground mt-1 text-xs">{maxFiles - items.length} slots remaining</p>
                 </div>
               </div>
               <input
