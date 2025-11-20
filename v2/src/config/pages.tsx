@@ -4,7 +4,8 @@
  */
 
 import Logo from '@visual/logo';
-import { FaUserLock } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaUserLock } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { GiStrong, GiThrustBend } from 'react-icons/gi';
 import { LuImage, LuImageUp } from 'react-icons/lu';
 import { PiPackageFill, PiPlugsConnectedLight, PiPlugsLight } from 'react-icons/pi';
@@ -164,129 +165,138 @@ export const homeConfig = {
 
 export const aboutConfig = {
   hero: {
-    title: 'About This Project',
+    title: 'From Dorm Room to Deployment',
     description:
-      'A personal journey into AI-powered wildfire detection. Built with passion for environmental protection and cutting-edge technology.',
+      'What started as a 6th-semester college project has evolved into a professional AI showcase. Saving forests, one pixel at a time.',
   },
   story: {
-    title: 'The Story Behind the Project',
+    title: 'The Origin Story',
     content: [
-      'What started as a curiosity about machine learning and environmental challenges has evolved into a comprehensive wildfire detection system. This project represents months of research, experimentation, and refinement.',
-      'The devastating impact of wildfires on communities and ecosystems worldwide motivated me to explore how AI could help in early detection and prevention. Every line of code was written with the hope of making a difference.',
-      "This isn't just another tech demo – it's a testament to how individual developers can tackle real-world problems using accessible tools and determination.",
+      "It was 2022. The deadlines were tight, the coffee was questionable, and I needed a 6th-semester project that wasn't just another 'To-Do List' app.",
+      'I wanted to build something with real-world impact. Forest fires were devastating ecosystems globally, and I wondered: could a simple web cam and some AI help catch them early? Armed with a dataset and a lot of determination, I dove into the world of Computer Vision.',
+      'Fast forward to today: The code is cleaner, the UI is snappier (thanks, Next.js!), and the model is smarter. But the core mission remains the same: leveraging technology to protect our planet.',
     ],
   },
   techStack: {
-    title: 'Technology Stack',
+    title: 'The Arsenal',
     items: [
       {
-        name: 'TensorFlow',
-        description: 'Deep learning framework for training the CNN model',
-        category: 'Machine Learning',
+        name: 'TensorFlow.js',
+        description: 'The brain behind the operation. Runs the model directly in your browser.',
+        category: 'AI / ML',
+        icon: 'https://img.icons8.com/color/96/tensorflow.png',
       },
       {
-        name: 'Next.js',
-        description: 'React framework for the web application',
-        category: 'Frontend',
+        name: 'Next.js 16',
+        description: 'The muscle. Server-side rendering, routing, and pure speed.',
+        category: 'Framework',
+        icon: 'https://img.icons8.com/color/96/nextjs.png',
       },
       {
         name: 'TypeScript',
-        description: 'Type-safe JavaScript for better development experience',
+        description: 'The safety net. Catching bugs before they catch fire.',
         category: 'Language',
+        icon: 'https://img.icons8.com/color/96/typescript.png',
       },
       {
         name: 'Tailwind CSS',
-        description: 'Utility-first CSS framework for styling',
+        description: 'The stylist. Making sure we look good while saving the world.',
         category: 'Styling',
+        icon: 'https://img.icons8.com/color/96/tailwindcss.png',
       },
       {
         name: 'Framer Motion',
-        description: 'Animation library for smooth interactions',
+        description: 'The magic. Smooth animations that make you go "ooh".',
         category: 'Animation',
+        icon: 'https://img.icons8.com/external-tal-revivo-bold-tal-revivo/96/external-framer-the-only-tool-you-need-to-create-interactive-designs-for-any-platform-logo-bold-tal-revivo.png',
       },
       {
         name: 'Vercel',
-        description: 'Deployment platform for fast global distribution',
+        description: 'The launchpad. Deploying to the edge with a single git push.',
         category: 'Infrastructure',
+        icon: 'https://img.icons8.com/ios-filled/100/vercel.pn',
       },
     ],
   },
   metrics: {
-    title: 'Project Metrics',
+    title: 'By The Numbers',
     items: [
       {
-        label: 'Training Time',
-        value: '72',
-        unit: 'hours',
-        description: 'Time spent training the model',
-      },
-      {
-        label: 'Code Quality',
-        value: 'A+',
-        unit: '',
-        description: 'ESLint and TypeScript score',
-      },
-      {
-        label: 'Test Coverage',
-        value: '94',
+        label: 'Model Accuracy',
+        value: '94.2',
         unit: '%',
-        description: 'Unit and integration tests',
+        description: 'On validation set',
       },
       {
-        label: 'Performance',
-        value: '98',
-        unit: '/100',
-        description: 'Lighthouse performance score',
+        label: 'Caffeine Intake',
+        value: '∞',
+        unit: '',
+        description: 'Cups of coffee',
+      },
+      {
+        label: 'Semester',
+        value: '6th',
+        unit: '',
+        description: 'When it started',
+      },
+      {
+        label: 'Stack Overflow',
+        value: '10k+',
+        unit: '',
+        description: 'Tabs opened',
       },
     ],
   },
   journey: {
-    title: 'Development Journey',
+    title: 'The Timeline',
     items: [
       {
-        phase: 'Research & Planning',
-        duration: 'Week 1-2',
-        description: 'Researching wildfire detection methods, dataset collection, and model architecture design.',
-        achievements: ['Dataset curation', 'Model architecture selection', 'Project planning'],
+        phase: 'The Spark (Sem 6)',
+        duration: '2020',
+        description: 'The initial idea. Scouring Kaggle for datasets and training the first clunky Python model.',
+        achievements: ['Idea conceived', 'Dataset found', 'First prototype'],
       },
       {
-        phase: 'Model Development',
-        duration: 'Week 3-6',
-        description: 'Building and training the CNN model, hyperparameter tuning, and performance optimization.',
-        achievements: ['Model training', '97.8% accuracy achieved', 'Performance optimization'],
+        phase: 'The Paper',
+        duration: '2023',
+        description:
+          'Refining the methodology. "Learning without Forgetting" became the core research focus. Published in Fire Ecology.',
+        achievements: ['Research published', 'Methodology refined', 'Peer reviewed'],
       },
       {
-        phase: 'Web Application',
-        duration: 'Week 7-10',
-        description: 'Developing the Next.js application, API integration, and user interface design.',
-        achievements: ['Modern UI/UX', 'API development', 'Real-time prediction'],
+        phase: 'The Rewrite (v2)',
+        duration: '2024',
+        description:
+          'Ditching the old HTML/JS for a modern Next.js stack. Better UI, faster inference, and actual type safety.',
+        achievements: ['Next.js migration', 'UI overhaul', 'Performance boost'],
       },
       {
-        phase: 'Testing & Deployment',
-        duration: 'Week 11-12',
-        description: 'Comprehensive testing, performance optimization, and production deployment.',
-        achievements: ['Testing suite', 'Performance optimization', 'Production deployment'],
+        phase: 'The Future',
+        duration: 'Beyond',
+        description:
+          'Adding real-time satellite data, edge deployment support, and maybe a dark mode that is actually dark.',
+        achievements: ['Global domination', 'Saving more trees'],
       },
     ],
   },
   connect: {
-    title: "Let's Connect",
-    description: "Interested in the project? Have questions about the implementation? I'd love to hear from you.",
+    title: 'Stalk Me (Professionally)',
+    description: 'Like what you see? Want to hire me? Or just want to argue about which JS framework is best?',
     links: [
       {
-        text: 'View Source Code',
+        text: 'GitHub',
         href: siteConfig.social.github,
-        icon: 'github',
+        icon: <FaGithub />,
       },
       {
-        text: 'Connect on LinkedIn',
+        text: 'LinkedIn',
         href: siteConfig.social.linkedin,
-        icon: 'linkedin',
+        icon: <FaLinkedin />,
       },
       {
-        text: 'Follow on Twitter',
+        text: 'Twitter',
         href: siteConfig.social.twitter,
-        icon: 'twitter',
+        icon: <FaXTwitter />,
       },
     ],
   },
@@ -383,7 +393,11 @@ export const footerConfig = {
     resources: [
       { text: 'Live Wildfire Map', href: '/map', description: 'Real-time wildfire tracking' },
       { text: 'Download Model', href: '/model', description: 'TensorFlow.js model files', comingSoon: true },
-      { text: 'Research Paper', href: '#', description: 'Academic publication', comingSoon: true },
+      {
+        text: 'Research Paper',
+        href: 'https://fireecology.springeropen.com/articles/10.1186/s42408-022-00165-0',
+        description: 'Academic publication',
+      },
     ],
   },
   model: {
@@ -438,35 +452,55 @@ export const researchConfig = {
   hero: {
     title: 'Research & Methodology',
     description:
-      'Deep dive into the technical details, model architecture, and scientific approach behind our wildfire detection system.',
+      'Exploring advanced deep learning techniques for robust forest fire and smoke detection. From dataset curation to "Learning without Forgetting".',
+  },
+  dataset: {
+    title: 'Forest Fire C4 Dataset',
+    description:
+      'A comprehensive, balanced dataset designed for environmental monitoring and fire detection tasks. Curated to handle complex scenarios like distinguishing smoke from cloud cover.',
+    stats: [
+      { label: 'Total Images', value: '4,823' },
+      { label: 'Classes', value: '4' },
+      { label: 'Image Size', value: '250x250' },
+      { label: 'Format', value: 'JPEG' },
+    ],
+    classes: [
+      { name: 'Fire', description: 'Visible flames and active fire fronts' },
+      { name: 'No Fire', description: 'Clear forest, vegetation, and non-fire scenes' },
+      { name: 'Smoke', description: 'Plumes and early-stage smoldering without flames' },
+      { name: 'SmokeFire', description: 'Complex scenes containing both smoke and fire' },
+    ],
+    links: {
+      kaggle: 'https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4',
+    },
+  },
+  paper: {
+    title: 'Learning without Forgetting',
+    subtitle: 'Published in Fire Ecology (Springer Open)',
+    abstract:
+      'Our core research focuses on "Learning without Forgetting" (LwF), a deep learning paradigm that enables models to adapt to new tasks—such as distinguishing between similar visual patterns like smoke and fog—without losing proficiency in previously learned categories. This approach is crucial for deploying robust AI in dynamic natural environments where conditions constantly evolve.',
+    citation:
+      'Naren, O.S. Forest fire and smoke detection using deep learning-based learning without forgetting. Fire Ecol 19, 16 (2023).',
+    link: 'https://fireecology.springeropen.com/articles/10.1186/s42408-022-00165-0',
   },
   methodology: {
-    title: 'Our Approach',
-    sections: [
+    title: 'Technical Approach',
+    steps: [
       {
-        title: 'Data Collection',
-        description: 'Curated dataset from NASA FIRMS, Kaggle, and proprietary sources',
-        details: 'Over 15,000 labeled images across 4 classes',
+        title: 'Data Augmentation',
+        description:
+          'Applied rigorous transformations including rotation, shearing, and brightness adjustments to ensure model robustness against lighting and orientation changes.',
       },
       {
-        title: 'Model Architecture',
-        description: 'Optimized CNN based on MobileNetV2 for browser deployment',
-        details: 'Custom layers for improved accuracy and speed',
+        title: 'Transfer Learning',
+        description:
+          'Leveraged pre-trained convolutional neural networks (CNNs) to extract high-level features, significantly reducing training time while improving accuracy.',
       },
       {
-        title: 'Training Process',
-        description: 'Transfer learning with data augmentation and careful validation',
-        details: '94.2% accuracy on validation set',
+        title: 'LwF Implementation',
+        description:
+          'Integrated Learning without Forgetting loss functions to preserve knowledge of "safe" forest states while aggressively learning new fire signatures.',
       },
-    ],
-  },
-  metrics: {
-    title: 'Performance Metrics',
-    items: [
-      { label: 'Overall Accuracy', value: '94.2%', description: 'Validation set performance' },
-      { label: 'Fire Detection', value: '96.1%', description: 'Precision for fire class' },
-      { label: 'Smoke Detection', value: '91.8%', description: 'Precision for smoke class' },
-      { label: 'Model Size', value: '4.2MB', description: 'Optimized for web deployment' },
     ],
   },
 };

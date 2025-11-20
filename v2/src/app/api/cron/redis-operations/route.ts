@@ -111,7 +111,7 @@ async function executeRedisOperation(redis: Redis, task: CronTask): Promise<unkn
     case 'ping':
       return await redis.ping();
 
-    case 'set':
+    case 'set': {
       const { key, value, ttl } = params;
       if (!key || !value) {
         throw new Error('SET operation requires key and value parameters');
@@ -120,6 +120,7 @@ async function executeRedisOperation(redis: Redis, task: CronTask): Promise<unkn
         return await redis.set(key as string, value as string, { ex: ttl });
       }
       return await redis.set(key as string, value as string);
+    }
 
     case 'get':
       if (!params.key) {
@@ -139,12 +140,13 @@ async function executeRedisOperation(redis: Redis, task: CronTask): Promise<unkn
       }
       return await redis.exists(params.key as string);
 
-    case 'expire':
+    case 'expire': {
       const { key: expireKey, seconds } = params;
       if (!expireKey || !seconds) {
         throw new Error('EXPIRE operation requires key and seconds parameters');
       }
       return await redis.expire(expireKey as string, seconds as number);
+    }
 
     case 'ttl':
       if (!params.key) {
@@ -152,9 +154,10 @@ async function executeRedisOperation(redis: Redis, task: CronTask): Promise<unkn
       }
       return await redis.ttl(params.key as string);
 
-    case 'keys':
+    case 'keys': {
       const pattern = (params.pattern as string) || '*';
       return await redis.keys(pattern);
+    }
 
     case 'incr':
       if (!params.key) {
@@ -168,19 +171,21 @@ async function executeRedisOperation(redis: Redis, task: CronTask): Promise<unkn
       }
       return await redis.decr(params.key as string);
 
-    case 'hset':
+    case 'hset': {
       const { key: hashKey, field, value: hashValue } = params;
       if (!hashKey || !field || !hashValue) {
         throw new Error('HSET operation requires key, field, and value parameters');
       }
       return await redis.hset(hashKey as string, { [field as string]: hashValue });
+    }
 
-    case 'hget':
+    case 'hget': {
       const { key: hgetKey, field: hgetField } = params;
       if (!hgetKey || !hgetField) {
         throw new Error('HGET operation requires key and field parameters');
       }
       return await redis.hget(hgetKey as string, hgetField as string);
+    }
 
     case 'hgetall':
       if (!params.key) {
@@ -188,12 +193,13 @@ async function executeRedisOperation(redis: Redis, task: CronTask): Promise<unkn
       }
       return await redis.hgetall(params.key as string);
 
-    case 'sadd':
+    case 'sadd': {
       const { key: setKey, member } = params;
       if (!setKey || !member) {
         throw new Error('SADD operation requires key and member parameters');
       }
       return await redis.sadd(setKey as string, member as string);
+    }
 
     case 'smembers':
       if (!params.key) {

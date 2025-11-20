@@ -75,7 +75,7 @@ export function TechStackCard({
         <motion.div
           className={cn(
             'mb-4 flex h-12 w-12 items-center justify-center rounded-lg shadow-lg',
-            `bg-gradient-to-br ${colors?.gradient}`,
+            `bg-linear-to-br ${colors?.gradient}`,
             colors?.glow
           )}
           whileHover={{ rotate: 360 }}

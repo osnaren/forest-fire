@@ -48,28 +48,28 @@ export function Timeline({ data, className }: TimelineProps) {
             className="flex justify-start pt-10 md:gap-10 md:pt-20"
           >
             <div className="sticky top-40 z-40 flex max-w-xs flex-col items-center self-start md:w-full md:flex-row lg:max-w-sm">
-              <div className="absolute left-3 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 shadow-lg md:left-3">
+              <div className="bg-primary shadow-primary/25 absolute left-3 flex h-10 w-10 items-center justify-center rounded-full shadow-lg md:left-3">
                 <div className="h-4 w-4 rounded-full border border-white/30 bg-white/20 backdrop-blur-sm" />
               </div>
               <div className="hidden md:block md:pl-20">
-                <h3 className="mb-1 text-lg font-semibold text-emerald-400">{item.phase}</h3>
-                <p className="text-sm text-gray-400">{item.duration}</p>
+                <h3 className="text-primary mb-1 text-lg font-semibold">{item.phase}</h3>
+                <p className="text-muted-foreground text-sm">{item.duration}</p>
               </div>
             </div>
 
             <div className="relative w-full pr-4 pl-20 md:pl-4">
               <div className="mb-4 md:hidden">
-                <h3 className="mb-1 text-lg font-semibold text-emerald-400">{item.phase}</h3>
-                <p className="text-sm text-gray-400">{item.duration}</p>
+                <h3 className="text-primary mb-1 text-lg font-semibold">{item.phase}</h3>
+                <p className="text-muted-foreground text-sm">{item.duration}</p>
               </div>
 
-              <div className="rounded-lg border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors hover:bg-white/10">
-                <p className="mb-4 text-gray-300">{item.description}</p>
+              <div className="border-primary/10 bg-card/50 hover:border-primary/30 hover:shadow-primary/5 rounded-lg border p-6 backdrop-blur-sm transition-all hover:shadow-lg">
+                <p className="text-muted-foreground mb-4">{item.description}</p>
                 <ul className="space-y-2">
                   {item.achievements.map((achievement, achievementIndex) => (
                     <li key={achievementIndex} className="flex items-start gap-2">
-                      <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-400" />
-                      <span className="text-sm text-gray-400">{achievement}</span>
+                      <div className="bg-primary mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
+                      <span className="text-muted-foreground text-sm">{achievement}</span>
                     </li>
                   ))}
                 </ul>
@@ -82,14 +82,14 @@ export function Timeline({ data, className }: TimelineProps) {
           style={{
             height: height + 'px',
           }}
-          className="absolute top-0 left-8 w-[2px] overflow-hidden bg-gradient-to-b from-transparent via-emerald-400/30 to-transparent md:left-8"
+          className="from-transparent via-primary/20 absolute top-0 left-8 w-0.5 overflow-hidden bg-linear-to-b to-transparent md:left-8"
         >
           <motion.div
             style={{
               height: heightTransform,
               opacity: opacityTransform,
             }}
-            className="absolute inset-x-0 top-0 w-[2px] rounded-full bg-gradient-to-b from-emerald-400 via-cyan-400 to-transparent"
+            className="from-primary via-primary/80 absolute inset-x-0 top-0 w-0.5 rounded-full bg-linear-to-b to-transparent"
           />
         </div>
       </div>
