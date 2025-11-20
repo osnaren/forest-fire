@@ -34,6 +34,7 @@
     "@tensorflow/tfjs-node": "^4.22.0",
     "@types/leaflet": "^1.9.21",
     "@upstash/ratelimit": "^2.0.7",
+    "@vercel/analytics": "^1.5.0",
     "@vercel/kv": "^3.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

@@ -3,6 +3,7 @@ import SponsorFAB from '@/components/sponsor/SponsorFAB';
 import { siteConfig } from '@/config/pages';
 import ThemeProvider from '@/hooks/use-theme';
 import { generateSEOMetadata } from '@/lib/seo';
+import VercelAnalytics from '@lib/performance/vercel-analytics';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Toaster } from 'react-hot-toast';
@@ -93,6 +94,8 @@ export default function RootLayout({
               },
             }}
           />
+
+          <VercelAnalytics />
         </ThemeProvider>
       </body>
     </html>
