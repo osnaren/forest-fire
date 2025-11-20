@@ -4,6 +4,7 @@
 // modules with this shim when resolving for browser targets.
 
 // Default export (used for default imports)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const empty: any = {};
 export default empty;
 

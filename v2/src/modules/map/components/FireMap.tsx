@@ -4,11 +4,19 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Crosshair } from 'lucide-react';
 import { useEffect } from 'react';
-import { AttributionControl, LayersControl, MapContainer, TileLayer, useMap, ZoomControl, WMSTileLayer } from 'react-leaflet';
+import {
+  AttributionControl,
+  LayersControl,
+  MapContainer,
+  TileLayer,
+  useMap,
+  WMSTileLayer,
+  ZoomControl,
+} from 'react-leaflet';
 
 // Fix for Leaflet icons in Next.js
 const fixLeafletIcons = () => {
-  // @ts-ignore
+  // @ts-expect-error Leaflet Icon Fix
   delete L.Icon.Default.prototype._getIconUrl;
   L.Icon.Default.mergeOptions({
     iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -32,7 +40,7 @@ function LocateControl() {
             e.preventDefault();
             handleLocate();
           }}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-black/60 text-white shadow-xl backdrop-blur-xl transition-all hover:bg-white/10 hover:scale-105 active:scale-95"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-black/60 text-white shadow-xl backdrop-blur-xl transition-all hover:scale-105 hover:bg-white/10 active:scale-95"
           title="Locate me"
         >
           <Crosshair size={20} />
@@ -87,7 +95,7 @@ export default function FireMap({ date, opacity = 0.8 }: FireMapProps) {
               layers: 'VIIRS_SNPP_Thermal_Anomalies_375m_All',
               format: 'image/png',
               transparent: true,
-              // @ts-ignore - time is a valid WMS param
+              // @ts-expect-error - time is a valid WMS param
               time: date,
             }}
             attribution="NASA GIBS"
@@ -102,7 +110,7 @@ export default function FireMap({ date, opacity = 0.8 }: FireMapProps) {
               layers: 'MODIS_Combined_Thermal_Anomalies_All',
               format: 'image/png',
               transparent: true,
-              // @ts-ignore - time is a valid WMS param
+              // @ts-expect-error - time is a valid WMS param
               time: date,
             }}
             attribution="NASA GIBS"

@@ -24,7 +24,7 @@ export function AnimatedGradientText({ children, className }: { children: ReactN
         className
       )}
     >
-      <div className="animate-gradient from-primary/20 via-accent/20 to-primary/20 absolute inset-0 block h-full w-full rounded-2xl bg-gradient-to-r bg-[length:200%_100%] opacity-50 transition-opacity group-hover:opacity-75" />
+      <div className="animate-gradient from-primary/20 via-accent/20 to-primary/20 absolute inset-0 block h-full w-full rounded-2xl bg-linear-to-r bg-size-[200%_100%] opacity-50 transition-opacity group-hover:opacity-75" />
       <div className="relative z-10 flex items-center">{children}</div>
     </div>
   );
@@ -76,9 +76,9 @@ export function HoverBackground({
     setIsMounted(true);
   }, []);
 
-  const springConfig = { damping: 25, stiffness: 700 };
-  const mouseXSpring = useSpring(mouseX, springConfig);
-  const mouseYSpring = useSpring(mouseY, springConfig);
+  // const springConfig = { damping: 25, stiffness: 700 };
+  // const mouseXSpring = useSpring(mouseX, springConfig);
+  // const mouseYSpring = useSpring(mouseY, springConfig);
 
   const defaultColors = {
     background: 'bg-gradient-to-br from-card/60 via-background/80 to-card/60',
@@ -115,8 +115,24 @@ export function HoverBackground({
     restDelta: 0.1,
   });
 
-  const animatedObjects = React.useMemo(
-    () =>
+  const [animatedObjects, setAnimatedObjects] = useState<
+    Array<{
+      id: number;
+      x: number;
+      y: number;
+      size: number;
+      color: string;
+      delay: number;
+      shape: string;
+      floatDirection: number;
+      breathDuration: number;
+      parallaxStrength: number;
+      baseRotation: number;
+    }>
+  >([]);
+
+  useEffect(() => {
+    setAnimatedObjects(
       Array.from({ length: objectCount }, (_, i) => {
         const shape = Math.random() > 0.5 ? 'circle' : 'square';
         return {
@@ -132,9 +148,9 @@ export function HoverBackground({
           parallaxStrength: Math.random() * 0.5 + 0.3, // 0.3-0.8 for more varied parallax depth
           baseRotation: Math.random() * 360, // Random starting rotation offset
         };
-      }),
-    [objectCount, objects]
-  );
+      })
+    );
+  }, [objectCount, objects]);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!isHovered) return;
@@ -161,6 +177,24 @@ export function HoverBackground({
     mouseX.set(0);
     mouseY.set(0);
   };
+
+  const [particles, setParticles] = useState<
+    Array<{
+      left: string;
+      top: string;
+      delay: number;
+    }>
+  >([]);
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 20 }).map(() => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        delay: Math.random() * 2,
+      }))
+    );
+  }, []);
 
   const backgroundContent = (
     <div
@@ -277,13 +311,13 @@ export function HoverBackground({
       {/* Floating Particles on Hover */}
       {isHovered && (
         <div className="pointer-events-none absolute inset-0">
-          {Array.from({ length: 20 }).map((_, i) => (
+          {particles.map((p, i) => (
             <motion.div
               key={`particle-${i}`}
               className="absolute h-1 w-1 rounded-full bg-white/60"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: p.left,
+                top: p.top,
               }}
               initial={{ opacity: 0, scale: 0 }}
               animate={{
@@ -293,7 +327,7 @@ export function HoverBackground({
               }}
               transition={{
                 duration: 3,
-                delay: Math.random() * 2,
+                delay: p.delay,
                 repeat: Infinity,
                 ease: 'easeOut',
               }}

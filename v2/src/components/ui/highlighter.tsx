@@ -49,7 +49,9 @@ export const HighlightGroup: React.FC<HighlightGroupProps> = ({ children, classN
   const [boxes, setBoxes] = useState<HTMLElement[]>([]);
 
   useEffect(() => {
-    containerRef.current && setBoxes(Array.from(containerRef.current.children).map((el) => el as HTMLElement));
+    if (containerRef.current) {
+      setBoxes(Array.from(containerRef.current.children).map((el) => el as HTMLElement));
+    }
   }, []);
 
   useEffect(() => {
@@ -113,7 +115,7 @@ export const HighlighterItem: React.FC<PropsWithChildren<HighlighterItemProps>> 
   return (
     <div
       className={cn(
-        `relative overflow-hidden p-px before:pointer-events-none before:absolute before:-top-48 before:-left-48 before:z-30 before:h-96 before:w-96 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:rounded-full before:bg-emerald-500 before:opacity-0 before:blur-[100px] before:transition-opacity before:duration-500 after:absolute after:inset-0 after:z-10 after:rounded-3xl after:opacity-0 after:transition-opacity after:duration-500 after:group-hover:opacity-100 before:hover:opacity-20 dark:before:bg-white/50`,
+        `relative overflow-hidden p-px before:pointer-events-none before:absolute before:-top-48 before:-left-48 before:z-30 before:h-96 before:w-96 before:translate-x-(--mouse-x) before:translate-y-(--mouse-y) before:rounded-full before:bg-emerald-500 before:opacity-0 before:blur-[100px] before:transition-opacity before:duration-500 after:absolute after:inset-0 after:z-10 after:rounded-3xl after:opacity-0 after:transition-opacity after:duration-500 after:group-hover:opacity-100 before:hover:opacity-20 dark:before:bg-white/50`,
         className
       )}
     >
@@ -132,6 +134,19 @@ interface ParticlesProps {
   vx?: number;
   vy?: number;
 }
+
+type Circle = {
+  x: number;
+  y: number;
+  translateX: number;
+  translateY: number;
+  size: number;
+  alpha: number;
+  targetAlpha: number;
+  dx: number;
+  dy: number;
+  magnetism: number;
+};
 
 function hexToRgb(hex: string): number[] {
   // Remove the "#" character from the beginning of the hex color code
@@ -162,7 +177,7 @@ export const Particles: React.FC<ParticlesProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const context = useRef<CanvasRenderingContext2D | null>(null);
-  const circles = useRef<any[]>([]);
+  const circles = useRef<Circle[]>([]);
   const mousePosition = useMousePosition();
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
@@ -209,19 +224,6 @@ export const Particles: React.FC<ParticlesProps> = ({
         mouse.current.y = y;
       }
     }
-  };
-
-  type Circle = {
-    x: number;
-    y: number;
-    translateX: number;
-    translateY: number;
-    size: number;
-    alpha: number;
-    targetAlpha: number;
-    dx: number;
-    dy: number;
-    magnetism: number;
   };
 
   const resizeCanvas = () => {

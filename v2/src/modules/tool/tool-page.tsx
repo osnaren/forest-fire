@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
+import { useMemo, useRef, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -82,10 +82,6 @@ export function ToolPage() {
 
   const predictionMode = toolConfig.predictionMode ?? 'client';
   const inferenceLabel = predictionMode === 'client' ? 'On-device Analysis' : 'Server-side Analysis';
-  const inferenceDescription =
-    predictionMode === 'client'
-      ? 'Runs entirely in your browser for maximum privacy.'
-      : 'Uploads securely to the server for accelerated processing.';
   const inferenceBadgeClass =
     predictionMode === 'client' ? 'border-emerald-500/40 text-emerald-300' : 'border-sky-500/40 text-sky-300';
 
@@ -504,7 +500,7 @@ export function ToolPage() {
                 exit={{ opacity: 0, y: 20 }}
                 className="sticky bottom-6 z-20"
               >
-                <Card className="border-border/60 bg-card/95 shadow-xl backdrop-blur supports-backdrop-filter:bg-card/80">
+                <Card className="border-border/60 bg-card/95 supports-backdrop-filter:bg-card/80 shadow-xl backdrop-blur">
                   <CardContent className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="text-muted-foreground flex flex-col gap-1 text-sm">
                       <div className="flex items-center gap-2">
@@ -516,12 +512,15 @@ export function ToolPage() {
                             </Badge>
                           )}
                           {successCount > 0 && (
-                            <Badge variant="outline" className="text-xs text-emerald-300 border-emerald-500/30 bg-emerald-500/10">
+                            <Badge
+                              variant="outline"
+                              className="border-emerald-500/30 bg-emerald-500/10 text-xs text-emerald-300"
+                            >
                               Success: {successCount}
                             </Badge>
                           )}
                           {errorCount > 0 && (
-                            <Badge variant="outline" className="text-xs text-red-300 border-red-500/30 bg-red-500/10">
+                            <Badge variant="outline" className="border-red-500/30 bg-red-500/10 text-xs text-red-300">
                               Failed: {errorCount}
                             </Badge>
                           )}
@@ -534,7 +533,7 @@ export function ToolPage() {
                       {statusBanner ? (
                         <span
                           className={cn(
-                            'text-xs font-medium mt-1',
+                            'mt-1 text-xs font-medium',
                             statusBanner.tone === 'error' && 'text-red-300',
                             statusBanner.tone === 'warning' && 'text-amber-300',
                             statusBanner.tone === 'success' && 'text-emerald-300',
@@ -551,10 +550,15 @@ export function ToolPage() {
                           Add more
                         </Button>
                       ) : null}
-                      
+
                       {step === 'results' && !isProcessing ? (
                         <>
-                          <Button variant="secondary" size="sm" onClick={() => setStep('review')} disabled={uploads.length === 0}>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => setStep('review')}
+                            disabled={uploads.length === 0}
+                          >
                             Adjust selection
                           </Button>
                           <Button size="sm" onClick={handleClear}>
@@ -571,7 +575,12 @@ export function ToolPage() {
                           >
                             Reset
                           </Button>
-                          <Button onClick={handleSubmit} disabled={!canSubmit} size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                          <Button
+                            onClick={handleSubmit}
+                            disabled={!canSubmit}
+                            size="sm"
+                            className="bg-emerald-600 text-white hover:bg-emerald-700"
+                          >
                             {mode === 'single' ? 'Analyze image' : 'Analyze batch'}
                           </Button>
                         </>

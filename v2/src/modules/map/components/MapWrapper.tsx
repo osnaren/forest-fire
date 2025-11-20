@@ -106,6 +106,13 @@ export default function MapWrapper() {
             <div
               className="flex cursor-pointer items-center justify-between border-b border-white/5 p-4 transition-colors hover:bg-white/5"
               onClick={() => setIsExpanded(!isExpanded)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setIsExpanded(!isExpanded);
+                }
+              }}
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-red-500/20 to-orange-500/20 text-red-500 shadow-lg ring-1 shadow-red-500/10 ring-red-500/20">
@@ -149,7 +156,7 @@ export default function MapWrapper() {
                         ].map((period) => (
                           <button
                             key={period.id}
-                            onClick={() => handlePeriodChange(period.id as any)}
+                            onClick={() => handlePeriodChange(period.id as 'today' | 'yesterday' | '2days')}
                             className={cn(
                               'rounded-md px-2 py-2 text-[10px] font-semibold tracking-wide uppercase transition-all duration-200 sm:text-xs',
                               selectedPeriod === period.id
@@ -189,7 +196,6 @@ export default function MapWrapper() {
                                   }
                                 }}
                                 disabled={(date) => date > new Date() || date < new Date('2000-01-01')}
-                                autoFocus
                                 className="bg-neutral-900 text-white"
                               />
                             </PopoverContent>

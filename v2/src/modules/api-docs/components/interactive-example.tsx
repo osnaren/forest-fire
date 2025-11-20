@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CodeBlock } from '@/components/ui/code-block';
 import { apiDocsConfig } from '@/config/api-docs';
+import { PredictionResponse } from '@/lib/types';
 import { AnimatePresence, motion } from 'motion/react';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -15,7 +16,7 @@ import { SiGo, SiJavascript, SiNodedotjs, SiPython } from 'react-icons/si';
 export function InteractiveExample() {
   const [selectedLanguage, setSelectedLanguage] = useState('javascript');
   const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] = useState<any>(null);
+  const [response, setResponse] = useState<PredictionResponse | { error: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const getIcon = (id: string) => {
@@ -260,12 +261,12 @@ export function InteractiveExample() {
                         </Badge>
                         <span className="text-sm font-medium text-green-600">Success</span>
                         <span className="text-muted-foreground ml-auto text-xs">
-                          {response.processingTime && new Date(response.processingTime).toLocaleTimeString()}
+                          {'processingTime' in response && response.processingTime && new Date(response.processingTime).toLocaleTimeString()}
                         </span>
                       </div>
                       <CodeBlock language="json" filename="response.json" code={JSON.stringify(response, null, 2)} />
 
-                      {response.results && response.results.length > 0 && (
+                      {response && 'results' in response && response.results && response.results.length > 0 && (
                         <div className="bg-accent/10 border-accent/20 rounded-lg border p-3">
                           <div className="flex items-center justify-between">
                             <div>

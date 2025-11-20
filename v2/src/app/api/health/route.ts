@@ -17,7 +17,7 @@ export async function GET(): Promise<NextResponse<HealthResponse>> {
       model: 'available',
       timestamp: new Date().toISOString(),
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<HealthResponse>(
       {
         status: 'ok',

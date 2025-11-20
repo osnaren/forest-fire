@@ -20,6 +20,7 @@ export function MotionWrapper({ children, fallback, as = 'div', ...motionProps }
     setIsMounted(true);
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const MotionComponent = motion[as] as any;
 
   if (!isMounted) {

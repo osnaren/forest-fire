@@ -56,7 +56,6 @@ export function CTASection() {
 
                   <Link
                     href={homeConfig.cta.secondary.href}
-                    target="_blank"
                     rel="noopener noreferrer"
                     aria-label={homeConfig.cta.secondary.text}
                     className="group border-border bg-card/50 text-foreground hover:border-border/60 hover:bg-card/70 focus:ring-ring flex w-full items-center justify-center gap-2 rounded-xl border px-8 py-4 text-lg font-semibold backdrop-blur-sm transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto"

@@ -33,7 +33,7 @@ async function handlePrediction(request: Request) {
   let formData: FormData;
   try {
     formData = await request.formData();
-  } catch (error) {
+  } catch {
     return CommonErrors.badRequest('Invalid form data. Please ensure you are sending multipart/form-data.');
   }
 
