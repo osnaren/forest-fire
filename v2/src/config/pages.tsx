@@ -46,7 +46,7 @@ export const homeConfig = {
       accent: 'Classifier v2',
     },
     description:
-      'Upload a forest image and get an instant verdict — fire, smoke, or clear. Runs right in your browser; no sign-up, no wait.',
+      'Upload a forest image and get an instant verdict — fire, smoke, or clear. Powered by secure server-side AI; no sign-up, no wait.',
     cta: {
       primary: {
         text: 'Try the Classifier',
@@ -79,7 +79,7 @@ export const homeConfig = {
         value: 500,
         suffix: 'ms',
         label: 'Avg. Latency',
-        description: 'Client-side prediction time',
+        description: 'Average API latency',
       },
       {
         value: 4,
@@ -101,7 +101,7 @@ export const homeConfig = {
         emoji: '⚡',
         icon: <TbEyeBolt className="size-6" />,
         title: 'Real-time Detection',
-        description: 'Sub-second analysis directly in your browser — vital seconds saved in early response.',
+        description: 'Fast analysis via our optimized API — vital seconds saved in early response.',
       },
       {
         emoji: '🍃',
@@ -113,13 +113,13 @@ export const homeConfig = {
         emoji: '🔐',
         icon: <FaUserLock className="size-6" />,
         title: 'Privacy-First',
-        description: 'Images stay on-device by default; no cloud upload needed.',
+        description: 'Images are processed securely in memory and never stored.',
       },
       {
         emoji: '🔀',
         icon: <GiThrustBend className="size-6" />,
         title: 'Flexible Deployment',
-        description: 'Run client-side or call the optional rate-limited API for server inference.',
+        description: 'Robust server-side inference with built-in rate limiting for stability.',
       },
       {
         emoji: '📊',
@@ -182,7 +182,7 @@ export const aboutConfig = {
     items: [
       {
         name: 'TensorFlow.js',
-        description: 'The brain behind the operation. Runs the model directly in your browser.',
+        description: 'The brain behind the operation. Powers our server-side inference engine.',
         category: 'AI / ML',
         icon: 'https://img.icons8.com/color/96/tensorflow.png',
       },
@@ -516,7 +516,7 @@ export const researchConfig = {
   modelNote: {
     title: 'Model Architecture Difference',
     content:
-      'The model deployed in this live classifier is optimized for edge performance. Unlike the heavy research model described in the paper, this version uses a lightweight MobileNet architecture trained via Teachable Machine to ensure sub-second inference speeds directly in your browser.',
+      'The model deployed in this live classifier is optimized for edge performance. Unlike the heavy research model described in the paper, this version uses a lightweight MobileNet architecture trained via Teachable Machine to ensure sub-second inference speeds via our API.',
     icon: '⚡',
   },
 };
@@ -524,7 +524,7 @@ export const researchConfig = {
 export const toolConfig = {
   title: 'Forest Fire Classifier',
   description: 'Upload forest imagery to detect potential wildfire activity using advanced AI.',
-  predictionMode: 'client',
+  predictionMode: 'server',
   maxFileSize: '4MB',
   supportedFormats: ['JPG', 'PNG', 'WebP'],
   maxBulkFiles: 6,

@@ -31,11 +31,12 @@ export default function PrivacyPage() {
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>
-                <strong className="text-foreground">Client-Side Processing:</strong> All image analysis is performed directly on your device (in your browser) using TensorFlow.js. 
-                Your images are <strong>not</strong> uploaded to our servers for analysis unless you explicitly choose a server-side option (if available).
+                <strong className="text-foreground">Server-Side Processing:</strong> Image analysis is performed on our secure servers to ensure consistent performance and protect our proprietary model architecture. 
+                Images are transmitted securely via encryption.
               </li>
               <li>
-                <strong className="text-foreground">No Data Retention:</strong> Since processing happens locally, we do not store, save, or retain the images you analyze.
+                <strong className="text-foreground">No Data Retention:</strong> We operate with a strict no-storage policy. Images are processed in memory for the sole purpose of generating a prediction and are immediately discarded. 
+                We do <strong>not</strong> store, save, or use your uploaded images to train our models.
               </li>
             </ul>
           </section>

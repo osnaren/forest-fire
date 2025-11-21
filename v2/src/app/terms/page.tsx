@@ -25,11 +25,24 @@ export default function TermsPage() {
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-foreground text-2xl font-semibold">2. Use License</h2>
+            <h2 className="text-foreground text-2xl font-semibold">2. Use License & Service Limits</h2>
             <p>
               {siteConfig.name} is an open-source project. The source code is available under the MIT License. However,
               the hosted service provided at {siteConfig.url} is for personal and non-commercial use.
             </p>
+            <p>To ensure service availability for all users and protect our infrastructure:</p>
+            <ul className="list-disc space-y-2 pl-6">
+              <li>
+                We enforce rate limits on API requests. Excessive usage may result in temporary access restrictions.
+              </li>
+              <li>
+                The machine learning model runs on our servers to maintain integrity and performance. You agree not to
+                attempt to reverse engineer the API or bypass rate limits.
+              </li>
+              <li>
+                While we process your images to provide predictions, we do not claim ownership or store your content.
+              </li>
+            </ul>
           </section>
 
           <section className="space-y-4">

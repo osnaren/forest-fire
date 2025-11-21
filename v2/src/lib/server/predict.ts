@@ -2,10 +2,9 @@ import * as tf from '@tensorflow/tfjs';
 import { promises as fs } from 'fs';
 import path from 'path';
 import sharp from 'sharp';
+import { getModelPaths } from './model-loader';
 
 // --- Constants ---
-const MODEL_JSON_PATH = path.join(process.cwd(), 'public', 'model', 'model.json');
-const MODEL_DIR = path.dirname(MODEL_JSON_PATH);
 const IMAGE_SIZE = 224;
 
 async function ensureBackend() {
@@ -40,8 +39,11 @@ async function loadModel(): Promise<tf.LayersModel> {
   }
 
   modelLoadingPromise = (async () => {
-    console.log('Loading model from:', MODEL_JSON_PATH);
     try {
+      // Get model paths (downloads if necessary)
+      const { modelJsonPath, modelDir } = await getModelPaths();
+      console.log('Loading model from:', modelJsonPath);
+
       await ensureBackend();
 
       // Clear existing variables to prevent "Variable already registered" errors during hot reload
@@ -50,7 +52,7 @@ async function loadModel(): Promise<tf.LayersModel> {
       // Any existing variables in the global tf state are likely from a previous (failed or stale) load.
       tf.disposeVariables();
 
-      const modelJSONRaw = await fs.readFile(MODEL_JSON_PATH, 'utf-8');
+      const modelJSONRaw = await fs.readFile(modelJsonPath, 'utf-8');
       const modelJSON = JSON.parse(modelJSONRaw) as {
         modelTopology: tf.io.ModelArtifacts['modelTopology'];
         weightsManifest: Array<{
@@ -68,7 +70,7 @@ async function loadModel(): Promise<tf.LayersModel> {
       const shardBuffers: Buffer[] = [];
       for (const group of modelJSON.weightsManifest) {
         for (const relativePath of group.paths) {
-          const shardPath = path.join(MODEL_DIR, relativePath);
+          const shardPath = path.join(modelDir, relativePath);
           const buffer = await fs.readFile(shardPath);
           shardBuffers.push(buffer);
         }

@@ -1,16 +1,14 @@
 import { HealthResponse } from '@/lib/types';
 import { promises as fs } from 'fs';
 import { NextResponse } from 'next/server';
-import path from 'path';
+import { getModelPaths } from '@/lib/server/model-loader';
 
 export async function GET(): Promise<NextResponse<HealthResponse>> {
   try {
-    // Check if model files exist
-    const modelPath = path.join(process.cwd(), 'public/model/model.json');
-    const weightsPath = path.join(process.cwd(), 'public/model/weights.bin');
+    // Check if model files exist (will download if missing)
+    const { modelJsonPath } = await getModelPaths();
 
-    await fs.access(modelPath);
-    await fs.access(weightsPath);
+    await fs.access(modelJsonPath);
 
     return NextResponse.json<HealthResponse>({
       status: 'ok',
