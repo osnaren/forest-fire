@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { CodeBlock } from '@/components/ui/code-block';
 import { apiDocsConfig } from '@/config/api-docs';
 import { IconCheck } from '@tabler/icons-react';
@@ -26,7 +26,9 @@ export function ApiOverview() {
             {apiDocsConfig.hero.status.uptime} uptime · {apiDocsConfig.hero.status.lastDeploy}
           </span>
         </div>
-        <h2 className="text-foreground text-2xl leading-none font-semibold tracking-tight">{apiDocsConfig.endpoint.title}</h2>
+        <h2 className="text-foreground text-2xl leading-none font-semibold tracking-tight">
+          {apiDocsConfig.endpoint.title}
+        </h2>
         <CardDescription className="max-w-3xl text-base">
           {apiDocsConfig.endpoint.description} {apiDocsConfig.overview.summary}
         </CardDescription>

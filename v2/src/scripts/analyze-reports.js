@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const reportsDir = path.join(__dirname, 'lhci_reports');
+const reportsDir = path.join(__dirname, '../../lhci_reports');
 const files = fs.readdirSync(reportsDir).filter((f) => f.endsWith('.json') && f !== 'manifest.json');
 
 files.forEach((file) => {

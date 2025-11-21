@@ -3,7 +3,7 @@ import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 
@@ -144,7 +144,7 @@ export function UploadArea({
     <Card className="border-border/60 bg-card/70 overflow-hidden shadow-lg">
       <CardHeader className="border-border/60 bg-muted/5 flex flex-col gap-4 border-b pb-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-foreground/90 text-lg font-semibold leading-none tracking-tight">Upload images</h2>
+          <h2 className="text-foreground/90 text-lg leading-none font-semibold tracking-tight">Upload images</h2>
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="border-emerald-500/40 bg-emerald-500/10 text-xs text-emerald-300">
               Max {mode === 'bulk' ? `${maxBulkFiles} files` : '1 file'}
@@ -192,6 +192,7 @@ export function UploadArea({
           )}
         >
           <input
+            id="file-upload-input"
             ref={inputRef}
             type="file"
             className="hidden"

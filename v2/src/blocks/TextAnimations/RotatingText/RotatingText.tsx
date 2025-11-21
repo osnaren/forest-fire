@@ -47,6 +47,7 @@ export interface RotatingTextProps
   mainClassName?: string;
   splitLevelClassName?: string;
   elementLevelClassName?: string;
+  animateOnMount?: boolean;
 }
 
 const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
@@ -69,11 +70,17 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
       mainClassName,
       splitLevelClassName,
       elementLevelClassName,
+      animateOnMount = true,
       ...rest
     },
     ref
   ) => {
     const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+      setIsMounted(true);
+    }, []);
 
     const splitIntoCharacters = (text: string): string[] => {
       if (typeof Intl !== 'undefined' && Intl.Segmenter) {
@@ -190,9 +197,9 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
           'relative flex flex-wrap whitespace-pre-wrap text-black dark:text-white',
           mainClassName,
           '[background:linear-gradient(to_bottom,#f3f4f6,#e5e7eb)]',
-          'shadow-[inset_0_-1px_#d1d5db,inset_0_0_0_1px_#d1d5db,_0_4px_8px_#d1d5db]',
+          'shadow-[inset_0_-1px_#d1d5db,inset_0_0_0_1px_#d1d5db,0_4px_8px_#d1d5db]',
           'dark:[background:linear-gradient(to_bottom,#374151,#1f2937)]',
-          'dark:shadow-[inset_0_-1px_#10171e,inset_0_0_0_1px_hsla(205,89%,46%,.24),_0_4px_8px_#00000052]'
+          'dark:shadow-[inset_0_-1px_#10171e,inset_0_0_0_1px_hsla(205,89%,46%,.24),0_4px_8px_#00000052]'
         )}
         {...rest}
         layout
@@ -215,7 +222,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
                   {wordObj.characters.map((char, charIndex) => (
                     <motion.span
                       key={charIndex}
-                      initial={initial}
+                      initial={!animateOnMount && !isMounted ? animate : initial}
                       animate={animate}
                       exit={exit}
                       transition={{

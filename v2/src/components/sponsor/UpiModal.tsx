@@ -185,6 +185,7 @@ const UpiPaymentContent: React.FC<{
         <div className="flex w-full max-w-[280px] items-center space-x-2">
           <div className="relative flex-1">
             <Input
+              id="upi-id-display"
               type="text"
               value={upiId}
               readOnly
@@ -207,10 +208,10 @@ const UpiPaymentContent: React.FC<{
       {/* Amount Selection & Note Container */}
       <div className="space-y-5">
         <div className="space-y-3">
-          <label htmlFor="quick-support" className="text-foreground text-sm font-medium">
+          <span className="text-foreground text-sm font-medium">
             Quick Support
-          </label>
-          <div id="quick-support" className="grid grid-cols-4 gap-2">
+          </span>
+          <div className="grid grid-cols-4 gap-2">
             {AMOUNTS.map((amount) => (
               <Button
                 key={amount.value}

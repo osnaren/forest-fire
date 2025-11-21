@@ -53,7 +53,7 @@ export const homeConfig = {
         href: '/tool',
       },
       secondary: {
-        text: 'Learn More',
+        text: 'About the Project',
         href: '/about',
       },
     },

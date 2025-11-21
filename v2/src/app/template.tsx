@@ -1,24 +1,23 @@
 'use client';
 
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import { motion, useScroll, useSpring } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 export default function RootTemplate({ children }: { children: React.ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
-  const progressBarRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
 
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    ScrollTrigger.config({
-      autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load,resize',
-    });
-
     document.documentElement.style.overflow = 'auto';
     document.documentElement.style.height = 'auto';
     document.body.style.overflow = 'auto';
@@ -43,66 +42,15 @@ export default function RootTemplate({ children }: { children: React.ReactNode }
     }
     rafId = requestAnimationFrame(raf);
 
-    const lenisScrollCallback = (e: Lenis) => {
-      if (progressBarRef.current) {
-        const scrollTop = e.animatedScroll || e.scroll || 0;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollPercent = height > 0 ? scrollTop / height : 0;
-        const progress = Math.max(0, Math.min(1, scrollPercent));
-        progressBarRef.current.style.width = `${progress * 100}%`;
-      }
-      ScrollTrigger.update();
-    };
-    lenisRef.current.on('scroll', lenisScrollCallback);
-
-    ScrollTrigger.scrollerProxy(document.body, {
-      scrollTop(value) {
-        if (lenisRef.current) {
-          if (arguments.length && value !== undefined) {
-            lenisRef.current.scrollTo(value, { immediate: true });
-          }
-          return lenisRef.current.scroll || 0;
-        }
-        return 0;
-      },
-      getBoundingClientRect() {
-        return {
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
-      },
-      pinType: document.body.style.transform ? 'transform' : 'fixed',
-    });
-
-    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
-    if (progressBarRef.current) {
-      progressBarRef.current.style.width = '0%';
-    }
-
     const refreshTimeout = setTimeout(() => {
       if (lenisRef.current) {
         lenisRef.current.resize();
       }
-      ScrollTrigger.refresh(true);
-      if (lenisRef.current) {
-        lenisScrollCallback(lenisRef.current);
-      }
     }, 200);
-
-    const secondRefreshTimeout = setTimeout(() => {
-      ScrollTrigger.refresh(true);
-    }, 1000);
 
     const handleResize = () => {
       if (lenisRef.current) {
         lenisRef.current.resize();
-      }
-      ScrollTrigger.refresh(true);
-      if (lenisRef.current) {
-        lenisScrollCallback(lenisRef.current);
       }
     };
     window.addEventListener('resize', handleResize);
@@ -110,13 +58,7 @@ export default function RootTemplate({ children }: { children: React.ReactNode }
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', handleResize);
-      if (lenisRef.current) {
-        lenisRef.current.off('scroll', lenisScrollCallback);
-      }
       clearTimeout(refreshTimeout);
-      clearTimeout(secondRefreshTimeout);
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      ScrollTrigger.scrollerProxy(document.body);
     };
   }, [pathname]);
 
@@ -126,11 +68,6 @@ export default function RootTemplate({ children }: { children: React.ReactNode }
         lenisRef.current.destroy();
         lenisRef.current = null;
       }
-      if (progressBarRef.current && progressBarRef.current.parentNode) {
-        progressBarRef.current.parentNode.removeChild(progressBarRef.current);
-        progressBarRef.current = null;
-      }
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
@@ -140,17 +77,17 @@ export default function RootTemplate({ children }: { children: React.ReactNode }
       className="bg-surface-container min-h-screen w-full"
       style={{ position: 'relative', overflowX: 'hidden', overflowY: 'auto' }}
     >
-      <div
-        ref={progressBarRef}
+      <motion.div
         className="scroll-progress-indicator"
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
+          right: 0,
           height: '4px',
           background: 'linear-gradient(to right, #22c55e, #facc15)',
           zIndex: 9999,
-          width: '0%',
+          scaleX,
           transformOrigin: 'left center',
         }}
       />

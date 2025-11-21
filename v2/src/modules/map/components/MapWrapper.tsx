@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { Calendar as CalendarIcon, ChevronDown, ChevronUp, Eye, Flame, Info, Pause, Play } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
@@ -225,6 +225,7 @@ export default function MapWrapper() {
                         <span className="font-mono text-[10px] text-neutral-500">{Math.round(opacity * 100)}%</span>
                       </div>
                       <input
+                        id="opacity-slider"
                         type="range"
                         min="0"
                         max="1"

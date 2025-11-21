@@ -9,7 +9,7 @@ import { AnimatedGradientText } from '@/components/ui/modern-effects';
 import { Timeline } from '@/components/ui/timeline';
 import { WobbleCard } from '@/components/ui/wobble-card';
 import { aboutConfig } from '@/config/pages';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 

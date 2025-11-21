@@ -13,6 +13,7 @@ const baseMetadata = generateSEOMetadata();
 
 export const metadata: Metadata = {
   ...baseMetadata,
+  description: siteConfig.description,
   authors: [{ name: siteConfig.author.name, url: siteConfig.author.github }, { name: 'Forest Fire Classifier Team' }],
   manifest: '/manifest.json',
   icons: {

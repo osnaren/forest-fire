@@ -281,6 +281,7 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
                 </div>
               </div>
               <input
+                id="add-more-grid-input"
                 ref={addInputRef}
                 type="file"
                 className="hidden"

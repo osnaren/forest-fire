@@ -479,6 +479,7 @@ export function ToolPage() {
 
           {/* Hidden input to support the 'Add more' button in the workflow card */}
           <input
+            id="add-more-input"
             ref={addMoreInputRef}
             type="file"
             accept="image/*"
