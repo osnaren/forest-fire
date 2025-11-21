@@ -1,7 +1,7 @@
 # Forest Fire Intelligence Suite
 
 [![Live Demo](https://img.shields.io/badge/Live-fire.osnaren.com-ef4444?style=for-the-badge&logo=vercel)](https://fire.osnaren.com)
-[![Legacy Demo](https://img.shields.io/badge/Legacy-v1.fire.osnaren.com-f97316?style=for-the-badge&logo=html5)](https://v1.fire.osnaren.com)
+[![Legacy Demo](https://img.shields.io/badge/Legacy-forestfire--v1.osnaren.com-f97316?style=for-the-badge&logo=html5)](https://forestfire-v1.osnaren.com/)
 [![Dataset](https://img.shields.io/badge/Dataset-Forest%20Fire%20C4-22c55e?style=for-the-badge&logo=kaggle)](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4)
 [![License](https://img.shields.io/badge/License-Proprietary-critical?style=for-the-badge&logo=adguard)](./LICENSE)
 
@@ -25,7 +25,7 @@ AI-powered wildfire detection across modern (v2) and legacy (v1) web experiences
 
 | Project | Description | Highlights |
 | --- | --- | --- |
-| [`v2/`](./v2/README.md) | Next.js 14 application with both client-side and server-side TensorFlow.js inference. | Modern UI, `/api/predict` + `/api/health`, rate limiting, content configs, Zustand state management. |
+| [`v2/`](./v2/README.md) | Next.js 16 application with privacy-first client-side inference. | Modern UI, Client-side TensorFlow.js, `/api/predict` fallback, rate limiting, content configs, Zustand state management. |
 | [`v1/`](./v1/README.md) | Original Teachable Machine prototype preserved for posterity. Runs fully in the browser with TensorFlow.js. | No backend dependency, animated results dashboard, legacy design. |
 | [`docs/`](./docs/plan.md) | Planning notes and research artifacts. | Project planning context and historical insights. |
 

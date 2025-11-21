@@ -2,10 +2,10 @@
 
 [![Production](https://img.shields.io/badge/Live-Demo-ef4444?style=for-the-badge&logo=vercel)](https://fire.osnaren.com)
 [![API](https://img.shields.io/badge/API-Docs-0ea5e9?style=for-the-badge&logo=swagger)](https://fire.osnaren.com/api-docs)
-[![Next.js](https://img.shields.io/badge/Built%20with-Next.js%2014-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Built%20with-Next.js%2016-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![Dataset](https://img.shields.io/badge/Dataset-Forest%20Fire%20C4-22c55e?style=for-the-badge&logo=kaggle)](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4)
 
-Modern wildfire intelligence for the web: instant image classification, public API access, and polished UX powered by Next.js 14 and TensorFlow.js.
+Modern wildfire intelligence for the web: instant image classification, public API access, and polished UX powered by Next.js 16 and TensorFlow.js.
 
 ---
 
@@ -27,7 +27,7 @@ Modern wildfire intelligence for the web: instant image classification, public A
 ## Highlights
 
 - 🔥 **Real-time inference** for Fire, Smoke, Smoke+Fire, and No Fire classes
-- ☁️ **Client + server flexibility**: WebGL model in the browser plus secure Node.js inference
+- ☁️ **Privacy-First**: Client-side WebGL inference by default, with optional secure Node.js API
 - 🛡️ **Production hardening**: Rate limiting, structured errors, health checks, and ML observability
 - 🎨 **Immersive interface**: Tailwind-powered design with motion presets and accessibility baked in
 
@@ -37,7 +37,7 @@ Modern wildfire intelligence for the web: instant image classification, public A
 
 - **Classifier**: [fire.osnaren.com](https://fire.osnaren.com)
 - **API Explorer**: [fire.osnaren.com/api-docs](https://fire.osnaren.com/api-docs)
-- **Legacy Prototype (v1)**: [v1.fire.osnaren.com](https://v1.fire.osnaren.com)
+- **Legacy Prototype (v1)**: [forestfire-v1.osnaren.com](https://forestfire-v1.osnaren.com/)
 
 Looking for the original Teachable Machine demo? See [`v1/README.md`](../v1/README.md).
 
@@ -55,7 +55,7 @@ Looking for the original Teachable Machine demo? See [`v1/README.md`](../v1/READ
 ## Architecture Overview
 
 ```text
-App Router (Next.js 14)
+App Router (Next.js 16)
 ├── src/app
 │   ├── page.tsx, layout.tsx       # Landing experience
 │   ├── api/predict/route.ts       # Multipart upload → TensorFlow scoring → JSON
@@ -80,8 +80,8 @@ Key characteristics:
 
 ```bash
 # 1. Clone & enter the Next.js app
-git clone https://github.com/your-username/ForestFire.git
-cd ForestFire/v2
+git clone https://github.com/osnaren/forest-fire.git
+cd forest-fire/v2
 
 # 2. Install dependencies
 npm install

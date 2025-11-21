@@ -1,6 +1,6 @@
 # Forest Fire Prediction (Legacy v1)
 
-[![Static Site](https://img.shields.io/badge/Experience-Legacy%20Demo-0ea5e9?style=for-the-badge&logo=html5)](https://osnaren.github.io/ForestFire/)
+[![Static Site](https://img.shields.io/badge/Experience-Legacy%20Demo-0ea5e9?style=for-the-badge&logo=html5)](https://forestfire-v1.osnaren.com/)
 [![Tech Stack](https://img.shields.io/badge/Stack-HTML%20%7C%20CSS%20%7C%20JS%20%7C%20TensorFlow.js-6366f1?style=for-the-badge&logo=javascript)](#tech-stack)
 [![Status](https://img.shields.io/badge/Status-Archived-orange?style=for-the-badge&logo=github)](#project-snapshot)
 
@@ -24,7 +24,7 @@ The original proof-of-concept web app that inspired the modern Forest Fire Class
 
 ## Project Snapshot
 
-- **Live Demo:** [osnaren.github.io/ForestFire](https://osnaren.github.io/ForestFire/)
+- **Live Demo:** [forestfire-v1.osnaren.com](https://forestfire-v1.osnaren.com/)
 - **Dataset:** [Forest Fire C4 (Kaggle)](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4) — licensed under CC BY-NC-SA 4.0
 - **Model:** MobileNet (Teachable Machine export)
 - **Accuracy:** ~98.5% on curated validation set
@@ -83,7 +83,7 @@ The original proof-of-concept web app that inspired the modern Forest Fire Class
 
 ### Quick Start
 
-1. Open [the live demo](https://osnaren.github.io/ForestFire/) or launch `index.html` via a local static server.
+1. Open [the live demo](https://forestfire-v1.osnaren.com/) or launch `index.html` via a local static server.
 2. Upload a JPEG/PNG/WebP image (≤10 MB).
 3. Review the animated probability bars and textual verdict.
 
