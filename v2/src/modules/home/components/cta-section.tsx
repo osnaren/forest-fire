@@ -11,7 +11,7 @@ export function CTASection() {
         <HoverBackground
           className="rounded-3xl p-1"
           colors={{
-            background: 'bg-gradient-to-br from-primary/20 via-card/40 to-accent/20',
+            background: 'bg-linear-to-br from-primary/20 via-card/40 to-accent/20',
             objects: ['bg-primary/20', 'bg-accent/20', 'bg-primary/10'],
             glow: 'shadow-primary/30',
           }}

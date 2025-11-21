@@ -22,7 +22,7 @@ export function StatsSection() {
                 <header className="mb-8 flex justify-center">
                   <AnimatedGradientText>
                     📊 <hr className="bg-border mx-2 h-4 w-px shrink-0" />{' '}
-                    <span className="from-primary via-accent to-primary animate-gradient inline bg-gradient-to-r bg-[length:200%_100%] bg-clip-text text-transparent">
+                    <span className="from-primary via-accent to-primary animate-gradient inline bg-linear-to-r bg-size-[200%_100%] bg-clip-text text-transparent">
                       {homeConfig.stats.badge.text}
                     </span>
                     <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
@@ -32,7 +32,7 @@ export function StatsSection() {
                 <div className="grid cursor-default gap-8 sm:grid-cols-3 lg:gap-12">
                   {homeConfig.stats.items.map((stat, index) => (
                     <div key={index} className="group relative">
-                      <div className="from-primary/10 to-accent/10 absolute -inset-2 rounded-2xl bg-gradient-to-r via-transparent opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-100" />
+                      <div className="from-primary/10 to-accent/10 absolute -inset-2 rounded-2xl bg-linear-to-r via-transparent opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-100" />
                       <div className="border-border/30 bg-card/50 group-hover:border-border/60 group-hover:bg-card/70 relative rounded-2xl border p-6 backdrop-blur-sm transition-all duration-300 lg:p-8">
                         <div className="text-primary mb-3 text-4xl font-bold sm:text-5xl lg:text-6xl">
                           <CountUp

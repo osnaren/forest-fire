@@ -22,11 +22,11 @@ export function FeaturesSection() {
       {/* Background elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div
-          className="bg-gradient-radial from-primary/10 absolute top-0 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/3 rounded-full to-transparent opacity-20 blur-3xl"
+          className="from-primary/10 absolute top-0 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-[radial-gradient(closest-side,var(--tw-gradient-stops))] to-transparent opacity-20 blur-3xl"
           aria-hidden="true"
         />
         <div
-          className="bg-gradient-radial from-accent/10 absolute right-0 bottom-0 h-[500px] w-[500px] translate-x-1/3 translate-y-1/4 rounded-full to-transparent opacity-20 blur-3xl"
+          className="from-accent/10 absolute right-0 bottom-0 h-[500px] w-[500px] translate-x-1/3 translate-y-1/4 rounded-full bg-[radial-gradient(closest-side,var(--tw-gradient-stops))] to-transparent opacity-20 blur-3xl"
           aria-hidden="true"
         />
       </div>
@@ -117,7 +117,7 @@ function FeatureCard({ feature, index }: FeatureCardProps) {
       {/* Glow effect background */}
       <div
         className={cn(
-          'from-primary/20 to-primary/10 absolute inset-0 bg-gradient-to-r via-transparent opacity-0 transition-opacity duration-700',
+          'from-primary/20 to-primary/10 absolute inset-0 bg-linear-to-r via-transparent opacity-0 transition-opacity duration-700',
           isHovered && 'opacity-100'
         )}
         aria-hidden="true"
@@ -126,7 +126,7 @@ function FeatureCard({ feature, index }: FeatureCardProps) {
       <div className="relative z-10 p-6">
         <div className="mb-6">
           <div className="relative">
-            <div className="from-primary to-primary/80 shadow-primary/25 group-hover:shadow-primary/40 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br shadow-lg transition-all duration-500 group-hover:scale-110">
+            <div className="from-primary to-primary/80 shadow-primary/25 group-hover:shadow-primary/40 flex h-14 w-14 items-center justify-center rounded-xl bg-linear-to-br shadow-lg transition-all duration-500 group-hover:scale-110">
               {feature.icon}
             </div>
           </div>

@@ -15,7 +15,7 @@ export function HeroSection() {
           <header className="mb-8 flex justify-center">
             <AnimatedGradientText>
               🔥 <hr className="bg-border mx-2 h-4 w-px shrink-0" />{' '}
-              <span className="from-primary via-accent to-primary animate-gradient inline bg-gradient-to-r bg-[length:200%_100%] bg-clip-text text-transparent">
+              <span className="from-primary via-accent to-primary animate-gradient inline bg-linear-to-r bg-size-[200%_100%] bg-clip-text text-transparent">
                 {homeConfig.hero.badge.text}
               </span>
               <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
@@ -41,9 +41,9 @@ export function HeroSection() {
                       rotationInterval={2500}
                     />
                   </span>
-                  <span className="from-primary via-primary to-accent relative block bg-gradient-to-r bg-clip-text text-transparent">
+                  <span className="from-primary via-primary to-accent relative block bg-linear-to-r bg-clip-text text-transparent">
                     {homeConfig.hero.title.accent}
-                    <div className="from-primary/10 to-accent/10 absolute -inset-2 rounded-lg bg-gradient-to-r opacity-50 blur-xl" />
+                    <div className="from-primary/10 to-accent/10 absolute -inset-2 rounded-lg bg-linear-to-r opacity-50 blur-xl" />
                   </span>
                 </h1>
               </FloatingElement>
@@ -53,7 +53,7 @@ export function HeroSection() {
               <p className="text-muted-foreground mx-auto max-w-3xl text-lg leading-relaxed sm:text-xl lg:text-2xl">
                 {homeConfig.hero.description}
               </p>
-              <div className="via-primary/5 absolute inset-0 rounded-lg bg-gradient-to-r from-transparent to-transparent opacity-30 blur-xl" />
+              <div className="via-primary/5 absolute inset-0 rounded-lg bg-linear-to-r from-transparent to-transparent opacity-30 blur-xl" />
             </div>
           </div>
 

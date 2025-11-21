@@ -139,7 +139,7 @@ export default function Footer() {
                     {link.comingSoon ? (
                       <ComingSoonLink description={link.description}>{link.text}</ComingSoonLink>
                     ) : (
-                      <FooterLink href={link.href} description={link.description}>
+                      <FooterLink href={link.href} description={link.description} isExternal={link.external}>
                         {link.text}
                       </FooterLink>
                     )}
@@ -196,6 +196,15 @@ export default function Footer() {
             <p className="text-muted-foreground/80 text-xs">{footerConfig.copyright.additionalText}</p>
           </div>
 
+          {/* Legal Links */}
+          <div className="text-muted-foreground flex gap-6 text-sm">
+            {footerConfig.links.legal?.map((link) => (
+              <Link key={link.href} href={link.href} className="hover:text-foreground transition-colors">
+                {link.text}
+              </Link>
+            ))}
+          </div>
+
           {/* Tagline */}
           <div className="flex items-center gap-2">
             <span className="text-muted-foreground text-sm">{footerConfig.brand.tagline.text}</span>
@@ -223,10 +232,12 @@ function FooterLink({
   href,
   children,
   description,
+  isExternal = false,
 }: {
   href: string;
   children: React.ReactNode;
   description?: string;
+  isExternal?: boolean;
 }) {
   return (
     <motion.div whileHover={{ x: 2 }} transition={{ duration: 0.2 }}>
@@ -236,6 +247,8 @@ function FooterLink({
           'group flex items-start gap-2 text-sm transition-colors duration-200',
           'text-muted-foreground cursor-pointer hover:text-emerald-500'
         )}
+        target={isExternal ? '_blank' : '_self'}
+        rel={isExternal ? 'noopener noreferrer' : undefined}
       >
         <div className="flex flex-col">
           <span className="font-medium">{children}</span>

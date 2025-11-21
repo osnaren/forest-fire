@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Database, ExternalLink, FileText, Flame, Layers, Microscope } from 'lucide-react';
+import { Database, ExternalLink, FileText, Flame, Layers, Microscope, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -18,7 +18,7 @@ import {
 import { researchConfig } from '@/config/pages';
 
 export function ResearchPage() {
-  const { hero, dataset, paper, methodology } = researchConfig;
+  const { hero, dataset, paper, methodology, modelNote } = researchConfig;
 
   return (
     <div className="min-h-screen w-full space-y-24 py-12">
@@ -138,6 +138,33 @@ export function ResearchPage() {
             </div>
           </div>
         </Card>
+      </section>
+
+      {/* Model Note Section */}
+      <section className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-linear-to-r from-amber-500/10 to-orange-500/10 p-8 backdrop-blur-sm">
+            <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-amber-500/20 blur-3xl" />
+            <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-orange-500/20 blur-3xl" />
+
+            <div className="relative z-10 flex flex-col items-start gap-6 md:flex-row md:items-center">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-3xl shadow-lg shadow-amber-500/10 ring-1 ring-amber-500/30">
+                <Zap className="h-8 w-8 text-amber-500" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-amber-500">{modelNote.title}</h3>
+                <p className="text-lg leading-relaxed text-muted-foreground">
+                  {modelNote.content}
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* Methodology Section */}

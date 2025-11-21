@@ -4,8 +4,7 @@
  */
 
 import Logo from '@visual/logo';
-import { FaGithub, FaLinkedin, FaUserLock } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import { FaGithub, FaInstagram, FaLinkedin, FaUserLock } from 'react-icons/fa';
 import { GiStrong, GiThrustBend } from 'react-icons/gi';
 import { LuImage, LuImageUp } from 'react-icons/lu';
 import { PiPackageFill, PiPlugsConnectedLight, PiPlugsLight } from 'react-icons/pi';
@@ -26,8 +25,9 @@ export const siteConfig = {
   },
   social: {
     github: 'https://github.com/osnaren/ForestFire',
-    twitter: 'https://x.com/osnaren',
+    instagram: 'https://instagram.com/osnaren',
     linkedin: 'https://linkedin.com/in/osnaren',
+    twitter: 'https://x.com/osnaren',
   },
 };
 
@@ -42,7 +42,7 @@ export const homeConfig = {
     },
     title: {
       main: 'Forest ',
-      classes: ['fire', 'no-fire', 'smoke', 'smoke-fire'],
+      classes: ['Fire', 'No Fire', 'Smoke', 'Smoke+Fire'],
       accent: 'Classifier v2',
     },
     description:
@@ -172,7 +172,7 @@ export const aboutConfig = {
   story: {
     title: 'The Origin Story',
     content: [
-      "It was 2022. The deadlines were tight, the coffee was questionable, and I needed a 6th-semester project that wasn't just another 'To-Do List' app.",
+      "It was 2020. The world was in lockdown, the deadlines were tight, and I needed a 6th-semester project that wasn't just another 'To-Do List' app.",
       'I wanted to build something with real-world impact. Forest fires were devastating ecosystems globally, and I wondered: could a simple web cam and some AI help catch them early? Armed with a dataset and a lot of determination, I dove into the world of Computer Vision.',
       'Fast forward to today: The code is cleaner, the UI is snappier (thanks, Next.js!), and the model is smarter. But the core mission remains the same: leveraging technology to protect our planet.',
     ],
@@ -214,7 +214,7 @@ export const aboutConfig = {
         name: 'Vercel',
         description: 'The launchpad. Deploying to the edge with a single git push.',
         category: 'Infrastructure',
-        icon: 'https://img.icons8.com/ios-filled/100/vercel.pn',
+        icon: 'https://img.icons8.com/ios-filled/100/vercel.png',
       },
     ],
   },
@@ -294,9 +294,9 @@ export const aboutConfig = {
         icon: <FaLinkedin />,
       },
       {
-        text: 'Twitter',
-        href: siteConfig.social.twitter,
-        icon: <FaXTwitter />,
+        text: 'Instagram',
+        href: siteConfig.social.instagram,
+        icon: <FaInstagram />,
       },
     ],
   },
@@ -397,7 +397,12 @@ export const footerConfig = {
         text: 'Research Paper',
         href: 'https://fireecology.springeropen.com/articles/10.1186/s42408-022-00165-0',
         description: 'Academic publication',
+        external: true,
       },
+    ],
+    legal: [
+      { text: 'Privacy Policy', href: '/privacy', description: 'Data handling practices' },
+      { text: 'Terms of Service', href: '/terms', description: 'Usage terms' },
     ],
   },
   model: {
@@ -503,12 +508,18 @@ export const researchConfig = {
       },
     ],
   },
+  modelNote: {
+    title: 'Model Architecture Difference',
+    content:
+      'The model deployed in this live classifier is optimized for edge performance. Unlike the heavy research model described in the paper, this version uses a lightweight MobileNet architecture trained via Teachable Machine to ensure sub-second inference speeds directly in your browser.',
+    icon: '⚡',
+  },
 };
 
 export const toolConfig = {
   title: 'Forest Fire Classifier',
   description: 'Upload forest imagery to detect potential wildfire activity using advanced AI.',
-  predictionMode: 'server',
+  predictionMode: 'client',
   maxFileSize: '4MB',
   supportedFormats: ['JPG', 'PNG', 'WebP'],
   maxBulkFiles: 6,

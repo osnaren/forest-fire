@@ -79,7 +79,7 @@ export function AboutPage() {
                   <CardHeader className="flex flex-row items-center gap-4 pb-2">
                     <div className="bg-primary/10 group-hover:bg-primary/20 flex h-12 w-12 items-center justify-center rounded-xl text-2xl transition-transform group-hover:scale-110">
                       {tech.icon ? (
-                        <Image src={tech.icon} alt={tech.name} width={48} height={48} />
+                        <Image src={tech.icon} alt={tech.name} width={32} height={32} />
                       ) : (
                         getStackIcon(tech.name)
                       )}
