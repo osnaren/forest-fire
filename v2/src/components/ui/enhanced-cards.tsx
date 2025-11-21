@@ -177,18 +177,6 @@ export function MetricCard({ value, label, description = '', icon, delay = 0, tr
     },
   } as const;
 
-  const trendIcons = {
-    up: '↗',
-    down: '↘',
-    stable: '→',
-  } as const;
-
-  const trendWidthMap = {
-    up: '85%',
-    down: '55%',
-    stable: '70%',
-  } as const;
-
   const cardContent = (
     <Card className="group bg-card/70 relative overflow-hidden border border-white/5 backdrop-blur-xl transition-all duration-500 hover:border-white/10">
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
