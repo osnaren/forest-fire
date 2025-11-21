@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 interface TechStackCardProps {
@@ -142,42 +143,95 @@ export function TechStackCard({
 interface MetricCardProps {
   value: string;
   label: string;
+  description?: string;
   icon?: string;
   delay?: number;
   trend?: 'up' | 'down' | 'stable';
 }
 
-export function MetricCard({ value, label, icon, delay = 0, trend = 'stable' }: MetricCardProps) {
+export function MetricCard({ value, label, description = '', icon, delay = 0, trend = 'stable' }: MetricCardProps) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const trendColors = {
-    up: 'text-primary',
-    down: 'text-destructive',
-    stable: 'text-muted-foreground',
-  };
+  const trendStyles = {
+    up: {
+      badge: 'border-emerald-300/40 bg-emerald-400/10 text-emerald-200',
+      beam: 'via-emerald-300/40',
+      fill: 'from-emerald-300 via-emerald-200 to-emerald-300',
+      label: 'Rising',
+    },
+    down: {
+      badge: 'border-rose-300/40 bg-rose-500/10 text-rose-200',
+      beam: 'via-rose-300/40',
+      fill: 'from-rose-300 via-rose-200 to-rose-300',
+      label: 'Softening',
+    },
+    stable: {
+      badge: 'border-slate-200/30 bg-slate-200/5 text-slate-200',
+      beam: 'via-slate-200/30',
+      fill: 'from-slate-200 via-slate-100 to-slate-200',
+      label: 'Steady',
+    },
+  } as const;
 
   const trendIcons = {
     up: '↗',
     down: '↘',
     stable: '→',
-  };
+  } as const;
+
+  const trendWidthMap = {
+    up: '85%',
+    down: '55%',
+    stable: '70%',
+  } as const;
 
   const cardContent = (
-    <Card className="group border-border/50 bg-card/80 hover:border-border hover:bg-card/90 relative overflow-hidden backdrop-blur-sm transition-all duration-300 hover:shadow-lg">
-      <CardContent className="p-6">
-        <div className="flex items-start justify-between">
+    <Card className="group bg-card/70 relative overflow-hidden border border-white/5 backdrop-blur-xl transition-all duration-500 hover:border-white/10">
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <div
+          className={cn(
+            'absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent to-transparent',
+            trendStyles[trend].beam
+          )}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(148,163,184,0.1),transparent_55%)]" />
+      </div>
+      <CardContent className="relative space-y-5 p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <div className="text-foreground text-2xl font-bold sm:text-3xl">{value}</div>
-            <div className="text-muted-foreground text-sm">{label}</div>
+            <p className="text-[10px] tracking-[0.3em] text-white/60 uppercase">{label}</p>
+            <p className="mt-2 text-3xl font-semibold text-white sm:text-4xl">{value}</p>
           </div>
-          <div className="flex flex-col items-end gap-1">
-            {icon && <span className="text-xl opacity-50">{icon}</span>}
-            <span className={cn('text-sm font-medium', trendColors[trend])}>{trendIcons[trend]}</span>
+          <div className="flex flex-col items-end gap-3 text-right">
+            {icon && (
+              <Image
+                src={icon}
+                alt={label}
+                width={32}
+                height={32}
+                className="text-2xl text-white/50 transition-colors group-hover:text-white/80"
+              />
+            )}
           </div>
+        </div>
+        {description && <p className="text-sm text-white/70">{description}</p>}
+        <div className="relative h-2 w-full justify-self-center overflow-hidden rounded-full bg-white/10 transition-all group-hover:w-3/4">
+          <motion.span
+            className={cn('absolute inset-y-0 rounded-full bg-linear-to-r', trendStyles[trend].fill)}
+            initial={{ width: '20%' }}
+            animate={{ width: '100%' }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          />
+          <motion.span
+            className="absolute inset-y-0 w-1/3 rounded-full bg-white/30 blur-md"
+            initial={{ x: '-50%' }}
+            animate={{ x: '150%' }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          />
         </div>
       </CardContent>
     </Card>

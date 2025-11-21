@@ -115,8 +115,9 @@ export function AboutPage() {
               <MetricCard
                 key={metric.label}
                 value={metric.value + metric.unit}
+                description={metric.description}
                 label={metric.label}
-                icon={getMetricIcon(metric.label)}
+                icon={metric.iconSrc}
                 delay={index * 0.1}
                 trend="up"
               />
@@ -145,12 +146,10 @@ export function AboutPage() {
           <AnimatedGroup preset="scale">
             <WobbleCard containerClassName="h-full bg-emerald-900/10 border border-emerald-500/20 min-h-[300px] lg:min-h-[250px]">
               <div className="max-w-xl">
-                <h2 className="font-display text-left text-balance text-2xl md:text-3xl lg:text-4xl font-bold tracking-[-0.015em] text-foreground">
+                <h2 className="font-display text-foreground text-left text-2xl font-bold tracking-[-0.015em] text-balance md:text-3xl lg:text-4xl">
                   {aboutConfig.legacy.title}
                 </h2>
-                <p className="mt-4 text-left text-base/6 text-muted-foreground">
-                  {aboutConfig.legacy.description}
-                </p>
+                <p className="text-muted-foreground mt-4 text-left text-base/6">{aboutConfig.legacy.description}</p>
                 <div className="mt-8">
                   <Link href={aboutConfig.legacy.link.href} target="_blank" rel="noopener noreferrer">
                     <GlowingButton variant="fire" size="lg" className="w-full sm:w-auto">
@@ -159,7 +158,7 @@ export function AboutPage() {
                   </Link>
                 </div>
               </div>
-              <div className="absolute -right-10 -bottom-10 w-64 h-64 opacity-20 rotate-12 grayscale hover:grayscale-0 transition-all duration-500">
+              <div className="absolute -right-10 -bottom-10 h-64 w-64 rotate-12 opacity-20 grayscale transition-all duration-500 hover:grayscale-0">
                 <span className="text-9xl">🕰️</span>
               </div>
             </WobbleCard>
@@ -216,14 +215,4 @@ function getStackIcon(name: string): string {
     Vercel: '🚀',
   };
   return icons[name] || '⚙️';
-}
-
-function getMetricIcon(label: string): string {
-  const icons: Record<string, string> = {
-    'Model Accuracy': '🎯',
-    'Caffeine Intake': '☕',
-    Semester: '🎓',
-    'Stack Overflow': '🐛',
-  };
-  return icons[label] || '📊';
 }

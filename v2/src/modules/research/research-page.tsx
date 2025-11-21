@@ -1,7 +1,7 @@
 'use client';
 
+import { ExternalLink, FileText, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
-import { Database, ExternalLink, FileText, Flame, Layers, Microscope, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -16,6 +16,7 @@ import {
   WobbleCard,
 } from '@/components/ui';
 import { researchConfig } from '@/config/pages';
+import Image from 'next/image';
 
 export function ResearchPage() {
   const { hero, dataset, paper, methodology, modelNote } = researchConfig;
@@ -52,19 +53,25 @@ export function ResearchPage() {
         <div className="grid gap-8 lg:grid-cols-2">
           <WobbleCard containerClassName="col-span-1 min-h-[300px] bg-blue-900/20">
             <div className="relative z-10 h-full">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/20">
-                <Database className="h-6 w-6 text-blue-500" />
+              <div className="bg-primary/20 mb-4 flex h-12 w-12 items-center justify-center rounded-full">
+                <Image
+                  className="h-6 w-6 text-blue-500"
+                  src="https://img.icons8.com/3d-fluency/94/database.png"
+                  alt="Dataset Icon"
+                  width={24}
+                  height={24}
+                />
               </div>
-              <h3 className="text-2xl font-bold text-white">Comprehensive Data</h3>
-              <p className="mt-2 text-neutral-200">
+              <h3 className="text-2xl font-bold">Comprehensive Data</h3>
+              <p className="text-muted-foreground mt-2">
                 A balanced collection of {dataset.stats.find((s) => s.label === 'Total Images')?.value} images,
                 meticulously labeled to ensure model fairness and accuracy across all conditions.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 {dataset.stats.map((stat) => (
                   <div key={stat.label} className="rounded-lg bg-white/10 px-4 py-2 backdrop-blur-sm">
-                    <div className="text-sm text-neutral-300">{stat.label}</div>
-                    <div className="text-xl font-bold text-white">{stat.value}</div>
+                    <div className="text-sm">{stat.label}</div>
+                    <div className="text-accent-foreground text-xl font-bold">{stat.value}</div>
                   </div>
                 ))}
               </div>
@@ -79,10 +86,7 @@ export function ResearchPage() {
               >
                 <CardHeader className="pb-2">
                   <CardTitle className="flex items-center gap-2 text-lg">
-                    {cls.name === 'Fire' && <Flame className="h-5 w-5 text-red-500" />}
-                    {cls.name === 'Smoke' && <Layers className="h-5 w-5 text-gray-400" />}
-                    {cls.name === 'No Fire' && <Microscope className="h-5 w-5 text-green-500" />}
-                    {cls.name === 'SmokeFire' && <Flame className="h-5 w-5 text-orange-500" />}
+                    <Image src={cls.iconSrc} alt={`${cls.name} icon`} width={24} height={24} className="inline-block" />
                     {cls.name}
                   </CardTitle>
                 </CardHeader>
@@ -132,9 +136,7 @@ export function ResearchPage() {
             </div>
             <div className="bg-background/50 flex flex-col justify-center rounded-xl p-6 backdrop-blur-sm">
               <h3 className="mb-4 font-semibold">Citation</h3>
-              <code className="bg-secondary text-foreground rounded p-4 text-xs leading-relaxed">
-                {paper.citation}
-              </code>
+              <code className="bg-secondary text-foreground rounded p-4 text-xs leading-relaxed">{paper.citation}</code>
             </div>
           </div>
         </Card>
@@ -149,18 +151,16 @@ export function ResearchPage() {
           viewport={{ once: true }}
         >
           <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-linear-to-r from-amber-500/10 to-orange-500/10 p-8 backdrop-blur-sm">
-            <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-amber-500/20 blur-3xl" />
+            <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-amber-500/20 blur-3xl" />
             <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-orange-500/20 blur-3xl" />
 
             <div className="relative z-10 flex flex-col items-start gap-6 md:flex-row md:items-center">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-3xl shadow-lg shadow-amber-500/10 ring-1 ring-amber-500/30">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-3xl shadow-lg ring-1 shadow-amber-500/10 ring-amber-500/30">
                 <Zap className="h-8 w-8 text-amber-500" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl font-bold text-amber-500">{modelNote.title}</h3>
-                <p className="text-lg leading-relaxed text-muted-foreground">
-                  {modelNote.content}
-                </p>
+                <p className="text-muted-foreground text-lg leading-relaxed">{modelNote.content}</p>
               </div>
             </div>
           </div>
