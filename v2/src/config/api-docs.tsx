@@ -20,7 +20,7 @@ export const apiDocsConfig = {
     ],
     metrics: [
       { label: 'Avg Latency', value: '~420 ms', helper: 'P95 across last 1k requests' },
-      { label: 'Model Accuracy', value: '94.2%', helper: 'MobileNet v3 fine-tuned' },
+      { label: 'Model Accuracy', value: '98.5%', helper: 'MobileNet v3 fine-tuned' },
       { label: 'Global Edge', value: 'Multi-region', helper: 'Auto-scaling & fallback' },
     ],
     status: {

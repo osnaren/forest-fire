@@ -70,7 +70,7 @@ export const homeConfig = {
     title: 'Performance at a Glance',
     items: [
       {
-        value: 94.2,
+        value: 98.5,
         suffix: '%',
         label: 'Accuracy',
         description: 'Validation set of 380 images',
@@ -223,7 +223,7 @@ export const aboutConfig = {
     items: [
       {
         label: 'Model Accuracy',
-        value: '94.2',
+        value: '98.5',
         unit: '%',
         description: 'Validated on Forest Fire C4 set',
         iconSrc: 'https://img.icons8.com/color/96/ability-to-read-customers.png',
@@ -426,7 +426,7 @@ export const footerConfig = {
     status: 'Active',
     version: 'v2',
     lastUpdated: '2024-01-15',
-    accuracy: '94.2%',
+    accuracy: '98.5%',
   },
   performance: {
     uptime: '99.9%',
