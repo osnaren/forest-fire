@@ -4,9 +4,10 @@ import { AnimatedGroup } from '@/components/ui/animated-group';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MetricCard } from '@/components/ui/enhanced-cards';
-import { BackgroundEffect, FloatingElement } from '@/components/ui/interactive-elements';
+import { BackgroundEffect, FloatingElement, GlowingButton } from '@/components/ui/interactive-elements';
 import { AnimatedGradientText } from '@/components/ui/modern-effects';
 import { Timeline } from '@/components/ui/timeline';
+import { WobbleCard } from '@/components/ui/wobble-card';
 import { aboutConfig } from '@/config/pages';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -135,6 +136,34 @@ export function AboutPage() {
           </AnimatedGroup>
 
           <Timeline data={aboutConfig.journey.items} />
+        </div>
+      </section>
+
+      {/* Legacy Section */}
+      <section className="relative px-4 py-16 sm:py-24">
+        <div className="relative z-10 mx-auto max-w-4xl">
+          <AnimatedGroup preset="scale">
+            <WobbleCard containerClassName="h-full bg-emerald-900/10 border border-emerald-500/20 min-h-[300px] lg:min-h-[250px]">
+              <div className="max-w-xl">
+                <h2 className="font-display text-left text-balance text-2xl md:text-3xl lg:text-4xl font-bold tracking-[-0.015em] text-foreground">
+                  {aboutConfig.legacy.title}
+                </h2>
+                <p className="mt-4 text-left text-base/6 text-muted-foreground">
+                  {aboutConfig.legacy.description}
+                </p>
+                <div className="mt-8">
+                  <Link href={aboutConfig.legacy.link.href} target="_blank" rel="noopener noreferrer">
+                    <GlowingButton variant="fire" size="lg" className="w-full sm:w-auto">
+                      {aboutConfig.legacy.link.text}
+                    </GlowingButton>
+                  </Link>
+                </div>
+              </div>
+              <div className="absolute -right-10 -bottom-10 w-64 h-64 opacity-20 rotate-12 grayscale hover:grayscale-0 transition-all duration-500">
+                <span className="text-9xl">🕰️</span>
+              </div>
+            </WobbleCard>
+          </AnimatedGroup>
         </div>
       </section>
 

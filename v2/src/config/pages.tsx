@@ -279,6 +279,14 @@ export const aboutConfig = {
       },
     ],
   },
+  legacy: {
+    title: 'Blast from the Past',
+    description: 'Want to see where it all started? Check out the original v1 prototype.',
+    link: {
+      text: 'Visit v1 Archive',
+      href: 'https://forestfire-v1.osnaren.com/',
+    },
+  },
   connect: {
     title: 'Stalk Me (Professionally)',
     description: 'Like what you see? Want to hire me? Or just want to argue about which JS framework is best?',
@@ -412,7 +420,7 @@ export const footerConfig = {
   },
   model: {
     status: 'Active',
-    version: 'v2.1',
+    version: 'v2',
     lastUpdated: '2024-01-15',
     accuracy: '94.2%',
   },
@@ -554,4 +562,40 @@ export const toolConfig = {
     'Avoid heavily filtered or processed images',
   ],
   bulkLimitNotice: 'You can upload up to 6 images at a time. Larger batches may trigger rate limits.',
+};
+
+export const notFoundConfig = {
+  title: 'Lost in the Smoke?',
+  subtitle: '404 - Page Not Found',
+  description:
+    "Looks like you've wandered off the trail. The path you're looking for has either been overgrown or consumed by the digital wildfire.",
+  actions: {
+    home: {
+      text: 'Return to Safety',
+      href: '/',
+    },
+    back: {
+      text: 'Turn Back',
+    },
+  },
+  funFact:
+    'Did you know? Most forest fires are caused by humans. This 404 error? Also caused by a human (probably us).',
+};
+
+export const errorConfig = {
+  title: 'System Overheated',
+  subtitle: '500 - Server Error',
+  description:
+    "Our servers caught a spark and are currently cooling down. We've dispatched the digital fire crew to extinguish the bug.",
+  actions: {
+    retry: {
+      text: 'Rekindle Connection',
+    },
+    home: {
+      text: 'Evacuate to Home',
+      href: '/',
+    },
+  },
+  funFact:
+    'While we fix this, remember: Only YOU can prevent server fires (by not clicking that button again... just kidding).',
 };

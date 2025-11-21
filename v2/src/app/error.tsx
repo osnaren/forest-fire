@@ -1,6 +1,9 @@
 'use client';
 
 import { AnimatedGroup, GlowingButton } from '@/components/ui';
+import { errorConfig } from '@/config/pages';
+import { AlertTriangle, Home, RefreshCcw, ThermometerSun } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 export default function Error({
@@ -10,32 +13,65 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const { title, description, actions, funFact } = errorConfig;
+
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <main className="flex min-h-[80vh] flex-col items-center justify-center px-4 text-center">
-      <AnimatedGroup preset="scale" className="space-y-8">
-        <div className="relative">
-          <h1 className="font-display text-9xl font-bold tracking-tighter text-red-500/20">500</h1>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-4xl">⚠️</span>
+    <main className="relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center overflow-hidden px-4 text-center">
+      {/* Background Elements */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-5">
+        <AlertTriangle className="h-[80vh] w-[80vh]" />
+      </div>
+
+      <AnimatedGroup preset="scale" className="z-10 max-w-2xl space-y-8">
+        {/* 500 Display */}
+        <div className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-red-500/10 ring-1 ring-red-500/20 sm:h-56 sm:w-56">
+          <div className="absolute inset-0 animate-pulse rounded-full bg-red-500/5 blur-3xl" />
+          <div className="flex flex-col items-center">
+            <span className="font-display text-6xl font-bold text-red-500 sm:text-8xl">500</span>
+            <ThermometerSun className="mt-2 h-8 w-8 text-red-400/80" />
           </div>
         </div>
-        
+
+        {/* Text Content */}
         <div className="space-y-4">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Something went wrong!</h2>
-          <p className="mx-auto max-w-md text-lg text-muted-foreground">
-            We encountered an unexpected error. Our team has been notified.
-          </p>
+          <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
+          <p className="text-muted-foreground mx-auto max-w-lg text-lg">{description}</p>
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mx-auto mt-4 max-w-md rounded-md bg-red-950/30 p-4 text-left font-mono text-xs text-red-200">
+              {error.message}
+            </div>
+          )}
         </div>
 
-        <div className="flex justify-center gap-4">
-          <GlowingButton size="lg" onClick={() => reset()}>
-            Try Again
+        {/* Actions */}
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <GlowingButton size="lg" onClick={() => reset()} className="w-full sm:w-auto">
+            <RefreshCcw className="mr-2 h-4 w-4" />
+            {actions.retry.text}
           </GlowingButton>
+
+          <Link href={actions.home.href || '/'}>
+            <button className="hover:bg-accent hover:text-accent-foreground inline-flex h-11 w-full items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:w-auto">
+              <Home className="mr-2 h-4 w-4" />
+              {actions.home.text}
+            </button>
+          </Link>
+        </div>
+
+        {/* Fun Fact Card */}
+        <div className="mx-auto mt-12 max-w-md rounded-xl border bg-card/50 p-6 backdrop-blur-sm">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">🧯</span>
+            <p className="text-left text-sm text-muted-foreground">
+              <span className="mb-1 block font-semibold text-foreground">Pro Tip:</span>
+              {funFact}
+            </p>
+          </div>
         </div>
       </AnimatedGroup>
     </main>
