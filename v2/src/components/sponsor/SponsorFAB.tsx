@@ -5,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { cn } from '@/lib/utils';
 import { HeartHandshake, X } from 'lucide-react';
 import { AnimatePresence, motion, Variants } from 'motion/react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { sponsorOptions, UPI_ID, UPI_NAME, type SponsorAction } from './sponsor.config';
 import { SponsorOption } from './SponsorOption';
 import UpiModal from './UpiModal';
@@ -14,7 +14,7 @@ const SponsorFAB: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpiModalOpen, setIsUpiModalOpen] = useState(false);
   const fabRef = useRef<HTMLDivElement>(null);
-  const menuId = 'sponsor-fab-menu'; // ID for aria-controls
+  const menuId = useId();
 
   const toggleFab = (event: React.MouseEvent | React.TouchEvent) => {
     event.stopPropagation();
@@ -44,27 +44,27 @@ const SponsorFAB: React.FC = () => {
 
   const fabVariants: Variants = {
     closed: { scale: 1, rotate: 0 },
-    open: { scale: 1.1, rotate: 135 }, // Rotate further for X
+    open: { scale: 1.1, rotate: 0 },
   };
 
   const menuVariants: Variants = {
     closed: {
       opacity: 0,
       transition: {
-        when: 'afterChildren', // Ensure children finish exiting first
-        staggerChildren: 0.03,
-        staggerDirection: -1, // Reverse stagger on close
+        when: 'afterChildren',
+        staggerChildren: 0.05,
+        staggerDirection: -1,
         duration: 0.2,
       },
     },
     open: {
       opacity: 1,
       transition: {
-        when: 'beforeChildren', // Ensure parent animates before children
-        staggerChildren: 0.06, // Slightly increased stagger
-        delayChildren: 0.1, // Small delay before children start
+        when: 'beforeChildren',
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
         type: 'spring',
-        stiffness: 300,
+        stiffness: 200,
         damping: 20,
       },
     },
@@ -74,35 +74,34 @@ const SponsorFAB: React.FC = () => {
     closed: {
       opacity: 0,
       y: 20,
-      x: 0,
       scale: 0.8,
-      transition: { duration: 0.15 },
+      transition: { duration: 0.2 },
     },
     open: {
       opacity: 1,
       y: 0,
-      x: 0,
       scale: 1,
-      transition: { type: 'spring', stiffness: 350, damping: 25 },
+      transition: { type: 'spring', stiffness: 300, damping: 25 },
     },
   };
 
   return (
     <>
-      <div ref={fabRef} className="fixed right-6 bottom-4 z-50 flex flex-col items-center gap-3">
+      <div ref={fabRef} className="fixed right-6 bottom-6 z-40 flex flex-col items-center gap-4">
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              id={menuId} // Add ID for aria-controls
-              className="flex flex-col items-center gap-3"
+              id={menuId}
+              className="flex flex-col items-center gap-3 pb-2"
               initial="closed"
               animate="open"
               exit="closed"
               variants={menuVariants}
-              aria-label="Sponsor options" // Label for the menu itself
+              role="menu"
+              aria-label="Sponsor options"
             >
               {sponsorOptions.map((option) => (
-                <motion.div key={option.id} variants={itemVariants}>
+                <motion.div key={option.id} variants={itemVariants} role="menuitem">
                   <SponsorOption
                     label={option.label}
                     icon={option.icon}
@@ -123,45 +122,40 @@ const SponsorFAB: React.FC = () => {
               <motion.div
                 variants={fabVariants}
                 animate={isOpen ? 'open' : 'closed'}
-                whileHover={{ scale: 1.15 }} // Slightly more hover scale
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <Button
                   variant="default"
                   size="icon"
                   className={cn(
-                    'h-14 w-14 overflow-hidden rounded-full shadow-lg transition-colors duration-200 ease-in-out', // Added overflow-hidden
+                    'h-14 w-14 rounded-full shadow-xl transition-all duration-300',
                     isOpen
-                      ? 'bg-error-container text-on-error-container hover:bg-destructive/90'
-                      : 'bg-primary text-on-primary hover:bg-primary/90'
+                      ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90 rotate-90'
+                      : 'bg-primary text-primary-foreground hover:bg-primary/90'
                   )}
                   onClick={toggleFab}
                   aria-expanded={isOpen}
-                  aria-controls={isOpen ? menuId : undefined} // Control the menu
-                  aria-label={isOpen ? 'Close support options' : 'Support Us'}
+                  aria-haspopup="menu"
+                  aria-controls={menuId}
+                  aria-label={isOpen ? 'Close support menu' : 'Open support menu'}
                 >
-                  <AnimatePresence initial={false} mode="wait">
+                  <AnimatePresence mode="wait" initial={false}>
                     <motion.div
-                      key={isOpen ? 'close' : 'heart'}
+                      key={isOpen ? 'close' : 'open'}
                       initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
-                      // Apply counter-rotation only when the icon is 'close' (X)
-                      animate={{
-                        opacity: 1,
-                        rotate: isOpen ? -135 : 0, // Counter-rotate the X icon
-                        scale: 1,
-                      }}
+                      animate={{ opacity: 1, rotate: 0, scale: 1 }}
                       exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
-                      transition={{ duration: 0.25 }} // Slightly longer icon transition
+                      transition={{ duration: 0.2 }}
                     >
-                      {isOpen ? <X size={24} /> : <HeartHandshake size={24} />}
+                      {isOpen ? <X className="h-6 w-6" /> : <HeartHandshake className="h-6 w-6" />}
                     </motion.div>
                   </AnimatePresence>
                 </Button>
               </motion.div>
             </TooltipTrigger>
             <TooltipContent side="left" sideOffset={10}>
-              <p>{isOpen ? 'Close' : 'Send some Support'}</p>
+              <p>{isOpen ? 'Close' : 'Support the Project'}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

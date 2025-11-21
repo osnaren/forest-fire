@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -16,11 +17,10 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer';
+import { Input } from '@/components/ui/input';
 import useMediaQuery from '@/hooks/use-media-query';
 import { cn } from '@/lib/utils';
-import { Button } from '@components/ui/button';
-import { Input } from '@components/ui/input';
-import { Copy, Heart } from 'lucide-react';
+import { Check, Copy, Heart, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -59,6 +59,7 @@ const UpiPaymentContent: React.FC<{
   const [selectedAmount, setSelectedAmount] = useState<string>('');
   const [customAmount, setCustomAmount] = useState<string>('');
   const [note, setNote] = useState<string>('Support the work.');
+  const [isCopied, setIsCopied] = useState(false);
 
   // Compute the final amount to use
   const finalAmount = selectedAmount === 'custom' ? customAmount : selectedAmount;
@@ -66,7 +67,9 @@ const UpiPaymentContent: React.FC<{
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(upiId);
+      setIsCopied(true);
       toast.success('UPI ID copied to clipboard!');
+      setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
       toast.error('Failed to copy UPI ID.');
       console.error('Failed to copy text: ', err);
@@ -145,19 +148,19 @@ const UpiPaymentContent: React.FC<{
       <div className="flex flex-col items-center gap-4">
         <div
           className={cn(
-            'flex h-[232px] w-[232px] items-center justify-center rounded-lg p-4 shadow-md',
-            'bg-surface-container-high'
+            'bg-muted/50 flex h-[232px] w-[232px] items-center justify-center rounded-xl border p-4 shadow-sm transition-all duration-300',
+            isLoadingQr ? 'animate-pulse' : ''
           )}
         >
           {isLoadingQr && (
-            <div className="flex flex-col items-center gap-2">
-              <div className="border-primary h-8 w-8 animate-spin rounded-full border-4 border-t-transparent"></div>
-              <span className="text-on-surface-variant text-sm">Generating QR...</span>
+            <div className="flex flex-col items-center gap-3">
+              <Loader2 className="text-primary h-8 w-8 animate-spin" />
+              <span className="text-muted-foreground text-sm font-medium">Generating QR...</span>
             </div>
           )}
 
-          {qrCodeDataUrl && (
-            <div className="rounded-md bg-white p-2">
+          {qrCodeDataUrl && !isLoadingQr && (
+            <div className="rounded-lg bg-white p-2 shadow-sm">
               <Image
                 src={qrCodeDataUrl}
                 width={200}
@@ -166,45 +169,48 @@ const UpiPaymentContent: React.FC<{
                 style={{ imageRendering: 'pixelated' }}
                 unoptimized
                 priority
+                className="rounded-sm"
               />
             </div>
           )}
 
           {!isLoadingQr && !qrCodeDataUrl && (
-            <div className="text-error flex items-center gap-2 text-sm">
+            <div className="text-destructive flex items-center gap-2 text-sm font-medium">
               <span>Failed to load QR code</span>
             </div>
           )}
         </div>
 
         {/* UPI ID Copy Section */}
-        <div className="flex w-full items-center space-x-2">
-          <Input
-            type="text"
-            value={upiId}
-            readOnly
-            className="bg-surface-container border-outline-variant flex-1"
-            aria-label="UPI ID"
-          />
+        <div className="flex w-full max-w-[280px] items-center space-x-2">
+          <div className="relative flex-1">
+            <Input
+              type="text"
+              value={upiId}
+              readOnly
+              className="border-input pr-10 font-mono text-sm"
+              aria-label="UPI ID"
+            />
+          </div>
           <Button
             variant="outline"
             size="icon"
             onClick={handleCopy}
             aria-label="Copy UPI ID"
-            className="border-outline hover:bg-surface-container-high"
+            className={cn('shrink-0 transition-all', isCopied && 'bg-green-500 text-white hover:bg-green-600')}
           >
-            <Copy className="h-4 w-4" />
+            {isCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
           </Button>
         </div>
       </div>
 
       {/* Amount Selection & Note Container */}
-      <div className="flex flex-col gap-4">
-        <div>
-          <label htmlFor="quick-support" className="text-on-surface mb-2 block text-sm font-medium">
+      <div className="space-y-5">
+        <div className="space-y-3">
+          <label htmlFor="quick-support" className="text-foreground text-sm font-medium">
             Quick Support
           </label>
-          <div id="quick-support" className="grid grid-cols-2 gap-2">
+          <div id="quick-support" className="grid grid-cols-4 gap-2">
             {AMOUNTS.map((amount) => (
               <Button
                 key={amount.value}
@@ -212,9 +218,8 @@ const UpiPaymentContent: React.FC<{
                 variant={selectedAmount === amount.value ? 'default' : 'outline'}
                 onClick={() => handleAmountSelect(amount.value)}
                 className={cn(
-                  'border-outline-variant hover:bg-primary-container',
-                  selectedAmount === amount.value &&
-                    'bg-primary-container text-on-primary-container hover:bg-primary-container/90'
+                  'h-10 transition-all',
+                  selectedAmount === amount.value ? 'shadow-md' : 'hover:bg-accent hover:text-accent-foreground'
                 )}
               >
                 {amount.label}
@@ -224,67 +229,60 @@ const UpiPaymentContent: React.FC<{
         </div>
 
         {/* Custom Amount */}
-        <div>
-          <label htmlFor="custom-amount" className="text-on-surface mb-2 block text-sm font-medium">
-            Custom Support
+        <div className="space-y-3">
+          <label htmlFor="custom-amount" className="text-foreground text-sm font-medium">
+            Custom Amount
           </label>
           <div className="flex items-center gap-2">
-            <span className="text-on-surface-variant text-lg">₹</span>
-            <Input
-              id="custom-amount"
-              type="text"
-              placeholder="Enter amount"
-              value={customAmount}
-              onChange={handleCustomAmountChange}
-              className={cn(
-                'bg-surface-container border-outline-variant flex-1',
-                selectedAmount === 'custom' && 'border-primary'
-              )}
-            />
+            <div className="relative flex-1">
+              <span className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 text-sm">₹</span>
+              <Input
+                id="custom-amount"
+                type="text"
+                placeholder="Enter amount"
+                value={customAmount}
+                onChange={handleCustomAmountChange}
+                className={cn(
+                  'pl-7 transition-all',
+                  selectedAmount === 'custom' && 'border-primary ring-primary ring-1'
+                )}
+              />
+            </div>
             <Button
               type="button"
               variant={selectedAmount === 'custom' ? 'default' : 'outline'}
               onClick={() => handleAmountSelect('custom')}
-              className={cn(
-                'border-outline-variant hover:bg-primary-container',
-                selectedAmount === 'custom' &&
-                  'bg-primary-container text-on-primary-container hover:bg-primary-container/90'
-              )}
+              className={cn('w-20 transition-all', selectedAmount === 'custom' && 'shadow-md')}
             >
-              Use
+              Set
             </Button>
           </div>
         </div>
 
         {/* Note Field */}
-        <div>
-          <label htmlFor="note" className="text-on-surface mb-2 block text-sm font-medium">
+        <div className="space-y-3">
+          <label htmlFor="note" className="text-foreground text-sm font-medium">
             Note (optional)
           </label>
-          <Input
-            id="note"
-            type="text"
-            placeholder="Add a note"
-            value={note}
-            onChange={handleNoteChange}
-            className="bg-surface-container border-outline-variant"
-          />
-          <p className="text-on-surface-variant mt-1 text-xs">This note will be visible to the recipient</p>
+          <Input id="note" type="text" placeholder="Add a message..." value={note} onChange={handleNoteChange} />
         </div>
 
         {/* Amount Selected Indicator */}
         {finalAmount && !isNaN(Number(finalAmount)) && Number(finalAmount) > 0 && (
-          <div className="text-on-tertiary-container bg-tertiary-container mt-2 flex items-center gap-2 rounded-md p-2 text-sm">
-            <Heart className="h-4 w-4" />
-            <span>Thank you for your support of ₹{finalAmount}!</span>
+          <div className="bg-primary/10 text-primary animate-in fade-in slide-in-from-bottom-2 flex items-center justify-center gap-2 rounded-lg p-3 text-sm font-medium">
+            <Heart className="h-4 w-4 fill-current" />
+            <span>Supporting with ₹{finalAmount}</span>
           </div>
         )}
       </div>
 
       {/* UPI Apps Section */}
-      <div className="text-on-surface-variant mt-2 flex flex-col items-center gap-2 text-xs">
-        All UPI Apps supported
-        <Image src="/upi-apps.png" alt="UPI Apps" width={50} height={50} className="w-24" />
+      <div className="text-muted-foreground flex flex-col items-center gap-2 text-xs">
+        <span>Supported UPI Apps</span>
+        <div className="flex gap-4 opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+          {/* Placeholder for app icons if needed, or keep the image */}
+          <Image src="/upi-apps.png" alt="UPI Apps" width={120} height={30} className="h-6 w-auto object-contain" />
+        </div>
       </div>
     </div>
   );

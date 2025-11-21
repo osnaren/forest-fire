@@ -28,7 +28,7 @@ export const SponsorOption: React.FC<SponsorOptionProps> = ({
   const commonProps = {
     'aria-label': label,
     className: cn(
-      'flex h-10 w-10 items-center justify-center rounded-full shadow-md transition-all hover:scale-110 focus:outline-none',
+      'flex h-10 w-10 items-center justify-center rounded-full shadow-md transition-all duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
       bgColor,
       textColor,
       className
