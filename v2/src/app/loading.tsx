@@ -1,7 +1,9 @@
-export default function Loading() {
+import { Loading } from '@/components/ui/loading';
+
+export default function AppLoading() {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <p className="loader text-lg text-black" />
+    <div className="flex min-h-screen items-center justify-center bg-slate-950/95">
+      <Loading size="lg" />
     </div>
   );
 }

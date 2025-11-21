@@ -113,7 +113,7 @@ export function GlowingButton({
           isHovered && !disabled && 'shadow-lg'
         )}
       />
-      <span className="relative z-10 flex items-center gap-2">{children}</span>
+      <span className="relative z-10 flex items-center justify-center gap-2">{children}</span>
     </button>
   );
 
