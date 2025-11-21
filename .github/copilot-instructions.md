@@ -30,7 +30,7 @@
 
 ## Workflows
 
-- NPM scripts: `npm run dev`, `npm run build`, `npm run lint`, `npm run lint:fix`, `npm run type-check`; Husky + lint-staged run these checks on commit.
+- NPM scripts: `npm run dev`, `npm run build`, `npm run lint`, `npm run lint:fix`, `npm run typecheck`; Husky + lint-staged run these checks on commit.
 - Environment prep: copy `v2/env.example` to `.env.local`, supply `KV_REST_API_URL` and `KV_REST_API_TOKEN`, and ship updated model binaries to `public/model/`.
 - Validate ML changes via `GET /api/health` followed by `POST /api/predict` (multipart `image` field) to confirm preprocessing and rate-limits behave as expected.
 

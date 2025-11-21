@@ -392,7 +392,12 @@ export const footerConfig = {
     ],
     resources: [
       { text: 'Live Wildfire Map', href: '/map', description: 'Real-time wildfire tracking' },
-      { text: 'Download Model', href: '/model', description: 'TensorFlow.js model files', comingSoon: true },
+      {
+        text: 'Dataset',
+        href: 'https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4',
+        description: 'Forest Fire C4 on Kaggle',
+        external: true,
+      },
       {
         text: 'Research Paper',
         href: 'https://fireecology.springeropen.com/articles/10.1186/s42408-022-00165-0',

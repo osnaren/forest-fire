@@ -74,6 +74,26 @@ export default function RootLayout({
             },
           })}
         </Script>
+        <Script id="ld-json-software" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: siteConfig.name,
+            description: siteConfig.description,
+            applicationCategory: 'UtilitiesApplication',
+            operatingSystem: 'Any',
+            offers: {
+              '@type': 'Offer',
+              price: '0',
+              priceCurrency: 'USD',
+            },
+            author: {
+              '@type': 'Person',
+              name: siteConfig.author.name,
+              url: siteConfig.author.github,
+            },
+          })}
+        </Script>
       </head>
       <body className="font-sans antialiased">
         <ThemeProvider defaultTheme="dark" storageKey="forest-fire-theme">

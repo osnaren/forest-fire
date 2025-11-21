@@ -104,6 +104,7 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
     if (item.status === 'error' || item.error) {
       return (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <h2 className="sr-only">Analysis Results</h2>
           <Card className="border-red-500/40 bg-red-500/10">
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-red-200">Analysis failed</CardTitle>
@@ -124,6 +125,7 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
 
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <h2 className="sr-only">Analysis Results</h2>
         <Card className="border-border/60 bg-card/80 overflow-hidden shadow-lg">
           <CardHeader className="bg-muted/5 border-border/40 gap-2 border-b">
             <CardTitle className="text-foreground flex items-center gap-3 text-lg">
@@ -159,6 +161,7 @@ export function ResultsPanel({ mode, items }: ResultsPanelProps) {
 
   return (
     <div className="flex flex-col gap-4">
+      <h2 className="sr-only">Analysis Results</h2>
       {actionableItems.map((item, index) => {
         const top = getTopResult(item.results);
 

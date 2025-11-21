@@ -84,6 +84,7 @@ export function PreviewGrid({ items, disabled, onRemove, onAddMore, mode, maxFil
   }
   return (
     <motion.div layout className={cn('grid gap-4', columnClass)}>
+      <h2 className="sr-only">Review Selection</h2>
       <AnimatePresence mode="popLayout">
         {items.map((item) => {
           const meta = statusMeta[item.status];

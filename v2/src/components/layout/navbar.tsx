@@ -122,7 +122,6 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   label={item.title}
-                  description={item.description}
                   isActive={pathname === item.href}
                   delay={index * 0.1}
                 />
@@ -307,13 +306,11 @@ export default function Navbar() {
 function NavLink({
   href,
   label,
-  description,
   isActive = false,
   delay = 0,
 }: {
   href: string;
   label: string;
-  description?: string;
   isActive?: boolean;
   delay?: number;
 }) {

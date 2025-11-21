@@ -132,7 +132,7 @@ export function ResearchPage() {
             </div>
             <div className="bg-background/50 flex flex-col justify-center rounded-xl p-6 backdrop-blur-sm">
               <h3 className="mb-4 font-semibold">Citation</h3>
-              <code className="bg-secondary text-muted-foreground rounded p-4 text-xs leading-relaxed">
+              <code className="bg-secondary text-foreground rounded p-4 text-xs leading-relaxed">
                 {paper.citation}
               </code>
             </div>

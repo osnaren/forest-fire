@@ -230,6 +230,7 @@ export default function MapWrapper() {
                         max="1"
                         step="0.1"
                         value={opacity}
+                        aria-label="Layer Opacity"
                         onChange={(e) => setOpacity(parseFloat(e.target.value))}
                         className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-white/10 accent-emerald-500 hover:accent-emerald-400"
                       />

@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/lhci_reports
+.lighthouseci
 
 # next.js
 .next

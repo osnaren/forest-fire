@@ -158,6 +158,7 @@ export function InteractiveExample() {
                   {apiDocsConfig.testing.sampleImage.colors.map((color) => (
                     <span
                       key={color}
+                      role="img"
                       className="h-4 w-4 rounded-full border border-black/20"
                       style={{ backgroundColor: color }}
                       aria-label={`Palette color ${color}`}

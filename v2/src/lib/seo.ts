@@ -13,14 +13,30 @@ export interface SEOProps {
   noIndex?: boolean;
 }
 
+// ...existing code...
 const defaultMetadata = {
   title: `${siteConfig.name} ${siteConfig.version}`,
   description: siteConfig.description,
-  keywords: ['wildfire detection', 'forest fire', 'machine learning', 'tensorflow', 'environmental monitoring'],
+  keywords: [
+    'wildfire detection',
+    'forest fire',
+    'machine learning',
+    'tensorflow',
+    'environmental monitoring',
+    'ai for good',
+    'climate change technology',
+    'early warning system',
+    'computer vision',
+    'mobilenet',
+    'nextjs',
+    'react',
+    'open source',
+  ],
   image: '/logo/logo.png',
   url: siteConfig.url,
   type: 'website' as const,
 };
+// ...existing code...
 
 const metadataBase = new URL(siteConfig.url);
 

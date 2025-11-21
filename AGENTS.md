@@ -6,7 +6,7 @@ The repository hosts two product lines. `v2/` is the active Next.js application;
 
 ## Build, Test, and Development Commands
 
-From `v2/`, use `npm run dev` for the Next.js dev server, `npm run build` for a production bundle, and `npm run start` to serve the compiled app. `npm run lint` and `npm run lint:fix` apply ESLint, while `npm run type-check` runs `tsc --noEmit`. `npm run format` formats with Prettier. `npm test` currently exits successfully so that CI can pass until real tests or workflows are wired in.
+From `v2/`, use `npm run dev` for the Next.js dev server, `npm run build` for a production bundle, and `npm run start` to serve the compiled app. `npm run lint` and `npm run lint:fix` apply ESLint, while `npm run typecheck` runs `tsc --noEmit`. `npm run format` formats with Prettier. `npm test` currently exits successfully so that CI can pass until real tests or workflows are wired in.
 
 ## Coding Style & Naming Conventions
 
@@ -14,7 +14,7 @@ Prettier enforces semicolons, single quotes, two-space indentation, and a 120 ch
 
 ## Testing Guidelines
 
-Automated testing is not in place yet. When contributing new logic, add unit or integration coverage under `src/__tests__/` or co-locate files as `*.test.ts(x)` and update `npm test` accordingly. Use realistic fixtures (for example sample uploads from `public/test-image.jpg`) and assert both prediction results and error paths. Always run `npm run lint` and `npm run type-check` prior to submitting a PR; include manual verification notes for critical UI or API work.
+Automated testing is not in place yet. When contributing new logic, add unit or integration coverage under `src/__tests__/` or co-locate files as `*.test.ts(x)` and update `npm test` accordingly. Use realistic fixtures (for example sample uploads from `public/test-image.jpg`) and assert both prediction results and error paths. Always run `npm run lint` and `npm run typecheck` prior to submitting a PR; include manual verification notes for critical UI or API work.
 
 ## Commit & Pull Request Guidelines
 

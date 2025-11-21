@@ -136,7 +136,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerConfig.links.resources.map((link) => (
                   <li key={link.text}>
-                    {link.comingSoon ? (
+                    {(link as { comingSoon?: boolean }).comingSoon ? (
                       <ComingSoonLink description={link.description}>{link.text}</ComingSoonLink>
                     ) : (
                       <FooterLink href={link.href} description={link.description} isExternal={link.external}>

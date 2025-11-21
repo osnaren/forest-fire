@@ -26,7 +26,7 @@ export function ApiOverview() {
             {apiDocsConfig.hero.status.uptime} uptime · {apiDocsConfig.hero.status.lastDeploy}
           </span>
         </div>
-        <CardTitle className="text-foreground text-2xl">{apiDocsConfig.endpoint.title}</CardTitle>
+        <h2 className="text-foreground text-2xl leading-none font-semibold tracking-tight">{apiDocsConfig.endpoint.title}</h2>
         <CardDescription className="max-w-3xl text-base">
           {apiDocsConfig.endpoint.description} {apiDocsConfig.overview.summary}
         </CardDescription>

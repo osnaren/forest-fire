@@ -143,7 +143,7 @@ Have ideas? Open an issue or start a discussion!
 We welcome insights, especially around model evaluation and wildfire datasets.
 
 1. Fork the repo and create a topic branch.
-2. Run `npm run lint` and `npm run type-check` before pushing.
+2. Run `npm run lint` and `npm run typecheck` before pushing.
 3. Share reproducible steps, screenshots, or sample inputs with your PR.
 
 ---

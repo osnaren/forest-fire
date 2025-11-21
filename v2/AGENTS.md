@@ -12,7 +12,7 @@
 
 - `npm run dev` spins up the Next.js dev server with hot reload.
 - `npm run build` creates the production bundle; follow with `npm run start` when verifying optimized output.
-- `npm run lint`, `npm run lint:fix`, and `npm run type-check` enforce ESLint and TypeScript standards.
+- `npm run lint`, `npm run lint:fix`, and `npm run typecheck` enforce ESLint and TypeScript standards.
 - `npm run format` applies Prettier and is required before committing large UI changes.
 
 ## Coding Style & Naming Conventions
@@ -27,7 +27,7 @@
 - Co-locate tests as `*.test.ts(x)` or place suites in `src/__tests__/`; mirror the source file structure.
 - Use realistic fixtures (for example `public/test-image.jpg`) to exercise prediction flows and error paths.
 - `npm test` currently returns success; add assertions alongside new logic to build real coverage.
-- Run `npm run lint` and `npm run type-check` before pushing; document any manual QA for UI or model changes.
+- Run `npm run lint` and `npm run typecheck` before pushing; document any manual QA for UI or model changes.
 
 ## Commit & Pull Request Guidelines
 
