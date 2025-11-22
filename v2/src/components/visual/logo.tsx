@@ -1,0 +1,57 @@
+import * as React from 'react';
+
+export interface LogoProps extends React.SVGProps<SVGSVGElement> {
+  /**
+   * Optional title for accessibility
+   */
+  title?: string;
+}
+
+/**
+ * ForestFire Logo SVG Component
+ * Usage: <Logo className="w-12 h-12" />
+ */
+export const Logo: React.FC<LogoProps> = ({ title = 'ForestFire Logo', ...props }) => (
+  <svg
+    viewBox="0 0 1024 1024"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-labelledby={title ? 'logoTitle' : undefined}
+    role="img"
+    {...props}
+  >
+    {title ? <title id="logoTitle">{title}</title> : null}
+    <defs>
+      <linearGradient
+        id="linear-gradient"
+        x1="309.64"
+        y1="308.77"
+        x2="661.36"
+        y2="838.34"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset="0" stopColor="#f76135" />
+        <stop offset="1" stopColor="#fb7e26" />
+      </linearGradient>
+    </defs>
+    <g id="Logo">
+      <rect id="F4" x="710.61" y="169.04" width="131.39" height="131.93" style={{ fill: '#d3c3b0' }} />
+      <polygon
+        id="F3"
+        points="182 668.41 290.4 668.41 290.4 771.98 398.24 771.98 398.24 868.77 606.81 868.77 606.13 974 388.42 974 182 768.67 182 668.41"
+        style={{ fill: '#42865c' }}
+      />
+      <polygon
+        id="F2"
+        points="290.4 543.87 399.48 543.87 399.48 434.14 501.21 332.94 502.38 543.87 606.48 543.87 606.81 868.77 398.24 868.77 398.24 771.98 290.4 771.98 290.4 543.87"
+        style={{ fill: '#ffbb09' }}
+      />
+      <polygon
+        id="F1"
+        points="182 668.41 182 449.91 294.36 449.91 294.36 260.96 404.96 260.96 404.96 50 451.66 50 606.72 204.24 606.72 403.74 716.01 403.74 716.01 544.27 820.43 544.27 820.43 768.3 716.01 768.3 716.01 868.77 606.81 868.77 606.48 543.87 502.38 543.87 501.21 332.94 399.48 434.14 399.48 543.87 290.4 543.87 290.4 668.41 182 668.41"
+        style={{ fill: 'url(#linear-gradient)' }}
+      />
+    </g>
+  </svg>
+);
+
+export default Logo;

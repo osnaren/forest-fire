@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Forest Fire Prediction - Development Mode</title>
+    <style>
+        .dev-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            z-index: 10000;
+            max-width: 300px;
+        }
+        .dev-panel button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 2px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .dev-panel button:hover {
+            background: #0056b3;
+        }
+        .dev-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Development Panel -->
+    <div class="dev-panel">
+        <div><strong>🔧 DEV MODE</strong></div>
+        <div class="dev-status">Enhanced v1 Implementation</div>
+        <hr style="margin: 5px 0;">
+        <button onclick="window.appTester?.runTests()">Run Tests</button>
+        <button onclick="console.clear()">Clear Console</button>
+        <button onclick="showAppState()">App State</button>
+        <button onclick="showPerformance()">Performance</button>
+        <div style="margin-top: 5px; font-size: 10px;">
+            Check console for detailed logs
+        </div>
+    </div>
+
+    <!-- Include the main application -->
+    <iframe src="index.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+
+    <script>
+        function showAppState() {
+            const iframe = document.querySelector('iframe');
+            const iframeWindow = iframe.contentWindow;
+            
+            if (iframeWindow.forestFireApp) {
+                const state = iframeWindow.forestFireApp.getAppState();
+                console.log('🏗️ App State:', state);
+            } else {
+                console.warn('App not fully loaded yet');
+            }
+        }
+
+        function showPerformance() {
+            const iframe = document.querySelector('iframe');
+            const iframeDoc = iframe.contentDocument;
+            
+            // Basic performance metrics
+            const performanceData = {
+                loadTime: Date.now() - performance.timeOrigin,
+                memoryUsage: performance.memory ? {
+                    used: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024) + ' MB',
+                    total: Math.round(performance.memory.totalJSHeapSize / 1024 / 1024) + ' MB',
+                    limit: Math.round(performance.memory.jsHeapSizeLimit / 1024 / 1024) + ' MB'
+                } : 'Not available',
+                navigation: performance.getEntriesByType('navigation')[0],
+                resources: performance.getEntriesByType('resource').length
+            };
+
+            console.log('📊 Performance Metrics:', performanceData);
+        }
+
+        // Auto-run tests when iframe loads
+        document.querySelector('iframe').addEventListener('load', function() {
+            setTimeout(() => {
+                const iframeWindow = this.contentWindow;
+                if (iframeWindow.appTester) {
+                    console.log('🚀 Auto-running tests...');
+                    iframeWindow.appTester.runTests();
+                }
+            }, 3000); // Wait for app to initialize
+        });
+
+        console.log('🔧 Development mode active');
+        console.log('📋 Available commands:');
+        console.log('  - showAppState() - Display current app state');
+        console.log('  - showPerformance() - Display performance metrics');
+    </script>
+</body>
+</html>

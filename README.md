@@ -1,70 +1,120 @@
-# FOREST FIRE PREDICTION
-###   _Using Deep Learning_ 
+# Forest Fire Intelligence Suite
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
----
-## Table of contents
+[![Live Demo](https://img.shields.io/badge/Live-fire.osnaren.com-ef4444?style=for-the-badge&logo=vercel)](https://fire.osnaren.com)
+[![Legacy Demo](https://img.shields.io/badge/Legacy-forestfire--v1.osnaren.com-f97316?style=for-the-badge&logo=html5)](https://forestfire-v1.osnaren.com/)
+[![Dataset](https://img.shields.io/badge/Dataset-Forest%20Fire%20C4-22c55e?style=for-the-badge&logo=kaggle)](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4)
+[![License](https://img.shields.io/badge/License-Proprietary-critical?style=for-the-badge&logo=adguard)](./LICENSE)
 
-> * [Title](#forest-fire-prediction)
->   * [Table of contents](#table-of-contents)
->   * [Abstract](#abstract)
->   * [Built With](#built-with)
->   * [Proposed Method](#proposed-method)
->     * [Modules of the Project](#modules-of-the-project)
->     * [CNN Models Used](#cnn-models-used)
->   * [Results](#results)
->   * [Conclusion](#conclusion)
-
-## Abstract
-
-Forest fires are a major environmental issue, creating economic and ecological damage as well as endangering human lives. Forest fires or wildfires are spontaneously occurring fires in forests, bushes and plains and can occasionally be controlled. Uncontrolled wildfires are most often associated with dry hot summers, set off by lightning or human error. 
-By cause, it is classified into – 
-*  Natural or Controlled forest fire.
-*  Forest fires caused by heat generated in the litter and other biomes in summer through the carelessness of people (human neglect).
-*  Forest fires purposely caused by local inhabitants.
-
-Predicting such an environmental issue becomes a critical concern to mitigate this threat. Several technologies and new methods have been proposed to predict and detect forest fires, the widely used one is WSN.
-
-The conventional fire detection methods have had an accuracy ranging between 80% to 91%. Hence, to detect fire automatically, more accurately and preferably, in its early stages a deep learning image recognition method, based on convolutional neural networks is proposed. Here, a lightweight Deep neural network MobileNet is used to classify the images of forest fires into “Fire & No Fire”. With the help of MobileNet, we have achieved an accuracy of 98% on the Fire images dataset. It presents good accuracy in estimating the fire when compared with other approaches in the literature.
+AI-powered wildfire detection across modern (v2) and legacy (v1) web experiences. Upload an image, receive instant predictions, or integrate the rate-limited API into your tools.
 
 ---
-## Built With
-| Built | Using |
-| ----------- | ----------- |
-| Operating System | Windows 10 |
-| Back-end | TensorFlow |
-| Tool | Teachable Machine |
-| Deployment | HTML/CSS/JS |
+
+## Contents
+
+1. [Project Overview](#project-overview)
+2. [Model & Dataset](#model--dataset)
+3. [Quick Start](#quick-start)
+4. [Repository Structure](#repository-structure)
+5. [Roadmap](#roadmap)
+6. [Community](#community)
+7. [License](#license)
 
 ---
-## Proposed Method
-> In the proposed system, forest fire images were given as input. Fire images are manually separated, equalized, enhanced, and augmented as a part of the data pre-processing procedures. At last, the pre-processed data is fed into different models with different parameters to decide the favourable model that is well suited to help detect the wildfire before it is too late to avoid the damages.
 
-### Modules of the Project
-<!--![Modules](/img/CNN_Flow.png)-->
-<img src="/img/CNN_Flow.png" alt="Logo" width="537" height="400">
+## Project Overview
 
+| Project | Description | Highlights |
+| --- | --- | --- |
+| [`v2/`](./v2/README.md) | Next.js 16 application with privacy-first client-side inference. | Modern UI, Client-side TensorFlow.js, `/api/predict` fallback, rate limiting, content configs, Zustand state management. |
+| [`v1/`](./v1/README.md) | Original Teachable Machine prototype preserved for posterity. Runs fully in the browser with TensorFlow.js. | No backend dependency, animated results dashboard, legacy design. |
+| [`docs/`](./docs/plan.md) | Planning notes and research artifacts. | Project planning context and historical insights. |
 
-### CNN Models Used
-CNN is a neural network that has one or more convolutional layers and are used mainly for image processing, classification, segmentation and also for other auto correlated data. Architectures of CNN like :
-**VGG16, MobileNet and MobileNet via Teachable Machine** are tested and compared.
-1. VGG16
-    : The learning rate for this model is 0.0003 and Adam Optimizer has been used. The obtained accuracy is around 89%.
-2. MOBILENET
-    : The model has been set with the learning rate 0.0003 and run for 20 epochs. The accuracy obtained was around 82%
-3. MOBILENET _via_ Teachable Machine
-    : The model was tweaked with different learning rates to attain the best results.
-    LR=[0.0003, 0.0001, 0.001, 0.01] _&_ 20 t0 200 epochs have been run.
+---
 
-## Results
-Accuracy is treated as one of the most important parameters for analyzing the proposed work. It can be calculated easily by dividing the number of correct predictions by the number of total predictions.
-> The best Accuracy was seen in the MobileNet model trained via Teachable Machine.
-**98.5%**
+## Model & Dataset
 
-# Conclusion
-Various models and different methods of implementations have been done and dusted. It is shown that the proposed method using MobileNet has a high recognition rate and yields an average accuracy of around 98%. This can be extensively used to detect forest fires and prevent devastating consequences.
+- **Dataset**: [Forest Fire C4 (Kaggle)](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4)
+  - Licensed under **CC BY-NC-SA 4.0**. You may reuse and remix the dataset for non-commercial research with attribution and share-alike terms.
+  - Curated across Fire, Smoke, Smoke+Fire, and No Fire classes.
+- **Model**: MobileNet variant distilled for 224×224 image inputs.
+  - Preprocessing: resize, center-crop, normalize to [-1, 1].
+  - Shared between the browser bundle (`@tensorflow/tfjs`) and the Node runtime (`@tensorflow/tfjs-node`).
+- **Performance**: ~98% validation accuracy on the curated validation split.
 
-Furthermore, the model can be made to detect forest fires in real time with the help of satellite imagery providers and other image sources that works in real time. In addition to that the model can be improved to perform detection from videos.
+---
 
-[linkedin-shield]: https://img.shields.io/badge/ForestFire-Page-brightgreen?style=for-the-badge&logo=html5
-[linkedin-url]: https://osnaren.github.io/ForestFire/
+## Quick Start
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/osnaren/forest-fire.git
+cd forest-fire/v2
+
+# 2. Install dependencies
+npm install
+
+# 3. Configure environment
+cp env.example .env.local
+# supply KV_REST_API_URL and KV_REST_API_TOKEN from Upstash
+
+# 4. Run locally
+npm run dev
+
+# 5. Visit the app
+# Windows
+start "" http://localhost:3000
+# macOS
+open http://localhost:3000
+```
+
+> Keep `public/model/` in sync if you retrain. Both the client UI and prediction API load the same TensorFlow.js artifacts.
+
+---
+
+## Repository Structure
+
+```text
+docs/                Project planning notes
+tailwind.config.ts   Shared Tailwind setup for v2
+v1/                  Legacy Teachable Machine demo (static site)
+v2/                  Next.js 14 application (primary)
+└── public/model/    MobileNet model.json + weights shared by app & API
+```
+
+---
+
+## Roadmap
+
+- ✅ Production-ready Next.js experience with API explorer and rate-limited inference
+- ✅ Legacy v1 preserved for historical context
+- 🔄 Expand automated testing around predictions and UI flows
+- 🔄 Explore offline-first packaging and PWA capabilities
+
+Share ideas by opening an issue or discussion.
+
+---
+
+## Community
+
+- **Issues**: [github.com/osnaren/forest-fire/issues](https://github.com/osnaren/forest-fire/issues)
+- **Live Updates**: [fire.osnaren.com](https://fire.osnaren.com)
+- **Dataset Feedback**: Comment directly on the [Kaggle dataset](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4)
+
+Have a partnership or research question? Reach out:
+
+[![Email](https://img.shields.io/badge/Email-66naren%40gmail.com-c14438?style=flat-square&logo=gmail&logoColor=white)](mailto:66naren@gmail.com)
+[![Twitter](https://img.shields.io/badge/Twitter-@osnaren-1DA1F2?style=flat-square&logo=x&logoColor=white)](https://x.com/osnaren)
+[![GitHub](https://img.shields.io/badge/GitHub-osnaren-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/osnaren)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-osnaren-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/osnaren)
+
+---
+
+## License
+
+The codebase and bundled model assets are released under the **Forest Fire Proprietary License**. Redistribution, modification, or commercial use is not permitted without prior written approval. See [`LICENSE`](./LICENSE) for full terms.
+
+The dataset reference, [Forest Fire C4](https://www.kaggle.com/datasets/obulisainaren/forest-fire-c4), is available under **CC BY-NC-SA 4.0**. You may use it for non-commercial projects by providing attribution and sharing derivative work under the same license.
+
+---
+
+Built with care for first responders, researchers, and anyone monitoring our forests.
