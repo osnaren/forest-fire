@@ -14,7 +14,7 @@ export const siteConfig = {
   name: 'Forest Fire Classifier',
   version: 'v2',
   description: 'Professional-grade wildfire detection powered by advanced machine learning',
-  url: 'https://fire.osnaren.com',
+  url: 'https://forestfire.osnaren.com',
   author: {
     name: 'Obuli Sai Naren',
     nickname: 'osnaren',
@@ -258,7 +258,7 @@ export const aboutConfig = {
         phase: 'The Spark (Sem 6)',
         duration: '2020',
         description: 'The initial idea. Scouring Kaggle for datasets and training the first clunky Python model.',
-        achievements: ['Idea conceived', 'Dataset found', 'First prototype'],
+        achievements: ['Idea conceived', 'Dataset created', 'First prototype'],
       },
       {
         phase: 'The Paper',
@@ -401,6 +401,7 @@ export const footerConfig = {
       { text: 'GitHub', href: siteConfig.social.github, external: true },
       { text: 'Twitter', href: siteConfig.social.twitter, external: true },
       { text: 'LinkedIn', href: siteConfig.social.linkedin, external: true },
+      { text: 'Instagram', href: siteConfig.social.instagram, external: true },
     ],
     resources: [
       { text: 'Live Wildfire Map', href: '/map', description: 'Real-time wildfire tracking' },

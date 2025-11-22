@@ -8,13 +8,14 @@ import { cn } from '@/lib/utils';
 import { ExternalLink } from 'lucide-react';
 import { motion } from 'motion/react';
 import Link from 'next/link';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 
 const socialIcons = {
   github: FaGithub,
   twitter: FaXTwitter,
   linkedin: FaLinkedin,
+  instagram: FaInstagram,
 } as const;
 
 export default function Footer() {

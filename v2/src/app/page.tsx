@@ -15,7 +15,7 @@ export const metadata: Metadata = generateSEOMetadata({
     'environmental ai',
     'disaster response technology',
   ],
-  image: '/logo/logo.png',
+  image: '/og.png',
 });
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
           '@type': 'WebPage',
           name: 'Forest Fire Classifier',
           description: homeConfig.hero.description,
-          url: 'https://fire.osnaren.com',
+          url: 'https://forestfire.osnaren.com',
         })}
       </Script>
       <HomePage />

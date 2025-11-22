@@ -191,22 +191,22 @@ export function MetricCard({ value, label, description = '', icon, delay = 0, tr
       <CardContent className="relative space-y-5 p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-[10px] tracking-[0.3em] text-white/60 uppercase">{label}</p>
-            <p className="mt-2 text-3xl font-semibold text-white sm:text-4xl">{value}</p>
+            <p className="text-[10px] tracking-[0.3em] uppercase">{label}</p>
+            <p className="mt-2 text-3xl font-semibold sm:text-4xl">{value}</p>
           </div>
           <div className="flex flex-col items-end gap-3 text-right">
             {icon && (
               <Image
                 src={icon}
                 alt={label}
-                width={32}
-                height={32}
+                width={48}
+                height={48}
                 className="text-2xl text-white/50 transition-colors group-hover:text-white/80"
               />
             )}
           </div>
         </div>
-        {description && <p className="text-sm text-white/70">{description}</p>}
+        {description && <p className="text-muted-foreground text-sm">{description}</p>}
         <div className="relative h-2 w-full justify-self-center overflow-hidden rounded-full bg-white/10 transition-all group-hover:w-3/4">
           <motion.span
             className={cn('absolute inset-y-0 rounded-full bg-linear-to-r', trendStyles[trend].fill)}

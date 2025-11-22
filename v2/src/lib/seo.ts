@@ -13,7 +13,6 @@ export interface SEOProps {
   noIndex?: boolean;
 }
 
-// ...existing code...
 const defaultMetadata = {
   title: `${siteConfig.name} ${siteConfig.version}`,
   description: siteConfig.description,
@@ -32,11 +31,10 @@ const defaultMetadata = {
     'react',
     'open source',
   ],
-  image: '/logo/logo.png',
+  image: '/og.png',
   url: siteConfig.url,
   type: 'website' as const,
 };
-// ...existing code...
 
 const metadataBase = new URL(siteConfig.url);
 

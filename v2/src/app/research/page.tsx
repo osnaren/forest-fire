@@ -30,7 +30,7 @@ export default function Page() {
             name: 'Obuli Sai Naren',
           },
           datePublished: '2023-01-01',
-          image: 'https://fire.osnaren.com/logo/logo.png',
+          image: '/og.png',
           publisher: {
             '@type': 'Organization',
             name: 'Fire Ecology',
